@@ -1,0 +1,12 @@
+{
+  "name": "nutty",
+  "version": "0.5.0",
+  "dependencies": {
+    "angular-bootstrap": "git://github.com/angular-ui/bootstrap-bower.git#0.6.0",
+    "angular-md5": "git://github.com/gdi2290/angular-md5.git#0.0.3",
+    "angular-route": "git://github.com/angular/bower-angular-route.git#1.2.0-rc.2",
+    "font-awesome": "git://github.com/FortAwesome/Font-Awesome.git#3.2.1",
+    "jquery-ui": "git://github.com/components/jqueryui.git#1.10.3"
+  }
+}
+

@@ -1,0 +1,31 @@
+<div userdetails-tilebar style="cursor:move;" class="toolbar">
+	<strong>Uploaded recordings</strong>
+	<span class="pull-right" style="cursor:pointer; margin-right:5px" ng-click="closeWindow()"><i class="icon-remove"></i> </span>
+	<span class="pull-right" style="cursor:pointer; margin-right:5px" ng-click="refresh()" tooltip-placement="bottom" tooltip="Refresh"><i class="icon-refresh"></i> </span>
+	<span class="pull-right" style="cursor:pointer; margin-right:5px" ng-show="spinnershow"><i class="icon-spinner icon-spin"></i> </span>
+</div>
+
+<!-- <ul class="nav nav-list">
+  <li class="nav-header">Your uploaded recordings</li>
+  <li ng-repeat="(key, value) in recordings">
+  	<a style="cursor:pointer" ng-click="play(key)">
+  		{{value}}
+	  	<span class="pull-right" style="cursor:pointer; margin-right:5px" stop-event='click' ng-click="removeRecording(key, value)"><i class="icon-remove"></i> </span>
+	</a>
+  </li>
+</ul>
+ -->
+<div>
+<table class="tableSection">
+	<tbody tbody-element>
+	<tr style="margin:5px 0px 5px 0px" ng-mouseenter="elemStyle.background='#F2F2F2'" ng-mouseleave="elemStyle.background='white'" ng-style="elemStyle" ng-repeat="(key, value) in recordings">
+		<td>
+	  		{{value}}
+		  	<span class="pull-right" style="cursor:pointer; margin-right:5px" ng-click="removeRecording(key, value)" tooltip-placement="bottom" tooltip="Delete"><i class="icon-remove"></i> </span>
+		  	<span class="pull-right" style="cursor:pointer; margin-right:15px" ng-click="copyRecLink(key)" tooltip-placement="bottom" tooltip="Click to copy/share link"> <i class="icon-share"></i></span>
+		  	<span class="pull-right" style="cursor:pointer; margin-right:15px" ng-click="play(key)" tooltip-placement="bottom" tooltip="Play"> <i class="icon-play"></i></span>
+		</td>
+	</tr>
+	</tbody>
+</table>
+</div>

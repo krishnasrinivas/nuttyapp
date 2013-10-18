@@ -1,0 +1,52 @@
+body {background-color:#EAE8ED;}
+
+#terminal {
+display: block;
+position: absolute;
+}
+
+.ui-resizable-helper { border: 2px dotted #00F; }
+
+.navbar-inner {
+    text-align:center;
+    vertical-align: middle;
+}
+
+.nutty-nav-icon {
+	padding: 10px 10px 10px 10px;
+	text-decoration: none;
+	text-shadow: 0 1px 0 #fff;
+	color: black;
+	cursor: pointer;
+}
+
+div.toolbar {
+	border-top: solid #ffffff 1px;
+	border-bottom: solid #aca899 1px;
+	background-color: #f1efe7;
+/*	padding: 3px 5px;
+	font-size: 68.75%;*/
+	height: 25px;
+}
+
+table.tableSection {
+    display: table;
+    width: 100%;
+    margin: 10px;
+}
+table.tableSection thead, table.tableSection tbody {
+    float: left;
+    width: 100%;
+}
+table.tableSection tbody {
+    overflow: auto;
+    height: 250px;
+}
+table.tableSection tr {
+    width: 100%;
+    display: table;
+    text-align: left;
+}
+table.tableSection th, table.tableSection td {
+    width: 33%;
+}

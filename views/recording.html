@@ -1,0 +1,11 @@
+
+<link rel="stylesheet" href="styles/bootstrap.css">
+<link rel="stylesheet" href="styles/main.css">
+<link rel="stylesheet" href="bower_components/font-awesome/css/font-awesome.css">
+<link rel="stylesheet" href="bower_components/jquery-ui/themes/base/jquery-ui.css">
+
+<i ng-hide="spinnerhide" ng-style="spinnerStyle" class="icon-spinner icon-spin icon-large-3x"></i>
+
+<play-terminal ng-repeat="(key, config) in playTerms" ng-style="resizeStyle" ng-click="incrementZindex()" ng-hide="hide"></play-terminal>
+
+<log-window style="position:absolute;width:400px;height:400px;background:white;border:1px solid grey" ng-style="resizeStyle" ng-click="incrementZindex()" ng-show="visible.val"></log-window>

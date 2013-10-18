@@ -1,0 +1,65 @@
+
+<link rel="stylesheet" href="styles/bootstrap.css">
+<link rel="stylesheet" href="bower_components/font-awesome/css/font-awesome.css">
+
+<div style="margin:100px">
+
+	<div ng-show="browser.incompatible" class="hero-unit">
+		<div class="alert alert-error">
+			<h3>Your OS/Browser: {{browser.OS}} {{browser.browser}}-{{browser.version}}</h3>
+			<h3>Sorry, if you want to share terminals - only Chrome 29+ on Mac/Linux is supported.</h3>
+			<h3>Firefox support coming soon!</h3>
+			<h5>However a "sharee" (viewer) can use Chrome 26+ even on windows.<h5>
+			<h4>Download latest Chrome here: <a href="http://www.google.com/chrome">http://www.google.com/chrome</a></h4>
+		</div>
+	</div>
+
+	<div style="text-align: center;" class="hero-unit well">
+		<h1>Share linux/mac terminal over web using just a browser!</h1>
+	</div>
+
+	<h1>Installation steps</h1>
+	<div class="hero-unit">
+		<ul>
+			<li>Click <button class="btn btn-primary" ng-click="install_ext()">install</button> to install Nutty Extension. <strong ng-show="installStatus" style="color:green">({{installStatus}})</strong></li>
+			<li>Run <a target="_blank" href="install_host.sh">install_host.sh</a> as root to install <i>nutty.py</i> and <i>io.nutty.terminal.json</i>
+			</li>
+			<li>Click <a href="/">here</a></li>
+		</ul>
+	</div>
+
+	<h1>Demo</h1>
+	<div style="text-align:center;margin:auto">
+<iframe width="480" height="360" src="https://www.youtube.com/embed/AqLeaVZWNfk?rel=0" frameborder="0" allowfullscreen></iframe>
+	</div>
+	<h1>Details</h1>
+	<div class="hero-unit">
+	<p>
+		Nutty uses WebRTC to share the terminal with peers in the browser. <a href="http://www.webrtc.org/">WebRTC</a> is true peer-to-peer technology built into browsers to enable realtime communication between peers. All data transmitted using WebRTC is encrypted. Nutty uses WebRTC's DataChannel to share terminal peer-to-peer. Nutty uses <a href="http://peerjs.com/">PeerJS</a> javascript library which provides abstraction over WebRTC APIs.
+	</p>
+	<p>
+		Nutty's web based terminal emulator (<a href="http://git.chromium.org/gitweb/?p=chromiumos/platform/assets.git;a=tree;f=chromeapps/hterm">hterm</a>) uses Chrome's <a href="http://developer.chrome.com/extensions/messaging.html#native-messaging">Native Messaging API</a> to communicate with the nutty.py script which creates pseudo terminals.
+	</p>
+	<p>
+		<strong>Browser supported: Chrome 29+. Firefox support coming soon!</strong>
+	</p>
+
+	<p><strong>Please rate the Chrome extension <a target="_blank" href="https://chrome.google.com/webstore/detail/nutty/ooelecakcjobkpmbdnflfneaalbhejmk">here</a></strong></p>
+	</div>
+
+	<h1>Security notes</h1>
+	<div class="hero-unit">
+		<ul>
+			<li>Communication between peers is direct p2p without any proxy and encrypted by WebRTC layer</li>
+			<li>Access to backend script nutty.py is restricted to nutty's chrome extension. Access to nutty's chrome extension is in turn restricted to https://nutty.io domain</li>
+			<li>Any terminal recorded and uploaded will not contain passwords as they are not echo'ed to the terminal</li>
+		</ul>
+	</div>
+
+	<h1>Contact</h1>
+	<div class="hero-unit">
+		<a target="_blank" style="text-decoration:none;color:{{color}}" ng-mouseenter="color='light blue'" ng-mouseleave="color='black'" href="https://twitter.com/nuttydotio"><i class="icon-twitter icon-large"></i> @nuttydotio</a>
+		<br><span>krishna.sri<span ng-hide="1">removeme.</span>nivas@gm<span ng-hide="1">removeme.</span>ail.com</span>
+	</div>
+
+</div>
