@@ -2,7 +2,7 @@ https://nutty.io
 
 nuttyapp
 ========
-This repo is the angular client side app. Server side REST api is in nuttyrest repo.
+This repo is the angular browser/client side code. Server side REST api is in nuttyrest repo.
 
 
 LICENSE
