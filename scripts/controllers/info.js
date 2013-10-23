@@ -7,12 +7,17 @@
 'use strict';
 
 angular.module('nuttyApp')
-    .controller('InfoCtrl', function($scope, $location, NuttyTerm, log, NuttyUtil) {
-        ga('send', 'pageview', 'info');
+    .controller('InfoCtrl', function($scope, $location, NuttyTerm, NuttyUtil) {
         var exturl = "https://chrome.google.com/webstore/detail/ooelecakcjobkpmbdnflfneaalbhejmk";
         if (NuttyTerm.extension.installed) {
+            if ($location.path() == '/') {
+                $location.path('/home');
+                return;
+            }
             $scope.installStatus = "extension already installed";
         }
+        ga('send', 'pageview', 'info');
+
         $scope.extension = NuttyTerm.extension;
         $scope.browser = NuttyUtil.browser;
         $scope.install_ext = function() {

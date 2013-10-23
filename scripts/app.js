@@ -10,8 +10,8 @@ angular.module('nuttyApp', ['ui.bootstrap', 'ngRoute', 'angular-md5'])
     .config(function($routeProvider, $locationProvider) {
         $routeProvider
             .when('/', {
-                templateUrl: 'views/main.html',
-                controller: 'MainCtrl'
+                templateUrl: 'views/info.html',
+                controller: 'InfoCtrl'
             })
             .when('/info', {
                 templateUrl: 'views/info.html',
