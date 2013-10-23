@@ -3,28 +3,36 @@
 <head>
 	<meta charset="UTF-8">
 	<title>nutty.io - Share terminals using browser!</title>
-	<link rel="stylesheet" href="styles/bootstrap.css">
-	<link rel="stylesheet" href="bower_components/font-awesome/css/font-awesome.css">
-
 </head>
 <body>
+
+
+<link rel="stylesheet" href="styles/bootstrap.css">
+<link rel="stylesheet" href="bower_components/font-awesome/css/font-awesome.css">
+
+<a href="https://github.com/krishnasrinivas/nuttyapp"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub"></a>
 
 <div style="margin:100px">
 
 	<div style="text-align: center;" class="hero-unit well">
 		<h1>Share linux/mac terminal over web using just a browser!</h1>
+		(Useful for remote support or pair-programming)
 	</div>
 
 	<h1>Installation steps</h1>
 	<div class="hero-unit">
 		<ul>
-			<li>Click <button class="btn btn-primary" ng-click="install_ext()">install</button> to install Nutty Extension.</li>
-			<li>Run <a target="_blank" href="install_host.sh">install_host.sh</a> as root to install <i>nutty.py</i> and <i>io.nutty.terminal.json</i>
+			<li>Click <button class="btn btn-primary">install</button> to install Nutty Extension.</li>
+			<li>Run 'bash <a target="_blank" href="install_host.sh">install_host.sh</a>' as root to install <i>nutty.py</i> and <i>io.nutty.terminal.json</i>
 			</li>
-			<li>Click <a href="/">here</a></li>
+			<li>Click <a href="/">here</a> (refresh Chrome if it doesn't work)</li>
 		</ul>
 	</div>
 
+	<h1>Demo</h1>
+	<div style="text-align:center;margin:auto">
+<iframe width="480" height="360" src="https://www.youtube.com/embed/AqLeaVZWNfk?rel=0" frameborder="0" allowfullscreen></iframe>
+	</div>
 	<h1>Details</h1>
 	<div class="hero-unit">
 	<p>
@@ -40,13 +48,40 @@
 	<p><strong>Please rate the Chrome extension <a target="_blank" href="https://chrome.google.com/webstore/detail/nutty/ooelecakcjobkpmbdnflfneaalbhejmk">here</a></strong></p>
 	</div>
 
+	<h1>Security notes</h1>
+	<div class="hero-unit">
+		<ul>
+			<li>Communication between peers is direct p2p without any proxy and encrypted by WebRTC layer</li>
+			<li>Access to backend script nutty.py is restricted to nutty's chrome extension. Access to nutty's chrome extension is in turn restricted to https://nutty.io domain</li>
+			<li>Any terminal recorded and uploaded will not contain passwords as they are not echo'ed to the terminal</li>
+		</ul>
+	</div>
+
+	<h1>Open Source</h1>
+	<div class="hero-unit">
+		nutty.io code is Open Source:
+		<ul>
+			<li>
+				nuttyapp: <a href="https://github.com/krishnasrinivas/nuttyapp">https://github.com/krishnasrinivas/nuttyapp</a>
+			</li>
+			<li>
+				nuttyrest: <a href="https://github.com/krishnasrinivas/nuttyrest">https://github.com/krishnasrinivas/nuttyrest</a>
+			</li>
+		</ul>
+	</div>
+
 	<h1>Contact</h1>
 	<div class="hero-unit">
-		<a target="_blank" style="text-decoration:none" href="https://twitter.com/nuttydotio"><i class="icon-twitter icon-large"></i> @nuttydotio</a>
-		<br><span>krishna.srinivas@gmail.com</span>
+		<a target="_blank" style="text-decoration:none;color:{{color}}" ng-mouseenter="color='light blue'" ng-mouseleave="color='black'" href="https://twitter.com/nuttydotio"><i class="icon-twitter icon-large"></i> @nuttydotio</a>
+		<br>
+		<a target="_blank" style="text-decoration:none;color:{{colorgithub}}" ng-mouseenter="colorgithub='light blue'" ng-mouseleave="colorgithub='black'" href="https://github.com/krishnasrinivas"><i class="icon-github icon-large"></i> https://github.com/krishnasrinivas</a>
+		<br><span>krishna.sri<span ng-hide="1">removeme.</span>nivas@gm<span ng-hide="1">removeme.</span>ail.com</span>
+		<br>IRC: #nutty on irc.freenode.net
+		<br> webirc chat: <a target="_blank" href="https://kiwiirc.com/client/irc.freenode.net/nutty">https://kiwiirc.com/client/irc.freenode.net/nutty</a>
 	</div>
 
 </div>
+
 
 </body>
 </html>

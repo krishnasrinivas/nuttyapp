@@ -18,15 +18,16 @@
 
 	<div style="text-align: center;" class="hero-unit well">
 		<h1>Share linux/mac terminal over web using just a browser!</h1>
+		(Useful for remote support or pair-programming)
 	</div>
 
 	<h1>Installation steps</h1>
 	<div class="hero-unit">
 		<ul>
 			<li>Click <button class="btn btn-primary" ng-click="install_ext()">install</button> to install Nutty Extension. <strong ng-show="installStatus" style="color:green">({{installStatus}})</strong></li>
-			<li>Run <a target="_blank" href="install_host.sh">install_host.sh</a> as root to install <i>nutty.py</i> and <i>io.nutty.terminal.json</i>
+			<li>Run 'bash <a target="_blank" href="install_host.sh">install_host.sh</a>' as root to install <i>nutty.py</i> and <i>io.nutty.terminal.json</i>
 			</li>
-			<li>Click <a href="/">here</a></li>
+			<li>Click <a href="/">here</a> (refresh Chrome if it doesn't work)</li>
 		</ul>
 	</div>
 
@@ -77,6 +78,8 @@
 		<br>
 		<a target="_blank" style="text-decoration:none;color:{{colorgithub}}" ng-mouseenter="colorgithub='light blue'" ng-mouseleave="colorgithub='black'" href="https://github.com/krishnasrinivas"><i class="icon-github icon-large"></i> https://github.com/krishnasrinivas</a>
 		<br><span>krishna.sri<span ng-hide="1">removeme.</span>nivas@gm<span ng-hide="1">removeme.</span>ail.com</span>
+		<br>IRC: #nutty on irc.freenode.net
+		<br> webirc chat: <a target="_blank" href="https://kiwiirc.com/client/irc.freenode.net/nutty">https://kiwiirc.com/client/irc.freenode.net/nutty</a>
 	</div>
 
 </div>
