@@ -74,9 +74,14 @@
 
 	<h1>Contact</h1>
 	<div class="hero-unit">
-		<a target="_blank" style="text-decoration:none;color:{{color}}" ng-mouseenter="color='light blue'" ng-mouseleave="color='black'" href="https://twitter.com/nuttydotio"><i class="icon-twitter icon-large"></i> @nuttydotio</a>
-		<br>
-		<a target="_blank" style="text-decoration:none;color:{{colorgithub}}" ng-mouseenter="colorgithub='light blue'" ng-mouseleave="colorgithub='black'" href="https://github.com/krishnasrinivas"><i class="icon-github icon-large"></i> https://github.com/krishnasrinivas</a>
+	    <iframe allowtransparency="true" frameborder="0" scrolling="no"
+        	src="//platform.twitter.com/widgets/follow_button.html?screen_name=nuttydotio" style="height:30px;padding:0px" class="nutty-nav-icon">
+        </iframe>
+        <br>
+	    <iframe src="/extern/github-btn.html?user=krishnasrinivas&repo=nuttyapp&type=watch&count=true"
+    		allowtransparency="true" frameborder="0" scrolling="0" style="width:200px; height:30px;padding:0px" class="nutty-nav-icon">
+    	</iframe>
+
 		<br><span>krishna.sri<span ng-hide="1">removeme.</span>nivas@gm<span ng-hide="1">removeme.</span>ail.com</span>
 		<br>IRC: #nutty on irc.freenode.net
 		<br> webirc chat: <a target="_blank" href="https://kiwiirc.com/client/irc.freenode.net/nutty">https://kiwiirc.com/client/irc.freenode.net/nutty</a>

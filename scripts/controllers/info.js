@@ -13,8 +13,6 @@ angular.module('nuttyApp')
         if (NuttyTerm.extension.installed) {
             $scope.installStatus = "extension already installed";
         }
-        $scope.color = "black";
-        $scope.colorgithub = "black";
         $scope.extension = NuttyTerm.extension;
         $scope.browser = NuttyUtil.browser;
         $scope.install_ext = function() {
