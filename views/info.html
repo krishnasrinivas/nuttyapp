@@ -59,6 +59,45 @@
 		</ul>
 	</div>
 
+	<h1>FAQ</h1>
+	<div class="hero-unit">
+		<ul>
+			<li>
+				Q: Why nutty when we already have tools like tmux and screen?
+				<p>tmux and screen works when the other person has ssh access to your machine. But if you or your peer is behind the firewall or if you don't want to share username/password credentils when you just want to share terminals - nutty is the answer.</p>
+			</li>
+			<li>
+				Q: Installation of nutty on Chrome requires sudo root access. why?
+				<p>I have raised this issue with Chromium team: <a href="https://code.google.com/p/chromium/issues/detail?id=308854">https://code.google.com/p/chromium/issues/detail?id=308854</a></p>
+			</li>
+			<li>
+				Q: Will closing my browser tab used for sharing terminal automatically disconnect peer?
+				<p>Yes.</p>
+			</li>
+			<li>
+				Q: Will nutty be supported on Firefox?
+				<p>Yes. Soon.</p>
+			</li>
+			<li>
+				Q: Will nutty be supported on Windows?
+				<p>If there are enough requests ssh client can be made to work on browser which in turn can be sharable. So a Sharer will ssh-login to a server and share the link</p>
+			</li>
+			<li>
+				Q: Can I share only local machine's terminal? How can I share my access to a server in the cloud?
+				<p>In nutty's terminal you can just ssh to the remote server. The same shared link will work(duh).</p>
+			</li>
+			<li>
+				Q: When I record terminal using nutty are my passwords captured too?
+				<p>Since passwords are not echoed back to the terminal it never gets recorded.</p>
+			</li>
+			<li>
+				Q: Why does nutty use WebRTC?
+				<p>Nutty is one of the examples of the cool things that are possible with WebRTC DataChannels.
+					WebRTC DataChannels are encrypted and p2p and hence completely secure.</p>
+			</li>
+		</ul>
+	</div>
+
 	<h1>Open Source</h1>
 	<div class="hero-unit">
 		nutty.io code is Open Source:
