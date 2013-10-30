@@ -108,7 +108,7 @@ angular.module('nuttyApp')
                     if (data.newTermQ) {
                         if (mcdata.remotero)
                             return;
-                        if (Object.size(MasterData.configs) == 15) {
+                        if (Object.size(MasterData.configs) >= 15) {
                             log.warn("Max limit for number of terminals (15) reached");
                             return;
                         }

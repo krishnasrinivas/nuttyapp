@@ -9,7 +9,7 @@
 angular.module('nuttyApp')
     .controller('SlaveNavbarCtrl', function($scope, SlaveConnection, Auth, UserDetailsData, NuttyUtil, log, SlaveData) {
         $scope.newTerm = function() {
-            if (Object.size(SlaveData.configs) == 15) {
+            if (Object.size(SlaveData.configs) >= 15) {
                 log.warn("Max limit for number of terminals (15) reached");
                 return;
             }
