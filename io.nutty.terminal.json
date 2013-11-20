@@ -4,7 +4,7 @@
 {
   "name": "io.nutty.terminal",
   "description": "nutty.io - Securely share terminals over web using browser",
-  "path": "HOST_PATH",
+  "path": "/opt/nutty/nutty.py",
   "type": "stdio",
   "allowed_origins": [
     "chrome-extension://ooelecakcjobkpmbdnflfneaalbhejmk/"
