@@ -34,6 +34,11 @@ curl https://nutty.io/$HOST_NAME.json > $MANIFEST_DIR/$HOST_NAME.json
 curl https://nutty.io/nutty.py > $SCRIPT_DIR/nutty.py
 chmod +x $SCRIPT_DIR/nutty.py
 
+# Update host path in the manifest.
+HOST_PATH=$SCRIPT_DIR/nutty.py
+ESCAPED_HOST_PATH=${HOST_PATH////\\/}
+sed -i -e "s/HOST_PATH/$ESCAPED_HOST_PATH/" $MANIFEST_DIR/$HOST_NAME.json
+
 # Set permissions for the manifest so that all users can read it.
 chmod o+r $MANIFEST_DIR/$HOST_NAME.json
 
