@@ -9,27 +9,31 @@
 set -e
 
 if [ $(uname -s) == 'Darwin' ]; then
-  TARGET_DIR='/Library/Google/Chrome/NativeMessagingHosts'
+  MANIFEST_DIR='/Library/Google/Chrome/NativeMessagingHosts'
 else
-  TARGET_DIR='/etc/opt/chrome/native-messaging-hosts'
+# Linux users need to run this as root
+  if [[ $EUID -ne 0 ]]; then
+    echo "This script needs to be run using sudo or as the root user"
+    exit 1
+  fi
+  MANIFEST_DIR='/etc/opt/chrome/native-messaging-hosts'
 fi
 
 HOST_NAME=io.nutty.terminal
 
+# Place the script in /usr/local/bin from where it is readable by all users
+SCRIPT_DIR=/usr/local/bin
+mkdir -p $SCRIPT_DIR
+
 # Create directory to store native messaging host.
-mkdir -p $TARGET_DIR
+mkdir -p $MANIFEST_DIR
 
 # Copy native messaging host manifest.
-curl https://nutty.io/$HOST_NAME.json > $TARGET_DIR/$HOST_NAME.json
-curl https://nutty.io/nutty.py > $HOME/nutty.py
-chmod +x $HOME/nutty.py
-
-# Update host path in the manifest.
-HOST_PATH=$HOME/nutty.py
-ESCAPED_HOST_PATH=${HOST_PATH////\\/}
-sed -i -e "s/HOST_PATH/$ESCAPED_HOST_PATH/" $TARGET_DIR/$HOST_NAME.json
+curl https://nutty.io/$HOST_NAME.json > $MANIFEST_DIR/$HOST_NAME.json
+curl https://nutty.io/nutty.py > $SCRIPT_DIR/nutty.py
+chmod +x $SCRIPT_DIR/nutty.py
 
 # Set permissions for the manifest so that all users can read it.
-chmod o+r $TARGET_DIR/$HOST_NAME.json
+chmod o+r $MANIFEST_DIR/$HOST_NAME.json
 
 echo Native messaging host $HOST_NAME has been installed.
