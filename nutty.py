@@ -6,13 +6,14 @@
 import sys
 import struct
 import os
-import thread
 import time
 import json
 import termios
 import fcntl
 import signal
 import logging
+import threading
+
 
 os.environ['TERM'] = 'xterm-256color'
 os.environ['DISPLAY'] = ''
@@ -82,7 +83,7 @@ while 1:
 
             keyfdmap[key] = fd
             keypidmap[key] = pid
-            thread.start_new_thread (newterm, (fd, key, portnum))
+            threading.Thread(target=newterm, args=(fd, key, portnum)).start()
             continue
 
         if key not in keyfdmap:
