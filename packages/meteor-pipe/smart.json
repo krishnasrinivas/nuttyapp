@@ -1,0 +1,8 @@
+{
+  "name": "pipe",
+  "description": "realtime communication between meteor clients without mongo",
+  "homepage": "https://github.com/krishnasrinivas/meteor-pipe",
+  "author": "Krishna Srinivas <krishna.srinivas@gmail.com>",
+  "version": "0.1.1",
+  "git": "https://github.com/krishnasrinivas/meteor-pipe.git"
+}

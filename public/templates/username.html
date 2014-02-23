@@ -1,0 +1,10 @@
+<div class="modal-body">
+<form class="form-inline" role="form">
+<div style="height:50px;width:50px" ng-show="spinner.spin"><div us-spinner></div></div>
+<div class="form-group">
+    <input type="text" focus-me ng-model="user.username" class="form-control" placeholder="Pick Username">
+</div>
+<button type="submit" ng-click="ok()" class="btn btn-primary">OK</button>
+</form>
+<alert type="danger" ng-show="error">[[error]]</alert>
+</div>

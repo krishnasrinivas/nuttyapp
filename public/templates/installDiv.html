@@ -1,0 +1,24 @@
+<div class="pushdown">
+
+<div ng-show="connected()" class="jumbotron text-center">
+	<p><a href="/share" class="btn btn-success btn-lg" role="button" target="_blank">Start Terminal</a></p>
+</div>
+<div ng-hide="connected()" class="jumbotron">
+	<alert type="danger" ng-show="Compatibility.browser.incompatible">
+	<strong style="color:red">
+		Supported OS/Browser: Linux/Mac with Chrome-29+
+	</strong>
+		<br>
+		Your OS/Browser: [[Compatibility.browser.OS]]/[[Compatibility.browser.browser]]-[[Compatibility.browser.version]]
+	</alert>
+	<strong>Installation steps:</strong>
+	<ul>
+<!-- 		<li>Click <a href="#" class="btn btn-success btn" ng-click="install_ext()" role="button">Install Extension</a> <strong ng-show="td.extension"><em>(installed)</em></strong></li> -->
+		<li>
+		<a target="_blank" href="https://chrome.google.com/webstore/detail/nutty/ooelecakcjobkpmbdnflfneaalbhejmk" class="">Install Extension</a>
+		</li>
+		<li>Run <a href="install_host.sh" target="_blank">"install_host.sh"</a> as root</li>
+	</ul>
+</div>
+
+</div>

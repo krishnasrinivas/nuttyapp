@@ -1,0 +1,10 @@
+{
+  "packages": {
+    "winston": {},
+    "crypto-hmac": {},
+    "crypto-sha1": {},
+    "crypto-md5": {},
+    "crypto-base64": {},
+    "knox": {}
+  }
+}

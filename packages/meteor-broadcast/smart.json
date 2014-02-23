@@ -1,0 +1,8 @@
+{
+  "name": "broadcast",
+  "description": "realtime communication between meteor clients without mongo - broadcast messages",
+  "homepage": "https://github.com/krishnasrinivas/meteor-broadcast",
+  "author": "Krishna Srinivas <krishna.srinivas@gmail.com>",
+  "version": "0.1.1",
+  "git": "https://github.com/krishnasrinivas/meteor-broadcast.git"
+}

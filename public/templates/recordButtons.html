@@ -1,0 +1,36 @@
+<div>
+	<div class="text-center" style="margin-top:10px">
+		<div class="btn-group">
+			<a ng-click="record()" tooltip-placement="bottom" tooltip="[[recordbtntooltip()]]" class="btn btn-default [[btnactive()]]"><span class="[[recordcolor()]] glyphicon glyphicon-record glyphicon-lg"></span></a>
+			<a ng-click="play()" class="btn btn-default" tooltip-placement="bottom" tooltip="play recording"><span class="glyphicon glyphicon-play glyphicon-lg"></span>
+			</a>
+<!-- 			<a ng-click="upload()" style="padding-top:[[uploadpaddingtop()]]" class="btn btn-default [[uploadactive()]]" tooltip-placement="bottom" tooltip="upload recording">
+				<span class="glyphicon glyphicon-cloud-upload glyphicon-lg"></span>
+				<div ng-show="uploadactive()" class="progress progress-striped active" style="height:4px;margin:0px">
+				  <div class="progress-bar"  role="progressbar" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100" style="width: [[uploadprogress]]%">
+				  </div>
+				</div>
+			</a> -->
+			<a ng-click="_upload()" class="btn btn-default [[_uploadactive()]]" tooltip-placement="bottom" tooltip="upload recording">
+				<span class="glyphicon glyphicon-cloud-upload glyphicon-lg"></span>
+			</a>
+
+		</div>
+		<div ng-show="uploaddescshow">
+		    <form ng-submit="upload()">
+		    <input id="inputid" style="width:70%;float:left" class="form-control" placeholder="Upload description" ng-model="uploaddesc"></input>
+		    </form>
+		    <a ng-click="upload()" style="width:15%;float:left" class="btn btn-primary">
+		    	<span class="glyphicon glyphicon-ok-sign"></span>
+		    </a>
+		    <a ng-click="canceldesc()" style="width:15%;float:left" class="btn btn-primary">
+		    	<span class="glyphicon glyphicon-remove-sign"></span>
+		    </a>
+		</div>
+
+		<div ng-show="uploadprogressbarshow" class="progress progress-striped active">
+		  <div class="progress-bar"  role="progressbar" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100" style="width: [[uploadprogress]]%">
+		  </div>
+		</div>
+
+</div>

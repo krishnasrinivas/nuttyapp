@@ -1,0 +1,20 @@
+<div class="row fullheight">
+<div class="col-lg-9 col-md-9 col-sm-12 fullheight">
+	<master-terminal ng-style="style"></master-terminal>
+</div>
+<div class="col-lg-3 col-md-3 col-sm-12 fullheight">
+ 	<nutty-signin></nutty-signin>	
+ 	<div class="well well-sm pull-left col-xs-8" style="height:26px;padding:3px;text-align:center"><strong>[[currentuser()]]</strong></div>
+	
+	<input id="sharelinkbox" type="text" class="form-control" ng-model="sharelink" ng-readonly="sharelink" style="cursor:pointer;color:black;margin-bottom:10px;float:left;width:85%" ng-click="copysharelink()" tooltip="Copied!" tooltip-placement="bottom" tooltip-trigger="focus">
+	<a ng-click="sharelinkbtn()" style="float:left;padding:6px" tooltip-placement="bottom" tooltip="Copy link" class="btn btn-default"><span class="glyphicon glyphicon-share"></span></a>
+
+    <form ng-submit="descsubmit()">
+    <input class="form-control" placeholder="Description" ng-model="desc" ng-blur="descblur()"></input>
+    </form>
+	<tmux-buttons></tmux-buttons>
+	<record-buttons></record-buttons>
+	<nutty-alert></nutty-alert>
+	<nutty-chat></nutty-chat>
+</div>
+</div>

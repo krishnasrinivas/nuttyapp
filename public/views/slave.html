@@ -1,0 +1,29 @@
+<div ng-show="slaveshow" class="row fullheight">
+    <div class="col-xs-9 fullheight">
+        <slave-terminal ng-style="style"></slave-terminal>
+    </div>
+    <div class="col-xs-3 fullheight">
+        <nutty-signin></nutty-signin>
+        <div class="well well-sm pull-left col-xs-8" style="height:26px;padding:3px;text-align:center"><strong>[[currentuser()]]</strong>
+        </div>
+    <input type="text" class="form-control" placeholder="Description" ng-model="desc" ng-readonly="descro" style="cursor:pointer;color:black;margin-bottom:10px">
+    <tmux-buttons></tmux-buttons>
+    <record-buttons></record-buttons>
+    <nutty-alert></nutty-alert>
+    <nutty-chat></nutty-chat>
+    </div>
+</div>
+
+<div ng-hide="slaveshow" class="row">
+    <div class="col-xs-3"></div>
+    <div class="col-xs-6">
+        <alert class="pushdown" type="danger">
+        <strong style="color:red">
+            Supported Browser: Chrome-29
+        </strong>
+            <br>
+            Your Browser: [[Compatibility.browser.browser]]-[[Compatibility.browser.version]]
+        </alert>
+    </div>
+    <div class="col-xs-3"></div>
+</div>

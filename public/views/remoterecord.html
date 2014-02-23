@@ -1,0 +1,19 @@
+<div ng-hide="remoterecordshow" class="row">
+    <div class="col-xs-3"></div>
+    <div class="col-xs-6">
+        <alert class="pushdown" type="danger">
+        <strong style="color:red">
+            Supported Browser: Chrome-29+
+        </strong>
+            <br>
+            Your Browser: [[Compatibility.browser.browser]]-[[Compatibility.browser.version]]
+        </alert>
+    </div>
+    <div class="col-xs-3"></div>
+</div>
+<div ng-show="remoterecordshow">
+<div ng-show="showdownloadprogress" class="progress progress-striped active">
+<div class="progress-bar"  role="progressbar" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100" style="width: [[downloadprogress]]%"></div>
+</div>
+<play-terminal ng-style="style"></play-terminal>
+</div>

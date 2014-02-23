@@ -1,0 +1,123 @@
+html,body {
+	height: 100%;
+}
+
+.fullheight {
+	height: 100%;
+}
+
+.row {
+	/*margin-left: 0px;*/
+	margin-right: 0px;
+}
+
+.pushdown {
+  margin-top: 80px;
+}
+
+.container {
+  max-width: 730px;
+}
+
+.rotate    {  
+    -webkit-transform:rotate(90deg);
+    -moz-transform:rotate(90deg);
+    -o-transform:rotate(90deg);
+    /* filter:progid:DXImageTransform.Microsoft.BasicImage(rotation=1.5); */
+    -ms-transform:rotate(90deg);
+    
+}
+
+.glyphicon-lg {
+  font-size: 22px
+}
+
+.glyphicon-exlg {
+  font-size: 35px
+}
+
+.green {
+  color: green;
+}
+
+.red {
+  color: red;
+}
+
+.firechat {
+  padding: 10px;
+  border: 1px solid #ccc;
+  background-color: #fff;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  border-radius: 4px;
+  -webkit-box-shadow: 0 5px 25px #666;
+  -moz-box-shadow: 0 5px 25px #666;
+  box-shadow: 0 5px 25px #666;
+}
+
+.firechat .chat {
+  overflow: auto;
+  -ms-overflow-x: hidden;
+  overflow-x: hidden;
+  height: 200px;
+  margin-bottom: 5px;
+  border: 1px solid #cccccc;
+  overflow-y: auto;
+}
+
+/*#firechat textarea {
+  width: 100%;
+  font-family: sans-serif;
+  font-size: 12px;
+  line-height: 18px;
+  padding: 2px 5px;
+  border: 1px solid #cccccc;
+  resize: none;
+  color: #555;
+  -webkit-border-radius: 1px;
+  -moz-border-radius: 1px;
+  border-radius: 1px;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+*/
+.firechat input {
+  border: 1px solid #cccccc;
+  resize: none;
+  color: #555;
+}
+.firechat .message {
+  color: #333;
+  padding: 3px;
+  border-bottom: 1px solid #ccc;
+}
+.firechat .message-content {
+  word-wrap: break-word;
+  /*padding-right: 45px;*/
+}
+/*#firechat .message.highlighted {
+  background-color: #d9edf7;
+}
+#firechat .message .name {
+  font-weight: bold;
+  overflow-x: hidden;
+}
+#firechat .message.message-self {
+  color: #2675ab;
+}
+#firechat .message:nth-child(odd) {
+  background-color: #f9f9f9;
+}
+#firechat .message:nth-child(odd).highlighted {
+  background-color: #d9edf7;
+}
+#firechat .message:nth-child(odd).message-local {
+  background-color: #effafc;
+}
+#firechat .message-content {
+  word-wrap: break-word;
+  padding-right: 45px;
+}
+*/

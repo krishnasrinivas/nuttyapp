@@ -1,0 +1,21 @@
+<div>
+<div class="text-center" style="margin-top:10px">
+  <div class="btn-group">
+  <a style="padding:0px" class="btn btn-primary" ng-click="splitV()" tooltip-placement="bottom" tooltip="pane - vertical split"><span class="glyphicon glyphicon-pause glyphicon-exlg"></span></a>
+  <a style="padding:0px" class="btn btn-primary" ng-click="splitH()" tooltip-placement="bottom" tooltip="pane - horizontal split"><span class="glyphicon glyphicon-pause glyphicon-exlg rotate"></span></a>
+  <a class="btn btn-primary" ng-click="newWindow()" tooltip-placement="bottom" tooltip="new window"><strong style="font-size:19px">W</strong></a>
+  </div>
+  <a class="btn btn-danger" ng-click="newtmuxsession()" tooltip-placement="bottom" tooltip="restart session"><span class="glyphicon glyphicon-repeat glyphicon-lg"></span></a>
+<!--   <div class="btn-group">
+  <a class="btn btn-primary" ng-click="resizeL()"><span class="glyphicon glyphicon-arrow-left glyphicon-lg"></span></a>
+  <a class="btn btn-primary" ng-click="resizeR()"><span class="glyphicon glyphicon-arrow-right glyphicon-lg"></span></a>
+  <a class="btn btn-primary" ng-click="resizeU()"><span class="glyphicon glyphicon-arrow-up glyphicon-lg"></span></a>
+  <a class="btn btn-primary" ng-click="resizeD()"><span class="glyphicon glyphicon-arrow-down glyphicon-lg"></span></a>
+  </div>
+ -->
+
+  <a class="btn btn-[[btn.color]] [[disabled]]" tooltip-placement="bottom" tooltip="[[tooltiptext()]]"
+ type="button" ng-model="btn.value" btn-checkbox  ng-click="markreadonly()"><strong style="font-size:19px">[[btntext()]]</strong></a>
+
+ </div>
+</div>
