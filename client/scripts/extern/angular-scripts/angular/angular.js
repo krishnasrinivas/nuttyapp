@@ -1,3 +1,9 @@
+/*
+ * https://nutty.io
+ * Copyright (c) 2014 krishna.srinivas@gmail.com All rights reserved.
+ * GPLv3 License <http://www.gnu.org/licenses/gpl.txt>
+ */
+
 /**
  * @license AngularJS v1.2.3
  * (c) 2010-2014 Google, Inc. http://angularjs.org

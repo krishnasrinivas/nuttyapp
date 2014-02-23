@@ -1,3 +1,9 @@
+/*
+ * https://nutty.io
+ * Copyright (c) 2014 krishna.srinivas@gmail.com All rights reserved.
+ * GPLv3 License <http://www.gnu.org/licenses/gpl.txt>
+ */
+
 /* angular-spinner version 0.2.1
  * License: MIT.
  * Copyright (C) 2013, Uri Shaked.

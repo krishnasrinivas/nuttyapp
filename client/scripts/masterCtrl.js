@@ -1,3 +1,9 @@
+/*
+ * https://nutty.io
+ * Copyright (c) 2014 krishna.srinivas@gmail.com All rights reserved.
+ * GPLv3 License <http://www.gnu.org/licenses/gpl.txt>
+ */
+
 angular.module('nuttyapp')
 	.controller('masterCtrl', ['$scope', '$modal', 'NuttySession', 'Termdevice', 'NuttyConnection', function ($scope, $modal, NuttySession, Termdevice, NuttyConnection) {
 		NuttyConnection.write = Termdevice.write;
