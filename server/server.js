@@ -1,3 +1,9 @@
+/*
+ * https://nutty.io
+ * Copyright (c) 2014 krishna.srinivas@gmail.com All rights reserved.
+ * GPLv3 License <http://www.gnu.org/licenses/gpl.txt>
+ */
+
 var authinfo = JSON.parse(Assets.getText("authinfo.json"));
 
 ServiceConfiguration.configurations.remove({
@@ -24,6 +30,7 @@ var client = Knox.createClient({
 });
 
 // db.users.ensureIndex({username:1}, {unique: true})
+Meteor.users._ensureIndex({username:1}, {unique: true});
 Meteor.users.allow({
 	update: function (userId, doc, fields, modifier) {
 		if (fields.length !== 1)
@@ -36,6 +43,8 @@ Meteor.users.allow({
 
 //db.nuttysession.ensureIndex({expireAt:1}, {sparse: true, expireAfterSeconds: 0})
 NuttySession = new Meteor.Collection('nuttysession');
+NuttySession._ensureIndex({expireAt:1}, {sparse: true, expireAfterSeconds: 0});
+NuttySession._ensureIndex({sessionid:1});
 NuttySession.allow({
 	update: function(userId, doc, fields, modifier) {
 		if (fields.length !== 1)
@@ -57,6 +66,9 @@ NuttySession.allow({
 //db.nuttyrecordings.ensureIndex({filename:1}, {unique: true})
 
 NuttyRecordings = new Meteor.Collection('nuttyrecordings');
+NuttyRecordings._ensureIndex({owner:1, createdAt:-1});
+NuttyRecordings._ensureIndex({filename:1}, {unique: true});
+
 NuttyRecordings.allow({
 	insert: function(userId, doc) {
 		if (userId && userId === doc.owner) {
@@ -111,7 +123,6 @@ methods['s3downloadinfo'] = function(_key) {
             Expires + "\n" +
             "/nutty/" + _key;
 
-        // var signature = crypto.createHmac('sha1', secret).update(StringToSign).digest('base64');
 	    var signature = CryptoJS.HmacSHA1(StringToSign, awssecret).toString(CryptoJS.enc.Base64);
         var retobj = {
             AWSAccessKeyId: awsid,
@@ -143,7 +154,6 @@ methods['s3uploadinfo'] = function(sessionid, clientid) {
         ]
     };
     var policy = new Buffer(JSON.stringify(JSON_POLICY)).toString('base64');
-    // var signature = crypto.createHmac('sha1', secret).update(policy).digest('base64');
     var signature = CryptoJS.HmacSHA1(policy, awssecret).toString(CryptoJS.enc.Base64);
     var retobj = {
         key: key,
@@ -251,18 +261,10 @@ Meteor.publish('slavesession', function(sessionid, clientid) {
 });
 
 Meteor.publish('ownedsessions', function () {
-	if (!this.userId) {
-		this.error(new Meteor.Error(500, 'Internal server error'));
-		return;
-	}
 	return NuttySession.find({type:"master", userId:this.userId}, {fields:{clientid: 0}});
 });
 
 Meteor.publish('ownedrecordings', function() {
-	if (!this.userId) {
-		this.error(new Meteor.Error(500, 'Internal server error'));
-		return;
-	}
 	return NuttyRecordings.find({owner:this.userId});
 });
 

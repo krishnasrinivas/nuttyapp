@@ -176,84 +176,64 @@ angular.module('nuttyapp')
 		window.NuttySession = retobj;
 		var sessionssub;
 		var recordingssub;
-		Deps.autorun(function() {
-			var user = Meteor.userId();
-			if (user) {
-				sessionssub = Meteor.subscribe('ownedsessions');
-				sscursor = SessionColl.find({type:"master"});
-				sscursor.observe({
-					addedAt: function(doc,atIndex,before) {
-						ss[atIndex] = doc;
-						safeApply($rootScope);
-					},
-					changedAt: function(newdoc, olddoc, atIndex) {
-						ss[atIndex] = newdoc;
-						safeApply($rootScope);
-					},
-					removedAt: function(doc, atIndex) {
-						ss.splice(atIndex, 1);
-						safeApply($rootScope);
-					},
-					movedTo: function(document, fromIndex, toIndex, before) {
-						console.log("movedTo");
-						console.log(fromIndex);
-						console.log(toIndex);
-						console.log(before);				
-					}
-				});
-				recordingssub = Meteor.subscribe('ownedrecordings');
-				recordingscursor = NuttyRecordings.find({},{sort:{createdAt:-1}});
-				recordingscursor.observe({
-					addedAt: function(doc,atIndex,before) {
-						console.log("addedAt");
-						console.log(doc);
-						console.log(atIndex);
-						console.log(before);
-						if (before) {
-							recordings.unshift(doc);
-						} else {
-							recordings[atIndex] = doc;
-						}
-						recordings[atIndex].embedid = recordings[atIndex].filename.replace(/\./, '');
-						safeApply($rootScope);
-					},
-					changedAt: function(newdoc, olddoc, atIndex) {
-						console.log("changedAt");
-						console.log(newdoc);
-						console.log(olddoc);
-						console.log(addedAt);
-						recordings[atIndex] = newdoc;
-						recordings[atIndex].embedid = recordings[atIndex].filename.replace(/\./, '');
-						safeApply($rootScope);
-					},
-					removedAt: function(doc, atIndex) {
-						console.log("removedAt");
-						console.log(atIndex);
-						recordings.splice(atIndex, 1);
-						safeApply($rootScope);
-					},
-					movedTo: function(document, fromIndex, toIndex, before) {
-						console.log("movedTo");
-						console.log(fromIndex);
-						console.log(toIndex);
-						console.log(before);				
-					}
-				});
-			} else {
-				if (sessionssub)
-					sessionssub.stop();
-				if (recordingssub)
-					recordingssub.stop();
-				_.each(ss, function(elem, index) {
-					delete ss[index];
-				});
-				_.compact(ss);
-
-				_.each(recordings, function(elem, index) {
-					delete recordings[index];
-				});
-				_.compact(recordings);
-
+		sessionssub = Meteor.subscribe('ownedsessions');
+		sscursor = SessionColl.find({type:"master"});
+		sscursor.observe({
+			addedAt: function(doc,atIndex,before) {
+				ss[atIndex] = doc;
+				safeApply($rootScope);
+			},
+			changedAt: function(newdoc, olddoc, atIndex) {
+				ss[atIndex] = newdoc;
+				safeApply($rootScope);
+			},
+			removedAt: function(doc, atIndex) {
+				ss.splice(atIndex, 1);
+				safeApply($rootScope);
+			},
+			movedTo: function(document, fromIndex, toIndex, before) {
+				console.log("movedTo");
+				console.log(fromIndex);
+				console.log(toIndex);
+				console.log(before);				
+			}
+		});
+		recordingssub = Meteor.subscribe('ownedrecordings');
+		recordingscursor = NuttyRecordings.find({},{sort:{createdAt:-1}});
+		recordingscursor.observe({
+			addedAt: function(doc,atIndex,before) {
+				console.log("addedAt");
+				console.log(doc);
+				console.log(atIndex);
+				console.log(before);
+				if (before) {
+					recordings.unshift(doc);
+				} else {
+					recordings[atIndex] = doc;
+				}
+				recordings[atIndex].embedid = recordings[atIndex].filename.replace(/\./, '');
+				safeApply($rootScope);
+			},
+			changedAt: function(newdoc, olddoc, atIndex) {
+				console.log("changedAt");
+				console.log(newdoc);
+				console.log(olddoc);
+				console.log(addedAt);
+				recordings[atIndex] = newdoc;
+				recordings[atIndex].embedid = recordings[atIndex].filename.replace(/\./, '');
+				safeApply($rootScope);
+			},
+			removedAt: function(doc, atIndex) {
+				console.log("removedAt");
+				console.log(atIndex);
+				recordings.splice(atIndex, 1);
+				safeApply($rootScope);
+			},
+			movedTo: function(document, fromIndex, toIndex, before) {
+				console.log("movedTo");
+				console.log(fromIndex);
+				console.log(toIndex);
+				console.log(before);				
 			}
 		});
 
