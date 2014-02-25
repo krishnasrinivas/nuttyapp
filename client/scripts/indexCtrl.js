@@ -13,6 +13,8 @@ angular.module('nuttyapp')
                 ga('send', 'pageview', 'home');
             else if ($location.$$path === '/contact')
                 ga('send', 'pageview', 'contact');
+            else if ($location.$$path === '/install')
+                ga('send', 'pageview', 'install');
             $scope.datetime = function(idx) {
                 if ($scope.recordings[idx].createdAt)
                     return $scope.recordings[idx].createdAt.toString().replace(/ GMT.*/, '');
