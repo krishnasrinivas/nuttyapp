@@ -1,10 +1,15 @@
-<a href="https://github.com/krishnasrinivas/nuttyapp"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub"></a>
+<a href="https://github.com/krishnasrinivas/nuttyapp">
+    <img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub">
+</a>
 
 <div class="container">
     <ul class="nav nav-pills pull-left">
-        <li class="active"><a href="/">Home</a></li>
-        <li><a href="/install">Install</a></li>
-        <li><a href="/contact">Contact</a></li>
+        <li class="active"><a href="/">Home</a>
+        </li>
+        <li><a href="/install">Install</a>
+        </li>
+        <li><a href="/contact">Contact</a>
+        </li>
     </ul>
     <nutty-signin></nutty-signin>
     <div class="well well-sm pull-right col-xs-1" style="height:26px;padding:3px;text-align:center">
@@ -25,16 +30,17 @@
 
             <table class="table table-bordered">
                 <thead>
-                <tr>
-                    <th>Session</th>
-                    <th>Description</th>
-                </tr>
+                    <tr>
+                        <th>Session</th>
+                        <th>Description</th>
+                    </tr>
                 </thead>
                 <tbody>
-                <tr ng-repeat="sharedsession in sharedsessions">
-                    <td><a href="/share/[[sharedsession.sessionid]]" target="_blank">https://nutty.io/share/[[sharedsession.sessionid]]</a></td>
-                    <td>[[sharedsession.desc]]</td>
-                </tr>
+                    <tr ng-repeat="sharedsession in sharedsessions">
+                        <td><a href="/share/[[sharedsession.sessionid]]" target="_blank">https://nutty.io/share/[[sharedsession.sessionid]]</a>
+                        </td>
+                        <td>[[sharedsession.desc]]</td>
+                    </tr>
                 </tbody>
             </table>
 
@@ -47,31 +53,33 @@
 
             <table class="table table-bordered">
                 <thead>
-                <tr>
-                    <th>Session</th>
-                    <th>Description</th>
-                    <th>Time</th>
-                    <th><center>Delete</center></th>
-                </tr>
+                    <tr>
+                        <th>Session</th>
+                        <th>Description</th>
+                        <th>Time</th>
+                        <th>
+                            <center>Delete</center>
+                        </th>
+                    </tr>
                 </thead>
                 <tbody>
-                <!-- <tr ng-repeat="recording in recordings | orderBy:'createdAt':true"> -->
-                <tr ng-repeat="recording in recordings">
+                    <!-- <tr ng-repeat="recording in recordings | orderBy:'createdAt':true"> -->
+                    <tr ng-repeat="recording in recordings">
                         <td class="col-xs-4">
-                        <a href="/recording/[[recording.filename]]" target="_blank">[[recording.sessionid]]</a>
-                        <a role="button" class="btn btn-default btn-xs pull-right" ng-click="copyembed($index)">Embed</a>
-                        <textarea name="" rows=4 style="font-size:12px" id="[[recording.embedid]]" ng-blur="recording.visible=false" ng-model="recording.value" ng-show="recording.visible" class="col-xs-12"></textarea>
-                    </td>
-                    <td>
-                        [[recording.desc]]
-                    </td>
-                    <td>
-                        [[datetime($index)]]
-                    </td>
-                    <td>
-                        <center><span class="glyphicon glyphicon-remove-circle glyphicon-lg" ng-click="deleterecording($index)" style="cursor:pointer"></span><center>
-                    </td>
-                </tr>
+                            <a href="/recording/[[recording.filename]]" target="_blank">[[recording.sessionid]]</a>
+                            <a role="button" class="btn btn-default btn-xs pull-right" ng-click="copyembed($index)">Embed</a>
+                            <textarea name="" rows=4 style="font-size:12px" id="[[recording.embedid]]" ng-blur="recording.visible=false" ng-model="recording.value" ng-show="recording.visible" class="col-xs-12"></textarea>
+                        </td>
+                        <td>
+                            [[recording.desc]]
+                        </td>
+                        <td>
+                            [[datetime($index)]]
+                        </td>
+                        <td>
+                            <center><span class="glyphicon glyphicon-remove-circle glyphicon-lg" ng-click="deleterecording($index)" style="cursor:pointer"></span> </center>
+                        </td>
+                    </tr>
                 </tbody>
             </table>
         </div>

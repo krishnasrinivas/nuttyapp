@@ -1,9 +1,3 @@
-/*
- * https://nutty.io
- * Copyright (c) 2014 krishna.srinivas@gmail.com All rights reserved.
- * GPLv3 License <http://www.gnu.org/licenses/gpl.txt>
- */
-
 /* ========================================================================
  * Bootstrap: tab.js v3.1.0
  * http://getbootstrap.com/javascript/#tabs

@@ -1,6 +1,6 @@
-  <div class="col-xs-11 firechat" style="position:absolute;bottom:0">
+<div class="col-xs-11 nuttychat" style="position:absolute;bottom:0">
     <!-- <alert type="danger" ng-show="chatwarn">[[chatwarn]]</alert> -->
-<!--     <tabset>
+    <!--     <tabset>
     <tab heading="chat">
     <div id='chat-div' class="chat">
       <div ng-repeat="chatmsg in chatmsgs" class="message message-default">
@@ -21,34 +21,37 @@
     </tabset>
  -->
 
-<div class="">
-<div class="tabbable">
-  <ul class="nav nav-pills">
-        <li class="active"><a href="#chat" data-toggle="tab">Chat</a></li>
-        <li><a href="#users" style="width:100px" data-toggle="tab">Users <span class="badge pull-right">[[users.length]]</span></a></li>
-  </ul>
-  <div class="tab-content">
-    <div class="tab-pane active" id="chat">
-    <div id='chat-div' class="chat">
-      <div ng-repeat="chatmsg in chatmsgs track by $index" class="message message-default">
-        <div class="message-content"><strong class='name'>[[chatmsg.username]] : </strong>[[chatmsg.msg]]</div>
-      </div>
+    <div class="">
+        <div class="tabbable">
+            <ul class="nav nav-pills">
+                <li class="active"><a href="#chat" data-toggle="tab">Chat</a>
+                </li>
+                <li><a href="#users" style="width:100px" data-toggle="tab">Users <span class="badge pull-right">[[users.length]]</span></a>
+                </li>
+            </ul>
+            <div class="tab-content">
+                <div class="tab-pane active" id="chat">
+                    <div id='chat-div' class="chat">
+                        <div ng-repeat="chatmsg in chatmsgs track by $index" class="message message-default">
+                            <div class="message-content"><strong class='name'>[[chatmsg.username]] : </strong>[[chatmsg.msg]]</div>
+                        </div>
+                    </div>
+                    <form ng-submit="chatsubmit()">
+                        <input type="text" class="form-control" ng-model="msg"></input>
+                    </form>
+                </div>
+                <div class="tab-pane" id="users">
+                    <input class="form-control" ng-model="guestcntmsg" ng-readonly="sharelink" style="color:black; text-align:center"></input>
+                    <div class="chat">
+                        <div ng-repeat="user in users track by $index" ng-show="user.username" class="message message-default">
+                            <div class="message-content"><strong class="name">[[user.username]]</strong>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-    <form ng-submit="chatsubmit()">
-    <input type="text" class="form-control" ng-model="msg"></input>
-    </form>
-    </div>
-    <div class="tab-pane" id="users">
-    <input class="form-control" ng-model="guestcntmsg" ng-readonly="sharelink" style="color:black; text-align:center"></input>
-    <div class="chat">
-      <div ng-repeat="user in users track by $index" ng-show="user.username" class="message message-default">
-      <div class="message-content"><strong class="name">[[user.username]]</strong></div>
-      </div>
-    </div>
-    </div>
-  </div>
-</div>
-</div>
 
 </div>
 

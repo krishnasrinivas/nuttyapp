@@ -6,22 +6,24 @@
 
 angular.module('nuttyapp')
     .factory('alertBox', function() {
-    	var retobj = {
-    		show: false,
-    		type: 'danger',
-    		msg: "",
-    		alert: alert,
-    		close: close
-    	}
-    	function alert(type, msg) {
-    		retobj.type = type;
-    		retobj.msg = msg;
-    		retobj.show = true;
-    	}
-    	function close() {
-    		retobj.show = false
-    	}
-    	return retobj;
+        var retobj = {
+            show: false,
+            type: 'danger',
+            msg: "",
+            alert: alert,
+            close: close
+        }
+
+            function alert(type, msg) {
+                retobj.type = type;
+                retobj.msg = msg;
+                retobj.show = true;
+            }
+
+            function close() {
+                retobj.show = false
+            }
+        return retobj;
     });
 
 angular.module('nuttyapp')
@@ -31,8 +33,10 @@ angular.module('nuttyapp')
             scope: true,
             restrict: 'E',
             retplace: true,
-            controller: ['$scope', 'alertBox', function($scope, alertBox) {
-            	$scope.alertBox = alertBox;
-            }]
+            controller: ['$scope', 'alertBox',
+                function($scope, alertBox) {
+                    $scope.alertBox = alertBox;
+                }
+            ]
         }
     });

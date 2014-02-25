@@ -11,17 +11,17 @@ angular.module('nuttyapp')
             scope: true,
             restrict: 'E',
             link: function(scope, element, attrs, termController) {
-            	var term;
-            	var termElem;
+                var term;
+                var termElem;
                 var terminalIframeElem;
 
-            	termElem = scope.terminalElem;
+                termElem = scope.terminalElem;
                 terminalIframeElem = scope.terminalIframeElem;
-            	scope.style = {
-            		height: "100%",
-            		width: "100%",
+                scope.style = {
+                    height: "100%",
+                    width: "100%",
                     position: "absolute"
-            	};
+                };
 
                 scope.termstyle = {
                     height: "100%",
@@ -29,22 +29,24 @@ angular.module('nuttyapp')
                     position: "relative"
                 };
 
-            	function Nuttyterm(argv) {
+                function Nuttyterm(argv) {
                     this.argv_ = argv;
                     this.io = null;
                     this.pid_ = -1;
-            	}
+                }
 
-            	Nuttyterm.prototype.run = function() {
+                Nuttyterm.prototype.run = function() {
                     this.io = this.argv_.io.push();
 
                     this.io.onVTKeystroke = this.sendString_.bind(this);
                     this.io.sendString = this.sendString_.bind(this);
                     this.io.onTerminalResize = this.onTerminalResize.bind(this);
-            	}
+                }
 
                 Nuttyterm.prototype.sendString_ = function(str) {
-                        termController.toTermdevice({data: str});
+                    termController.toTermdevice({
+                        data: str
+                    });
                 };
 
                 Nuttyterm.prototype.onTerminalResize = function(col, row) {
@@ -54,12 +56,12 @@ angular.module('nuttyapp')
                 };
 
                 termController.fromTermdevice(function(msg) {
-                	if (term && msg.data) {
+                    if (term && msg.data) {
                         term.io.writeUTF16(msg.data);
-                	}
+                    }
                 });
 
-                lib.init (function() {
+                lib.init(function() {
                     term = scope.term = new hterm.Terminal();
                     window.term = scope.term = term;
                     // term.decorate(terminalElem.get(0), terminalIframeElem.get(0));
@@ -72,7 +74,9 @@ angular.module('nuttyapp')
 
                     term.nuttyPaste = function() {
                         paste(function(data) {
-                            termController.toTermdevice({data: data});
+                            termController.toTermdevice({
+                                data: data
+                            });
                         });
                     }
 
@@ -88,71 +92,71 @@ angular.module('nuttyapp')
                 });
             },
             controller: ['$scope', 'Termdevice', 'MasterConnection', 'NuttySession', 'Recorder',
-            function($scope, Termdevice, MasterConnection, NuttySession, Recorder){
-                var ctrl = this;
-                $scope.rowcol = {};
-            	this.fromTermdevice = function(cbk) {
-            		Termdevice.ondata(function(msg){
-            			cbk(msg);
-            			MasterConnection.pipe.write(msg);
-                        Recorder.write(msg);
-            		});
-            	}
-            	this.toTermdevice = function(msg) {
-            		Termdevice.write(msg);
-				}
-                this.changerowcol = function(msg) {
-                    NuttySession.setrowcol({
-                        row: msg.row,
-                        col: msg.col,
-                    });
-                    msg.rowcol = 1;
-                    Termdevice.write(msg);
-                    Recorder.write(msg);
-                }
-                this.setmaster = function() {
-                    var clientid;
-                    clientid = Session.get("clientid");
-                    if (!clientid) {
-                        clientid = Random.id();
-                        Session.set("clientid", clientid);
-                    }
-                    if (sessionid = Session.get("sessionid")) {
-                        NuttySession.setmaster(sessionid, clientid);
-                    } else {
-                        Meteor.call ('createMasterSession', clientid, function(err, sessionid) {
-                            if (!err) {
-                                Session.set("sessionid", sessionid);
-                                NuttySession.setmaster(sessionid, clientid);
-                            }
+                function($scope, Termdevice, MasterConnection, NuttySession, Recorder) {
+                    var ctrl = this;
+                    $scope.rowcol = {};
+                    this.fromTermdevice = function(cbk) {
+                        Termdevice.ondata(function(msg) {
+                            cbk(msg);
+                            MasterConnection.pipe.write(msg);
+                            Recorder.write(msg);
                         });
                     }
-                }
-				MasterConnection.pipe.ondata(function(msg){
-					Termdevice.write(msg);
-				});
-                $scope.$watch('rowcol'
-                    , function(newval, oldval) {
+                    this.toTermdevice = function(msg) {
+                        Termdevice.write(msg);
+                    }
+                    this.changerowcol = function(msg) {
+                        NuttySession.setrowcol({
+                            row: msg.row,
+                            col: msg.col,
+                        });
+                        msg.rowcol = 1;
+                        Termdevice.write(msg);
+                        Recorder.write(msg);
+                    }
+                    this.setmaster = function() {
+                        var clientid;
+                        clientid = Session.get("clientid");
+                        if (!clientid) {
+                            clientid = Random.id();
+                            Session.set("clientid", clientid);
+                        }
+                        if (sessionid = Session.get("sessionid")) {
+                            NuttySession.setmaster(sessionid, clientid);
+                        } else {
+                            Meteor.call('createMasterSession', clientid, function(err, sessionid) {
+                                if (!err) {
+                                    Session.set("sessionid", sessionid);
+                                    NuttySession.setmaster(sessionid, clientid);
+                                }
+                            });
+                        }
+                    }
+                    MasterConnection.pipe.ondata(function(msg) {
+                        Termdevice.write(msg);
+                    });
+                    $scope.$watch('rowcol', function(newval, oldval) {
                         if (newval && NuttySession.sessionid) {
-                            ctrl.changerowcol ({
+                            ctrl.changerowcol({
                                 row: $scope.term.screenSize.height,
                                 col: $scope.term.screenSize.width,
                             });
-                    }
-                }, true);
-                $scope.$watch(function(){
-                    return NuttySession.sessionid;
-                }, function(newval, oldval) {
-                    if (newval && $scope.term) {
-                        ctrl.changerowcol ({
-                            row: $scope.term.screenSize.height,
-                            col: $scope.term.screenSize.width,
-                        });
-                    }
-                });
-            }]
+                        }
+                    }, true);
+                    $scope.$watch(function() {
+                        return NuttySession.sessionid;
+                    }, function(newval, oldval) {
+                        if (newval && $scope.term) {
+                            ctrl.changerowcol({
+                                row: $scope.term.screenSize.height,
+                                col: $scope.term.screenSize.width,
+                            });
+                        }
+                    });
+                }
+            ]
         }
-	});
+    });
 
 
 angular.module('nuttyapp')
@@ -168,4 +172,3 @@ angular.module('nuttyapp')
             scope.terminalIframeElem = $(element);
         }
     });
-
