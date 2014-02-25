@@ -20,24 +20,28 @@ angular.module('nuttyapp')
             	if (NuttySession.type === "slave")
             		$scope.disabled = "disabled";
             	$scope.splitH = function() {
+                              mixpanel.track("splitH");
 					NuttyConnection.write({
 						data: String.fromCharCode(2) + '"'
 					});
 					term.focus();
             	}
             	$scope.splitV = function() {
+                              mixpanel.track("splitV");
 					NuttyConnection.write({
 						data: String.fromCharCode(2) + '%'
 					});
 					term.focus();
             	}
             	$scope.newWindow = function() {
+                              mixpanel.track("newWindow");
 					NuttyConnection.write({
 						data: String.fromCharCode(2) + 'c'
 					});
 					term.focus();            		
             	}
             	$scope.newtmuxsession = function() {
+                              mixpanel.track("newtmuxsession");
 					NuttyConnection.write({
 						newtmuxsession: true
 					});
@@ -70,6 +74,7 @@ angular.module('nuttyapp')
             	}
             	$scope.markreadonly = function() {
             		if (NuttySession.type === "master") {
+                              mixpanel.track("markreadonly");
 	            		readonly = !readonly;
 	            		if (readonly) {
 	            			NuttySession.setreadonly(true);

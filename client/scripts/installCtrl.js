@@ -17,6 +17,7 @@ angular.module('nuttyapp')
 		        var exturl = "https://chrome.google.com/webstore/detail/ooelecakcjobkpmbdnflfneaalbhejmk";
 		        $scope.Compatibility = Compatibility;
 		        $scope.td = Termdevice;
+				ga('send', 'pageview', 'install');
 		        $scope.connected = function () {
 		        	return Termdevice.extension;
 		        	// return Termdevice.extension && Termdevice.nativehost;

@@ -13,6 +13,8 @@ angular.module('nuttyapp')
 		if (!clientid) {
 			clientid = Random.id();
 			Session.set("clientid", clientid);
+			mixpanel.track("slaveterminal");
+			ga('send', 'pageview', 'slaveterminal');
 		}
 
 		NuttySession.setslave($routeParams.sessionid, clientid);

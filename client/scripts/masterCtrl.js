@@ -7,6 +7,11 @@
 angular.module('nuttyapp')
 	.controller('masterCtrl', ['$scope', '$modal', 'NuttySession', 'Termdevice', 'NuttyConnection', function ($scope, $modal, NuttySession, Termdevice, NuttyConnection) {
 		NuttyConnection.write = Termdevice.write;
+		if (!Session.get("autoreload")) {
+			mixpanel.track("masterterminal");
+			ga('send', 'pageview', 'masterterminal');
+			Session.set("autoreload", 1);
+		}
 		$scope.sharelink = function() {
 			if (NuttySession.sessionid)
 				return "https://nutty.io/share/" + NuttySession.sessionid;
@@ -34,6 +39,7 @@ angular.module('nuttyapp')
 		};
 		$scope.descsubmit = function() {
 			NuttySession.setdesc($scope.desc);
+			mixpanel.track("descsubmit");
 			setTimeout(termfocus, 0);
 		}
 		$scope.descblur = function() {
@@ -41,11 +47,13 @@ angular.module('nuttyapp')
 		}
 		$scope.copysharelink = function() {
 			copy($scope.sharelink);
+			mixpanel.track("copysharelink", {clickedon:"input"});
 			setTimeout(function(){
 				term.focus();
 			}, 1000);
 		}
 		$scope.sharelinkbtn = function() {
+			mixpanel.track("copysharelink", {clickedon:"button"});
 			setTimeout(
 				function(){
 					$("#sharelinkbox").focus().click();

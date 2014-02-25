@@ -5,9 +5,13 @@
  */
 
 angular.module('nuttyapp')
-	.controller('indexCtrl', ['$scope', '$modal', 'NuttySession', function ($scope, $modal, NuttySession) {
+	.controller('indexCtrl', ['$scope', '$modal', '$location', 'NuttySession', function ($scope, $modal, $location, NuttySession) {
 		$scope.sharedsessions = NuttySession.sharedsessions;
 		$scope.recordings = NuttySession.recordings;
+		if ($location.$$path === '/')
+			ga('send', 'pageview', 'home');
+		else if ($location.$$path === '/contact')
+			ga('send', 'pageview', 'contact');
 		$scope.datetime = function(idx) {
 			if ($scope.recordings[idx].createdAt)
 				return $scope.recordings[idx].createdAt.toString().replace(/ GMT.*/, '');

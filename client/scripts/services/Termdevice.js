@@ -54,9 +54,7 @@ angular.module('nuttyapp')
                 return [true];
             });
         window.addEventListener('beforeunload', function(e) {
-            console.log("beforeunload");
             if (port && !autoreload) {
-                console.log("killing tmux");
                 port.postMessage({
                                 data: String.fromCharCode(2) + 'k'
                             });

@@ -41,8 +41,10 @@ angular.module('nuttyapp')
 	            		return "";
             	}
             	$scope.play = function () {
-                        if (filename)
-                  		window.open("https://nutty.io/localrecord/"+filename);
+                        if (filename) {
+                          mixpanel.track("localplay"); 
+                      		window.open("https://nutty.io/localrecord/"+filename);
+                        }
                         else
                               alertBox.alert("danger", "No recording available");
             	}
@@ -63,7 +65,6 @@ angular.module('nuttyapp')
               }
 
               $scope.upload = function () {
-                console.log("upload clicked");
                 submitted = true;
                 setTimeout(function() {
                     term.focus();                  
@@ -87,6 +88,7 @@ angular.module('nuttyapp')
                           Meteor.call('s3uploadinfo', NuttySession.sessionid, NuttySession.clientid, function(err, data) {
                                 if (err) {
                                       alertBox.alert("danger", "Server err during upload");
+                                      mixpanel.track("upload", {state:"gets3uploadinfofail"});
                                       $scope.$apply();
                                 } else {
                                       var xhr = new XMLHttpRequest();
@@ -116,6 +118,7 @@ angular.module('nuttyapp')
                                           if (!_uploaderr) {
                                                 alertBox.alert("success", "upload done! check homepage (https://nutty.io)");
                                                 var userId = Meteor.userId();
+                                                mixpanel.track("upload", {state:"success"});
                                                 if (userId) {
                                                       NuttySession.insertrecording({
                                                         owner: userId,
@@ -124,8 +127,10 @@ angular.module('nuttyapp')
                                                         desc: $scope.uploaddesc,
                                                         createdAt: new Date
                                                       });
-                                                } else
+                                                } else {
+                                                  mixpanel.track("upload", {state:"fail"});
                                                   alertBox.alert("danger", "Upload failed, Please signin during upload");
+                                                }
                                           }
                                           $scope.uploadprogressbarshow = false;
                                           _upload = false;
@@ -179,6 +184,7 @@ angular.module('nuttyapp')
             	$scope.record = function() {
             		record = !record;
             		if (record) {
+                  mixpanel.track("record");
                   filename = Random.hexString(16);
                   Session.set("recordfilename", filename);
                   Session.set("record", true);
