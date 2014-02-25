@@ -374,6 +374,10 @@ Meteor.publish('slavesession', function(sessionid, clientid) {
 });
 
 Meteor.publish('ownedsessions', function() {
+    if (!this.userId) {
+        this.ready();
+        return;
+    }    
     return NuttySession.find({
         type: "master",
         userId: this.userId
@@ -385,6 +389,10 @@ Meteor.publish('ownedsessions', function() {
 });
 
 Meteor.publish('ownedrecordings', function() {
+    if (!this.userId) {
+        this.ready();
+        return;
+    }
     return NuttyRecordings.find({
         owner: this.userId
     });
