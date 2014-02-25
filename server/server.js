@@ -1,17 +1,18 @@
-// expire nuttysessions "session" type docs
+var authinfo = JSON.parse(Assets.getText("authinfo.json"));
 
-Accounts.loginServiceConfiguration.remove({
+ServiceConfiguration.configurations.remove({
 	service: "google"
 });
 
-Accounts.loginServiceConfiguration.insert({
+ServiceConfiguration.configurations.insert({
 	service: "google",
-	clientId: "cliendid",
-	secret: "secret"
+	clientId: authinfo.google.clientId,
+	secret: authinfo.google.secret
 });
 
-var awsid = 'awskeyid';
-var awssecret = 'awssecret';
+
+var awsid = authinfo.aws.awsid;
+var awssecret = authinfo.aws.awssecret;
 
 pipeserver = new Meteor.PipeServer();
 chatserver = new Meteor.Broadcast();

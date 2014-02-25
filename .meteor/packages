@@ -16,4 +16,4 @@ crypto-sha1
 crypto-md5
 crypto-hmac
 knox
-
+service-configuration
