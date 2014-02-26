@@ -191,31 +191,23 @@ methods['s3uploadinfo'] = function(sessionid, clientid) {
 }
 
 
-function userloggedin(sessionid, clientid, type, userId) {
+methods['userloggedin'] = function(sessionid, clientid, type) {
+    if (!this.userId) {
+        return;
+    }
     var user = Meteor.user();
     var username = "";
     if (user)
         username = user.username;
-    if (!userId)
-        return;
-    if (type === 'master') {
-        var s = NuttySession.findOne({
-            sessionid: sessionid,
-            masterid: clientid
-        });
-        if (!s)
-            return;
-        if (s.masterid !== clientid)
-            return;
-        NuttySession.update({
-            sessionid: sessionid,
-            type: "session"
-        }, {
-            $set: {
-                owner: userId
-            }
-        });
-    }
+
+    NuttySession.update({
+        sessionid: sessionid,
+        masterid: clientid
+    }, {
+        $set: {
+            owner: this.userId
+        }
+    });
 
     NuttySession.update({
         sessionid: sessionid,
@@ -228,21 +220,15 @@ function userloggedin(sessionid, clientid, type, userId) {
     });
 }
 
-function userloggedout(sessionid, clientid) {
-    var s = NuttySession.findOne({
+methods['userloggedout'] = function(sessionid, clientid) {
+    NuttySession.update({
         sessionid: sessionid,
         masterid: clientid
+    }, {
+        $set: {
+            owner: ''
+        }
     });
-    if (s) {
-        NuttySession.update({
-            sessionid: sessionid,
-            type: "session"
-        }, {
-            $set: {
-                owner: ''
-            }
-        });
-    }
     NuttySession.update({
         sessionid: sessionid,
         clientid: clientid,
@@ -251,18 +237,6 @@ function userloggedout(sessionid, clientid) {
             username: ''
         }
     });
-}
-
-methods['userloggedin'] = function(sessionid, clientid, type) {
-    if (!this.userId) {
-        winston.info("user not loggedin");
-        return;
-    }
-    userloggedin(sessionid, clientid, type, this.userId);
-}
-
-methods['userloggedout'] = function(sessionid, clientid) {
-    userloggedout(sessionid, clientid);
 }
 
 
