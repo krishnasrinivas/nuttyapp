@@ -444,3 +444,9 @@ Meteor.publish('ownedrecordings', function() {
         userId: this.userId
     });
 });
+
+Meteor.publish('demosession', function() {
+    return NuttySession.find({
+        sessionid: "demosessionid"
+    });
+});

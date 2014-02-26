@@ -21,6 +21,9 @@ angular.module('nuttyapp')
                 else
                     return "";
             }
+            $scope.demolink = function() {
+                return "share/" + NuttySession.demosessionid;
+            }
             $scope.currentuser = function() {
                 var user = Meteor.user();
                 if (user) {

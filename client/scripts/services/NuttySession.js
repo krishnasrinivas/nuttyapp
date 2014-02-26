@@ -126,6 +126,7 @@ angular.module('nuttyapp')
                 id: undefined,
                 sessionid: undefined,
                 clientid: undefined,
+                demosessionid: undefined,
                 rowcol: {},
                 desc: "",
                 users: users,
@@ -211,6 +212,32 @@ angular.module('nuttyapp')
             };
 
             window.NuttySession = retobj;
+            var demosessionsub;
+            var demosessioncur;
+            demosessionsub = Meteor.subscribe('demosession');
+            demosessioncur = SessionColl.find({
+                type: "demo"
+            });
+            demosessioncur.observe({
+                addedAt: function(doc, atIndex, before) {
+                    retobj.demosessionid = doc.demosessionid;
+                    safeApply($rootScope);
+                },
+                changedAt: function(newdoc, olddoc, atIndex) {
+                    retobj.demosessionid = newdoc.demosessionid;
+                    safeApply($rootScope);
+                },
+                removedAt: function(doc, atIndex) {
+                    retobj.demosessionid = "";
+                    safeApply($rootScope);
+                },
+                movedTo: function(document, fromIndex, toIndex, before) {
+                    console.log("movedTo");
+                    console.log(fromIndex);
+                    console.log(toIndex);
+                    console.log(before);
+                }
+            });
             var sessionssub;
             var recordingssub;
             sessionssub = Meteor.subscribe('ownedsessions');
