@@ -37,11 +37,24 @@ Meteor.users._ensureIndex({
 });
 Meteor.users.allow({
     update: function(userId, doc, fields, modifier) {
+        var username;
         if (fields.length !== 1)
             return false;
         if (fields[0] !== "username")
             return false;
-        return userId === doc._id
+        username = modifier["$set"].username;
+        if (!Match.test(username, String))
+            return false;
+        if (!username.match(/^[a-z][a-z0-9]{2}[a-z0-9]*$/))
+            return false;
+        if (username.length > 20)
+            return false;
+        if (doc.username)
+            return false;
+        if (userId !== doc._id)
+            return false;
+
+        return true;
     }
 });
 
@@ -63,10 +76,19 @@ NuttySession._ensureIndex({
 });
 NuttySession.allow({
     update: function(userId, doc, fields, modifier) {
+        var desc;
         if (fields.length !== 1)
             return false;
         if (fields[0] !== "rowcol" && fields[0] !== "desc")
             return false;
+        if (fields[0] === "desc") {
+            desc = modifier["$set"].desc;
+            if (!Match.test(desc, String)) {
+                return false;
+            }
+            if (desc.length > 100)
+                return false;
+        }
         if (doc.userId) {
             if (doc.userId === userId) {
                 return true;
@@ -94,10 +116,24 @@ NuttyRecordings._ensureIndex({
 
 NuttyRecordings.allow({
     insert: function(userId, doc) {
-        if (userId && userId === doc.userId) {
-            return true;
-        } else
+        if (!Match.test(doc, {
+            userId: String,
+            filename: String,
+            sessionid: String,
+            desc: Match.Optional(String),
+            createdAt: Date,
+            _id: String
+        })) {
+            console.log("does not match");
+            console.log(doc);
             return false;
+        }
+        if (doc.userId !== userId)
+            return false;
+        if (doc.desc.length > 100)
+            false;
+
+        return true;
     },
     remove: function(userId, doc) {
         if (userId && userId === doc.userId) {
@@ -121,6 +157,8 @@ Meteor.startup(function() {
 var methods = {};
 methods['createMasterSession'] = function(clientid) {
     var sessionid = Random.hexString(10);
+    if (!Match.test(clientid, String))
+        return undefined;
     NuttySession.insert({
         sessionid: sessionid,
         masterid: clientid,
@@ -144,6 +182,8 @@ methods['s3downloadinfo'] = function(_key) {
     var ContentType = "";
     var Expires;
     var expirytime = new Date();
+    if (!Match.test(_key, String))
+        return undefined;
     expirytime.setSeconds(1000);
     Expires = Math.floor(expirytime.getTime() / 1000);
     var StringToSign = "GET" + "\n" +
@@ -167,6 +207,9 @@ methods['s3uploadinfo'] = function(sessionid, clientid) {
     var acl = "private";
     var type = "application/binary";
     var Expiration = new Date;
+    if (!Match.test(sessionid, String))
+        return undefined;
+
     Expiration.setSeconds(24 * 60 * 60); // expire in one day
     var JSON_POLICY = {
         // "expiration": "2020-01-01T00:00:00Z",
@@ -248,17 +291,28 @@ methods['userloggedout'] = function(sessionid, clientid) {
     });
 }
 
-
 Meteor.methods(methods);
+
 Meteor.publish('mastersession', function(sessionid, clientid) {
     var timer;
+    if (!Match.test(sessionid, String)) {
+        this.error(new Meteor.Error(500, 'Internal server error'));
+        return undefined;
+    }
+    if (!Match.test(clientid, String)) {
+        this.error(new Meteor.Error(500, 'Internal server error'));
+        return undefined;
+    }
+
     var s = NuttySession.findOne({
         sessionid: sessionid,
         type: "session",
         masterid: clientid
     });
-    if (!s)
+    if (!s) {
+        this.error(new Meteor.Error(500, 'Internal server error'));
         return;
+    }
 
     function _f() {
         var d = new Date();
@@ -313,12 +367,22 @@ Meteor.publish('mastersession', function(sessionid, clientid) {
 });
 
 Meteor.publish('slavesession', function(sessionid, clientid) {
+    if (!Match.test(sessionid, String)) {
+        this.error(new Meteor.Error(500, 'Internal server error'));
+        return undefined;
+    }
+    if (!Match.test(clientid, String)) {
+        this.error(new Meteor.Error(500, 'Internal server error'));
+        return undefined;
+    }
     var s = NuttySession.findOne({
         sessionid: sessionid,
         type: "session"
     });
-    if (!s)
+    if (!s) {
+        this.error(new Meteor.Error(500, 'Internal server error'));
         return;
+    }
     var user = Meteor.users.findOne({
         _id: this.userId
     });

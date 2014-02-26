@@ -75,8 +75,14 @@ angular.module('nuttyapp')
                                                             $set: {
                                                                 username: $scope.user.username
                                                             }
+                                                        }, function(err) {
+                                                            if (err) {
+                                                                $scope.spinner.spin = false;
+                                                                $scope.error = "Error, try different username";
+                                                                $scope.$apply();
+                                                            } else
+                                                                $modalInstance.close($scope.user.username);
                                                         });
-                                                        $modalInstance.close($scope.user.username);
                                                     }
                                                 });
                                             }
