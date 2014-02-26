@@ -125,7 +125,7 @@ angular.module('nuttyapp')
                                         });
                                         if (userId) {
                                             NuttySession.insertrecording({
-                                                owner: userId,
+                                                userId: userId,
                                                 filename: data.key,
                                                 sessionid: NuttySession.sessionid,
                                                 desc: $scope.uploaddesc,

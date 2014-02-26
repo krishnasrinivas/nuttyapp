@@ -46,6 +46,8 @@ Meteor.users.allow({
 });
 
 //db.nuttysession.ensureIndex({expireAt:1}, {sparse: true, expireAfterSeconds: 0})
+//db.nuttysession.ensureIndex({sessionid:1})
+//db.nuttysession.ensureIndex({userId:1})
 NuttySession = new Meteor.Collection('nuttysession');
 NuttySession._ensureIndex({
     expireAt: 1
@@ -56,14 +58,17 @@ NuttySession._ensureIndex({
 NuttySession._ensureIndex({
     sessionid: 1
 });
+NuttySession._ensureIndex({
+    userId:1
+});
 NuttySession.allow({
     update: function(userId, doc, fields, modifier) {
         if (fields.length !== 1)
             return false;
         if (fields[0] !== "rowcol" && fields[0] !== "desc")
             return false;
-        if (doc.owner) {
-            if (doc.owner === userId) {
+        if (doc.userId) {
+            if (doc.userId === userId) {
                 return true;
             } else
                 return false;
@@ -73,12 +78,12 @@ NuttySession.allow({
     }
 });
 
-//db.nuttyrecordings.ensureIndex({owner:1, createdAt:-1})
+//db.nuttyrecordings.ensureIndex({userId:1, createdAt:-1})
 //db.nuttyrecordings.ensureIndex({filename:1}, {unique: true})
 
 NuttyRecordings = new Meteor.Collection('nuttyrecordings');
 NuttyRecordings._ensureIndex({
-    owner: 1,
+    userId: 1,
     createdAt: -1
 });
 NuttyRecordings._ensureIndex({
@@ -89,13 +94,13 @@ NuttyRecordings._ensureIndex({
 
 NuttyRecordings.allow({
     insert: function(userId, doc) {
-        if (userId && userId === doc.owner) {
+        if (userId && userId === doc.userId) {
             return true;
         } else
             return false;
     },
     remove: function(userId, doc) {
-        if (userId && userId === doc.owner) {
+        if (userId && userId === doc.userId) {
             client.del(doc.filename).on('response', function(res) {}).end();
             return true;
         } else
@@ -121,7 +126,7 @@ methods['createMasterSession'] = function(clientid) {
         masterid: clientid,
         type: "session",
         masterconnected: false,
-        owner: this.userId
+        userId: this.userId
     });
     return sessionid;
 };
@@ -205,7 +210,8 @@ methods['userloggedin'] = function(sessionid, clientid, type) {
         masterid: clientid
     }, {
         $set: {
-            owner: this.userId
+            userId: this.userId,
+            username: username
         }
     });
 
@@ -215,6 +221,7 @@ methods['userloggedin'] = function(sessionid, clientid, type) {
         type: type
     }, {
         $set: {
+            userId: this.userId,
             username: username
         }
     });
@@ -226,7 +233,8 @@ methods['userloggedout'] = function(sessionid, clientid) {
         masterid: clientid
     }, {
         $set: {
-            owner: ''
+            userId: '',
+            username: ''
         }
     });
     NuttySession.update({
@@ -234,6 +242,7 @@ methods['userloggedout'] = function(sessionid, clientid) {
         clientid: clientid,
     }, {
         $set: {
+            userId: '',
             username: ''
         }
     });
@@ -353,8 +362,8 @@ Meteor.publish('ownedsessions', function() {
         return;
     }    
     return NuttySession.find({
-        type: "master",
-        userId: this.userId
+        userId: this.userId,
+        type: "master"
     }, {
         fields: {
             clientid: 0
@@ -368,6 +377,6 @@ Meteor.publish('ownedrecordings', function() {
         return;
     }
     return NuttyRecordings.find({
-        owner: this.userId
+        userId: this.userId
     });
 });

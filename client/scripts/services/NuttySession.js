@@ -201,11 +201,7 @@ angular.module('nuttyapp')
                     });
                 },
                 insertrecording: function(doc) {
-                    if (NuttyRecordings.find({
-                        owner: doc.owner,
-                        filename: doc.filename
-                    }).fetch().length === 0)
-                        NuttyRecordings.insert(doc);
+                    NuttyRecordings.insert(doc);
                 },
                 deleterecording: function(_id) {
                     NuttyRecordings.remove({
