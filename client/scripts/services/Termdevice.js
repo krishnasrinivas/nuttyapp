@@ -9,6 +9,7 @@ angular.module('nuttyapp')
         function($rootScope, NuttySession, Compatibility) {
             var inputcbk;
             var extid = "ooelecakcjobkpmbdnflfneaalbhejmk";
+            // var extid = "mpceokgcgmhdiedlipopflmigkdhgmbo";
             var autoreload = false;
             var port;
             var retobj = {

@@ -12,16 +12,16 @@ angular.module('nuttyapp')
             restrict: 'E',
             replace: true,
             link: function(scope, element, attrs, Ctrl) {},
-            controller: ['$scope', 'NuttySession', 'NuttyConnection',
-                function($scope, NuttySession, NuttyConnection) {
+            controller: ['$scope', 'NuttySession', 'NuttyConnection', 'alertBox',
+                function($scope, NuttySession, NuttyConnection, alertBox) {
                     var readonly = NuttySession.readonly;
                     $scope.btn = {
                         color: "primary",
                         value: false
                     };
                     $scope.NuttySession = NuttySession;
-                    if (NuttySession.type === "slave")
-                        $scope.disabled = "disabled";
+                    // if (NuttySession.type === "slave")
+                    //     $scope.disabled = "disabled";
                     $scope.splitH = function() {
                         mixpanel.track("splitH");
                         NuttyConnection.write({
@@ -77,6 +77,11 @@ angular.module('nuttyapp')
                     }
                     $scope.markreadonly = function() {
                         if (NuttySession.type === "master") {
+                            if (!Meteor.userId()) {
+                                alertBox.alert("warning", "Please sign-in");
+                                term.focus();
+                                return;
+                            }
                             mixpanel.track("markreadonly");
                             readonly = !readonly;
                             if (readonly) {
@@ -84,6 +89,8 @@ angular.module('nuttyapp')
                             } else {
                                 NuttySession.setreadonly(false);
                             }
+                        } else {
+                            alertBox.alert("danger", "This can be set only by terminal sharer");
                         }
                         term.focus();
                     }

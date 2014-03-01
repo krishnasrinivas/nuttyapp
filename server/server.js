@@ -4,7 +4,22 @@
  * GPLv3 License <http://www.gnu.org/licenses/gpl.txt>
  */
 
-var authinfo = JSON.parse(Assets.getText("authinfo.json"));
+var authinfo;
+
+try {
+    authinfo = JSON.parse(Assets.getText("authinfo.json"));
+} catch (ex) {
+    authinfo = {
+        google: {
+            clientId: "junk",
+            secret: "junk"
+        },
+        aws: {
+            awsid: "junk",
+            awssecret: "junk"
+        }
+    }
+}
 
 ServiceConfiguration.configurations.remove({
     service: "google"
@@ -79,7 +94,7 @@ NuttySession.allow({
         var desc;
         if (fields.length !== 1)
             return false;
-        if (fields[0] !== "rowcol" && fields[0] !== "desc")
+        if (fields[0] !== "rowcol" && fields[0] !== "desc" && fields[0] !== "readonly")
             return false;
         if (fields[0] === "desc") {
             desc = modifier["$set"].desc;
