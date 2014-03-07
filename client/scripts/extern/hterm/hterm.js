@@ -9998,7 +9998,7 @@ hterm.Terminal.prototype.decorate = function(div, ifr) {
 
   var onMouse = this.onMouse_.bind(this);
   var screenNode = this.scrollPort_.getScreenNode();
-  if (chrome.runtime) {
+  if (chrome.webstore) {
   screenNode.addEventListener('mousedown', onMouse);
   screenNode.addEventListener('mouseup', onMouse);
   screenNode.addEventListener('mousemove', onMouse);

@@ -5,13 +5,16 @@
  */
 
 angular.module('nuttyapp')
-    .factory('Termdevice', ['$rootScope', 'NuttySession', 'Compatibility',
-        function($rootScope, NuttySession, Compatibility) {
+    .factory('Termdevice', ['$rootScope', 'NuttySession', 'Compatibility', '$timeout', 'alertBox', '$location',
+        function($rootScope, NuttySession, Compatibility, $timeout, alertBox, $location) {
             var inputcbk;
-            var extid = "ooelecakcjobkpmbdnflfneaalbhejmk";
-            // var extid = "mpceokgcgmhdiedlipopflmigkdhgmbo";
             var autoreload = false;
-            var port;
+
+            function postMessage(msg) {
+                msg.type = '_nutty_fromwebpage';
+                window.postMessage(msg, window.location.origin);
+            }
+
             var retobj = {
                 extension: false,
                 nativehost: false,
@@ -23,28 +26,22 @@ angular.module('nuttyapp')
                         console.log("Termdevice.write(): msg is null")
                         return;
                     }
-                    if (!port) {
-                        console.log("Termdevice.port is null");
-                        return;
-                    }
                     if (msg.newtmuxsession) {
                         retobj.newtmuxsession();
                         return;
                     }
-                    port.postMessage(msg);
+                    postMessage(msg);
                 },
                 newtmuxsession: function() {
                     if (!NuttySession.sessionid)
                         return;
-                    if (!port)
-                        return;
-                    port.postMessage({
+                    postMessage({
                         unsetsessionid: true
                     });
-                    port.postMessage({
+                    postMessage({
                         setsessionid: NuttySession.sessionid
                     });
-                    port.postMessage({
+                    postMessage({
                         rowcol: 1,
                         row: NuttySession.rowcol.row,
                         col: NuttySession.rowcol.col
@@ -56,53 +53,81 @@ angular.module('nuttyapp')
                 return [true];
             });
             window.addEventListener('beforeunload', function(e) {
-                if (port && !autoreload) {
-                    port.postMessage({
+                if (!autoreload) {
+                    postMessage({
                         data: String.fromCharCode(2) + 'k'
                     });
                 }
             });
 
+            window.addEventListener('message', function(event) {
+                if (event.source !== window)
+                    return;
+                if (event.data.type !== '_nutty_fromcontentscript')
+                    return;
+                var msg = event.data;
+                if (!msg) {
+                    log.console("msg from extension is undefined");
+                    return;
+                }
+                if (msg.nativehost === "connected") {
+                    retobj.nativehost = true;
+                    safeApply($rootScope);
+                    return;
+                } else if (msg.nativehost === "disconnected") {
+                    retobj.nativehost = false;
+                    safeApply($rootScope);
+                    return;
+                }
+                if (inputcbk)
+                    inputcbk(msg);
+            });
 
             window.Termdevice = retobj;
             if (Compatibility.browser.incompatible) {
                 return retobj;
             }
-            if (chrome.runtime)
-                port = chrome.runtime.connect(extid);
-            if (port) {
-                retobj.extension = true;
-                port.onMessage.addListener(function(msg) {
-                    if (!msg) {
-                        log.console("msg from extension is undefined");
-                        return;
-                    }
-                    if (msg.nativehost === "connected") {
-                        retobj.nativehost = true;
-                        safeApply($rootScope);
-                        return;
-                    } else if (msg.nativehost === "disconnected") {
-                        retobj.nativehost = false;
-                        safeApply($rootScope);
-                        return;
-                    }
-                    if (inputcbk)
-                        inputcbk(msg);
-                });
-                port.onDisconnect.addListener(function() {
-                    retobj.extension = false;
-                    console.log("nutty extension disconnected");
-                });
-            }
+            // if (port) {
+            //     retobj.extension = true;
+            //     port.onMessage.addListener(function(msg) {
+            //         if (!msg) {
+            //             log.console("msg from extension is undefined");
+            //             return;
+            //         }
+            //         if (msg.nativehost === "connected") {
+            //             retobj.nativehost = true;
+            //             safeApply($rootScope);
+            //             return;
+            //         } else if (msg.nativehost === "disconnected") {
+            //             retobj.nativehost = false;
+            //             safeApply($rootScope);
+            //             return;
+            //         }
+            //         if (inputcbk)
+            //             inputcbk(msg);
+            //     });
+            //     port.onDisconnect.addListener(function() {
+            //         retobj.extension = false;
+            //         console.log("nutty extension disconnected");
+            //     });
+            // }
             $rootScope.$watch(function() {
                 return NuttySession.sessionid;
             }, function(newval) {
                 if (newval) {
-                    port.postMessage({
+                    postMessage({
                         setsessionid: newval
                     });
+                    $timeout (function() {
+                        if (!retobj.nativehost) {
+                            alertBox.alert('danger', 'Please install nutty scripts "sudo pip install nutty"');
+                            $timeout (function() {
+                                window.location.assign('/install');
+                            }, 4000);
+                        }
+                    }, 2000);
                     if (Session.get("onreload")) {
-                        port.postMessage({
+                        postMessage({
                             data: String.fromCharCode(2) + 'r'
                         });
                     } else

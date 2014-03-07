@@ -307,18 +307,18 @@ angular.module('nuttyapp')
                 }
             });
 
-            var extid = "ooelecakcjobkpmbdnflfneaalbhejmk";
             window.paste = function(cbk) {
-                chrome.runtime.sendMessage(extid, {
-                    paste: true
-                }, cbk);
+                window.postMessage({
+                    paste: true,
+                    type: '_nutty_fromwebpage'
+                }, window.location.origin);
             };
 
             window.copy = function(msg) {
-                chrome.runtime.sendMessage(extid, {
-                    copy: true,
-                    msg: msg
-                });
+                window.postMessage({
+                    copy: msg,
+                    type: '_nutty_fromwebpage'
+                }, window.location.origin);
             };
             return retobj;
         }

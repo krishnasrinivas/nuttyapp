@@ -181,7 +181,7 @@ angular.module('nuttyapp')
 
                     function errorHandler(e) {
                         var msg = '';
-
+                        console.log(e);
                         switch (e.code) {
                             case FileError.QUOTA_EXCEEDED_ERR:
                                 msg = 'QUOTA_EXCEEDED_ERR';

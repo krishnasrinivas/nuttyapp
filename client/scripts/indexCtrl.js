@@ -44,5 +44,16 @@ angular.module('nuttyapp')
                     $('#' + $scope.recordings[idx].filename.replace(/\./, ''))[0].select();
                 }, 0);
             }
+            window.addEventListener("message", function(event) {
+                if (event.source !== window)
+                    return;
+                if (event.data.type !== '_nutty_fromcontentscript')
+                    return;
+                if (event.data.share) {
+                    NuttySession.indexvisited = true;
+                    $location.path('/share').replace();
+                    $scope.$apply();
+                }
+            })
         }
     ])

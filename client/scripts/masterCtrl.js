@@ -5,27 +5,25 @@
  */
 
 angular.module('nuttyapp')
-    .controller('masterCtrl', ['$scope', '$modal', 'NuttySession', 'Termdevice', 'NuttyConnection',
-        function($scope, $modal, NuttySession, Termdevice, NuttyConnection) {
+    .controller('masterCtrl', ['$scope', '$modal', '$location','NuttySession', 'Termdevice', 'NuttyConnection', 'alertBox',
+        function($scope, $modal, $location, NuttySession, Termdevice, NuttyConnection, alertBox) {
+            if (!NuttySession.indexvisited) {
+                $location.path('/').replace();
+                return;
+            }
             NuttyConnection.write = Termdevice.write;
             if (!Session.get("autoreload")) {
                 mixpanel.track("masterterminal");
                 ga('send', 'pageview', 'masterterminal');
                 Session.set("autoreload", 1);
             }
-            $scope.sharelink = function() {
-                if (NuttySession.sessionid)
-                    return "https://nutty.io/share/" + NuttySession.sessionid;
-                else
-                    return "waiting for server...";
-            }
             $scope.$watch(function() {
                 return NuttySession.sessionid;
             }, function(newval, oldval) {
                 if (newval) {
-                    $scope.sharelink = "https://nutty.io/share/" + NuttySession.sessionid;
+                    $scope.sharelink = $location.protocol() + '://' + $location.host() + '/share/' + NuttySession.sessionid;
                 } else
-                    $scope.sharelink = "";
+                    $scope.sharelink = "waiting for server...";
             });
             $scope.$watch(function() {
                 return NuttySession.desc

@@ -15,3 +15,4 @@ safeApply = function(scope) {
 termfocus = function() {
     term.focus();
 }
+

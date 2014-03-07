@@ -59,6 +59,11 @@ angular.module('nuttyapp')
                     if (term && msg.data) {
                         term.io.writeUTF16(msg.data);
                     }
+                    if (term && msg.paste) {
+                        termController.toTermdevice({
+                            data: msg.paste
+                        });
+                    }
                 });
 
                 lib.init(function() {
@@ -68,15 +73,11 @@ angular.module('nuttyapp')
                     term.decorate(termElem.get(0), terminalIframeElem.get(0));
 
                     term.windowTitle = function(title) {
-                        // scope.windowTitle = title;
-                        // scope.$apply();
                     }
 
                     term.nuttyPaste = function() {
-                        paste(function(data) {
-                            termController.toTermdevice({
-                                data: data
-                            });
+                        paste({
+                            paste: true
                         });
                     }
 
