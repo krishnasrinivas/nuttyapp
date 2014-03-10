@@ -19,7 +19,7 @@
     </div>
 
     <div class="pushdown jumbotron">
-        <h2>Install steps</h2>
+        <h2>Nutty client install steps:</h2>
         <ul>
             <li>
                 <a class="btn btn-success" target="_blank" href="https://chrome.google.com/webstore/detail/nutty/ooelecakcjobkpmbdnflfneaalbhejmk" class="">Install Extension</a>
@@ -93,6 +93,34 @@
     </div>
     <div class="jumbotron">
         <h3> <strong>Hosting nutty server on Heroku (using free dyno):</strong></h3>
-        (todo)
+        <ul>
+            <li>
+                Signup at mongohq.com, they offer free-tier
+            </li>
+            <li>
+                <small>git clone https://github.com/krishnasrinivas/nuttyapp.git nuttyapp-heroku</small>
+            </li>
+            <li>
+                cd nuttyapp-heroku
+            </li>
+            <li>
+                heroku apps:create &ltnuttyserver&gt
+            </li>
+            <li>
+                <small>heroku config:add BUILDPACK_URL=https://github.com/krishnasrinivas/heroku-buildpack-meteorite.git</small>
+            </li>
+            <li>
+                <small>heroku config:add MONGO_URL=&ltmogodb URL from mogohq.com&gt</small>
+            </li>
+            <li>
+                <small>heroku config:add ROOT_URL=https://&ltnuttyserver&gt.herokuapp.com</small>
+            </li>
+            <li>
+                git push heroku master
+            </li>
+            <li>
+                Thats it. Visit https://&ltnuttyserver&gt.herokuapp.com
+            </li>
+        </ul>
     </div>
 </div>
