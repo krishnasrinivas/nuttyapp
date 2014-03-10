@@ -1,6 +1,7 @@
 {
   "packages": {
     "winston": {},
+    "crypto-base": {},
     "crypto-hmac": {},
     "crypto-sha1": {},
     "crypto-md5": {},
