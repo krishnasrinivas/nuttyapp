@@ -34,6 +34,9 @@ body {
 .red {
     color: red;
 }
+.blue {
+    color: #428bca;
+}
 .nuttychat {
     padding: 10px;
     border: 1px solid #ccc;
