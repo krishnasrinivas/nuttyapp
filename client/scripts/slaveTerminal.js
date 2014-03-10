@@ -153,7 +153,7 @@ angular.module('nuttyapp')
                             fontsize--;
                             $scope.term.setFontSize(fontsize);
                             $scope.term.setHeight(NuttySession.rowcol.row);
-                            $scope.term.setWidth(NuttySession.rowcol.col);
+                            $scope.term.setWidth(NuttySession.rowcol.col+1);
                         }
 
 
@@ -176,8 +176,9 @@ angular.module('nuttyapp')
                         ctrl.changerowcol();
                     }, true);
                     $(window).resize(ctrl.changerowcol);
-
                     function _f() {
+                        if ($scope.term)
+                            $scope.term.setScrollbarVisible(false);
                         if ($scope.term && ($scope.term.screenSize.height !== NuttySession.rowcol.row ||
                             $scope.term.screenSize.width !== NuttySession.rowcol.col)) {
                             ctrl.changerowcol();

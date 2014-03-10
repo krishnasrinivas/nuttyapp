@@ -54,3 +54,15 @@ body {
     border: 1px solid #cccccc;
     overflow-y: auto;
 }
+.nav-pills > li > a {
+    border-radius: 0px;
+}
+.container .jumbotron {
+   border-radius: 0px; 
+}
+.btn {
+    border-radius: 0px;
+}
+.panel {
+    border-radius: 0px;
+}

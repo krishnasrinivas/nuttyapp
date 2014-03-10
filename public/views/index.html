@@ -16,14 +16,16 @@
         <strong>[[currentuser()]]</strong>
     </div>
 
-    <div class="pushdown jumbotron text-center">
+    <div ng-hide="currentuser()">
+    <div  class="pushdown jumbotron text-center">
         <h2><strong>Browser based Terminal Sharing</strong></h2>
         <!-- <a ng-show="demolink()" href="[[demolink()]]" class="btn btn-success btn-lg" target="_blank">Demo</a> -->
     </div>
 
     <install-div></install-div>
+    </div>
 
-    <div ng-show="currentuser()">
+    <div class="pushdown" ng-show="currentuser()">
         <div class="panel panel-warning">
             <div class="panel-heading">
                 <h3>List of shared sessions : [[sharedsessions.length]]</h3>
@@ -46,7 +48,6 @@
             </table>
 
         </div>
-
         <div class="panel panel-info">
             <div class="panel-heading">
                 <h3>List of uploaded recordings: [[recordings.length]]</h3>

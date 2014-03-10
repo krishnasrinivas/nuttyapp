@@ -6629,7 +6629,7 @@ hterm.PreferenceManager = function(profileId) {
     /**
      * The vertical scrollbar mode.
      */
-    ['scrollbar-visible', true],
+    ['scrollbar-visible', false],
 
     /**
      * Set the encoding for data sent to host.
@@ -7909,6 +7909,7 @@ hterm.ScrollPort.prototype.decorate = function(div, ifr) {
   this.screen_ = doc.createElement('x-screen');
   this.screen_.setAttribute('role', 'textbox');
   this.screen_.setAttribute('tabindex', '-1');
+  // this.screen_.setAttribute('contenteditable', 'true');
   this.screen_.style.cssText = (
       'display: block;' +
       'font-family: monospace;' +
