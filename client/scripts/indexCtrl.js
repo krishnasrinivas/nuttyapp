@@ -57,3 +57,16 @@ angular.module('nuttyapp')
             })
         }
     ])
+
+
+angular.module('nuttyapp')
+    .controller('demoCtrl', ['$scope', '$location', 'NuttySession',
+                    function($scope, $location, NuttySession) {
+        $scope.$watch(function() {
+            return NuttySession.demosessionid;
+        },function(newval) {
+            if (newval)
+                $location.path('/share/' + NuttySession.demosessionid);
+        });
+    }]);
+

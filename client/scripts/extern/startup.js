@@ -25,6 +25,10 @@ nuttyapp.config(['$interpolateProvider', '$routeProvider', '$locationProvider',
                 templateUrl: 'views/install.html',
                 controller: 'indexCtrl'
             })
+            .when('/demo', {
+                template: '<div class="text-center"><h3>Please wait...</h3></div>',
+                controller: 'demoCtrl'
+            })
             .when('/pricing', {
                 templateUrl: 'views/pricing.html',
                 controller: 'indexCtrl'
