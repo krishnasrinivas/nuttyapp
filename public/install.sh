@@ -1,4 +1,67 @@
-#!/usr/bin/python
+#!/bin/bash
+
+# to uninstall do: 
+# rm -f /etc/opt/chrome/native-messaging-hosts/io.nutty.terminal.json /usr/local/bin/nutty.py
+# rm -f /Library/Google/Chrome/NativeMessagingHosts/io.nutty.terminal.json (for macosx)
+
+if [ $(uname -s) = 'Darwin' ]; then
+  CHROME_TARGET_DIR='/Library/Google/Chrome/NativeMessagingHosts'
+  CHROMIUM_TARGET_DIR='/Library/Application Support/Chromium/NativeMessagingHosts'
+else
+  CHROME_TARGET_DIR='/etc/opt/chrome/native-messaging-hosts'
+  CHROMIUM_TARGET_DIR='/etc/chromium/native-messaging-hosts'
+fi
+
+for TARGET_DIR in "$CHROME_TARGET_DIR" "$CHROMIUM_TARGET_DIR"
+do
+if [ ! -x "$TARGET_DIR" ];then
+mkdir -p "$TARGET_DIR"
+
+if [ $? != 0 ]
+then
+  echo failed to create $TARGET_DIR, not root?
+  exit 1
+fi
+fi
+
+cat > "$TARGET_DIR"/io.nutty.terminal.json<<__EOF__
+// Copyright (c) 2013 krishna.srinivas@gmail.com All rights reserved.
+// This file is part of nutty.io
+
+{
+  "name": "io.nutty.terminal",
+  "description": "nutty.io - Securely share terminals over web using browser",
+  "path": "/usr/local/bin/nutty.py",
+  "type": "stdio",
+  "allowed_origins": [
+    "chrome-extension://ooelecakcjobkpmbdnflfneaalbhejmk/"
+  ]
+}
+__EOF__
+
+if [ $? != 0 ]
+then
+  echo failed to write to "$TARGET_DIR"/io.nutty.terminal.json
+  exit 1
+fi
+
+chmod 0644 "$TARGET_DIR"/io.nutty.terminal.json
+
+echo Installed "$TARGET_DIR"/io.nutty.terminal.json
+done
+
+NUTTYSCRIPT=/usr/local/bin/nutty.py
+
+mkdir -p /usr/local/etc
+echo 'set -g mouse-select-window on
+set -g mouse-select-pane on
+set -g mouse-resize-pane on
+bind-key k kill-session
+' > /usr/local/etc/nutty.conf
+chmod 0644 /usr/local/etc/nutty.conf
+echo Installed /usr/local/etc/nutty.conf
+
+echo '#!/usr/bin/python
 # https://nutty.io (c) Krishna Srinivas (https://github.com/krishnasrinivas)
 # GPLv3 License
 
@@ -14,10 +77,12 @@ import termios
 os.environ["TERM"] = "xterm-256color"
 os.environ["DISPLAY"] = ""
 
+version="1.0"
+
 signal.signal(signal.SIGCHLD, signal.SIG_IGN)
 def newterm(fd):
     try:
-        fromterm = {};
+        fromterm = {}
         fromterm["nativehost"]="connected"
 
         dump=json.dumps(fromterm)
@@ -36,7 +101,7 @@ def newterm(fd):
             buf = buf.decode("utf-8")
             if len(buf) == 0:
                 break
-            fromterm = {};
+            fromterm = {}
             fromterm["data"]=buf
 
             dump=json.dumps(fromterm)
@@ -48,7 +113,7 @@ def newterm(fd):
         except IOError:
             break
         except Exception as e:
-            sys.stderr.write("newterm: error in while(1)\n")
+            sys.stderr.write("newterm: error in while(1)")
             sys.stderr.write(str(e))
             sys.stderr.flush()
             break
@@ -56,7 +121,7 @@ def newterm(fd):
 pid, fd = os.forkpty()
 if pid == 0:
     try:
-        os.execlp("tmux", "tmux", "-f", os.environ["TERM"] + "/.nutty.conf")
+        os.execlp("tmux", "tmux", "-f", "/usr/local/etc/nutty.conf")
     except:
         sys.stderr.write("unable to execute tmux")
         sys.stderr.flush()
@@ -86,6 +151,14 @@ while 1:
             os.write (fd, toterm["data"].encode("utf-8"))
             continue
 
+        if "version" in toterm:
+            scriptver = {}
+            scriptver["version"] = version
+            dump=json.dumps(scriptver)
+            os.write (1, struct.pack("I", len(dump.encode("utf-8"))))
+            os.write (1, dump.encode("utf-8"))
+            sys.stdout.flush()
+
     except UnicodeDecodeError:
         continue
 
@@ -95,3 +168,13 @@ while 1:
         sys.stderr.flush()
         break
 
+' > "$NUTTYSCRIPT"
+
+if [ $? != 0 ] 
+then
+  echo failed to write to "$NUTTYSCRIPT"
+  exit 1
+fi
+
+chmod 0755 "$NUTTYSCRIPT"
+echo Installed "$NUTTYSCRIPT"
