@@ -9,6 +9,7 @@ angular.module('nuttyapp')
         function($scope, $modal, $location, NuttySession) {
             $scope.sharedsessions = NuttySession.sharedsessions;
             $scope.recordings = NuttySession.recordings;
+            $scope.installcmd = "curl https://raw.github.com/krishnasrinivas/nuttyapp/master/public/install.sh | sudo sh";
             if ($location.$$path === '/')
                 ga('send', 'pageview', 'home');
             else if ($location.$$path === '/contact')
@@ -43,6 +44,14 @@ angular.module('nuttyapp')
                     $('#' + $scope.recordings[idx].filename.replace(/\./, ''))[0].focus();
                     $('#' + $scope.recordings[idx].filename.replace(/\./, ''))[0].select();
                 }, 0);
+            }
+            $scope.selectinstallcmd = function() {
+                if (window.getSelection) {
+                    var range = document.createRange();
+                    var elem = document.getElementById("installcmdid")
+                    range.selectNode(elem);
+                    window.getSelection().addRange(range);
+                }
             }
             window.addEventListener("message", function(event) {
                 if (event.source !== window)

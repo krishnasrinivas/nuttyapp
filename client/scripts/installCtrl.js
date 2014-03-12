@@ -17,11 +17,21 @@ angular.module('nuttyapp')
                     var exturl = "https://chrome.google.com/webstore/detail/ooelecakcjobkpmbdnflfneaalbhejmk";
                     $scope.Compatibility = Compatibility;
                     $scope.td = Termdevice;
+                    $scope.installcmd = "curl https://raw.github.com/krishnasrinivas/nuttyapp/master/public/install.sh | sudo sh";
                     ga('send', 'pageview', 'install');
                     $scope.connected = function() {
                         return Termdevice.extension;
                         // return Termdevice.extension && Termdevice.nativehost;
                     }
+                    $scope.selectinstallcmd = function() {
+                        if (window.getSelection) {
+                            var range = document.createRange();
+                            var elem = document.getElementById("installcmdid")
+                            range.selectNode(elem);
+                            window.getSelection().addRange(range);
+                        }
+                    }
+
                     $scope.install_ext = function() {
                         chrome.webstore.install(exturl,
                             function() {

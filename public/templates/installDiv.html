@@ -13,12 +13,26 @@
         </alert>
         <strong>Installation steps:</strong>
         <ul>
-            <!-- 		<li>Click <a href="#" class="btn btn-success btn" ng-click="install_ext()" role="button">Install Extension</a> <strong ng-show="td.extension"><em>(installed)</em></strong></li> -->
             <li>
                 <a class="btn btn-success" target="_blank" href="https://chrome.google.com/webstore/detail/nutty/ooelecakcjobkpmbdnflfneaalbhejmk">Install Extension</a>
             </li>
             <li>
-                Run <i>"sudo pip install nutty"</i>
+                Install <i>tmux</i>
+                <ul>
+                    <li>
+                        Ubuntu: <i>sudo apt-get install tmux</i>
+                    </li>
+                    <li>
+                        Fedora: <i>sudo yum install tmux</i>
+                    </li>
+                    <li>
+                        MacOSX: <i>sudo brew install tmux</i>
+                    </li>
+                </ul>
+            </li>
+           <li>
+                Run the following command in terminal:
+            <div class="well well-sm text-center" ng-click="selectinstallcmd()"><span id="installcmdid" style="font-size:14px">[[installcmd]]</span></div>
             </li>
         </ul>
         After installation click <img src="images/terminal.png" style="height:30px;width:30px" alt=""> icon beside the address bar.
