@@ -1,82 +1,97 @@
-#!/bin/bash
+#!/usr/bin/python
+# https://nutty.io (c) Krishna Srinivas (https://github.com/krishnasrinivas)
+# GPLv3 License
 
-# to uninstall do: rm -f /etc/opt/chrome/native-messaging-hosts/io.nutty.terminal.json /usr/local/bin/nutty.sh
+import sys
+import struct
+import os
+import threading
+import signal
+import json
+import fcntl
+import termios
 
-if [ $(uname -s) == 'Darwin' ]; then
-  TARGET_DIR='/Library/Google/Chrome/NativeMessagingHosts'
-else
-  TARGET_DIR='/etc/opt/chrome/native-messaging-hosts'
-fi
+os.environ["TERM"] = "xterm-256color"
+os.environ["DISPLAY"] = ""
 
-if [ ! -x $TARGET_DIR ];then
-mkdir -p $TARGET_DIR
+signal.signal(signal.SIGCHLD, signal.SIG_IGN)
+def newterm(fd):
+    try:
+        fromterm = {};
+        fromterm["nativehost"]="connected"
 
-if [ $? != 0 ]
-then
-  echo failed to create $TARGET_DIR, not root?
-  exit 1
-fi
-fi
+        dump=json.dumps(fromterm)
+        os.write (1, struct.pack("I", len(dump.encode("utf-8"))))
+        os.write (1, dump.encode("utf-8"))
+        sys.stdout.flush()
+    except Exception as e:
+        sys.stderr.write("error in newterm()")
+        sys.stderr.write(str(e))
+        sys.stderr.flush()
+        return
 
-cat > $TARGET_DIR/io.nutty.terminal.json<<__EOF__
-// Copyright (c) 2013 krishna.srinivas@gmail.com All rights reserved.
-// This file is part of nutty.io
+    while 1:
+        try:
+            buf = os.read (fd, 10000)
+            buf = buf.decode("utf-8")
+            if len(buf) == 0:
+                break
+            fromterm = {};
+            fromterm["data"]=buf
 
-{
-  "name": "io.nutty.terminal",
-  "description": "nutty.io - Securely share terminals over web using browser",
-  "path": "/usr/local/bin/nutty.sh",
-  "type": "stdio",
-  "allowed_origins": [
-    "chrome-extension://ooelecakcjobkpmbdnflfneaalbhejmk/"
-  ]
-}
-__EOF__
+            dump=json.dumps(fromterm)
+            os.write (1, struct.pack("I", len(dump.encode("utf-8"))))
+            os.write (1, dump.encode("utf-8"))
+            sys.stdout.flush()
+        except UnicodeDecodeError:
+            continue
+        except IOError:
+            break
+        except Exception as e:
+            sys.stderr.write("newterm: error in while(1)\n")
+            sys.stderr.write(str(e))
+            sys.stderr.flush()
+            break
 
-if [ $? != 0 ]
-then
-  echo failed to write to $TARGET_DIR/io.nutty.terminal.json
-  exit 1
-fi
+pid, fd = os.forkpty()
+if pid == 0:
+    try:
+        os.execlp("tmux", "tmux", "-f", os.environ["TERM"] + "/.nutty.conf")
+    except:
+        sys.stderr.write("unable to execute tmux")
+        sys.stderr.flush()
+        sys.exit(1)
 
-echo Installed $TARGET_DIR/io.nutty.terminal.json
+threading.Thread(target=newterm, args=(fd,)).start()
 
-echo '#!/bin/bash
+while 1:
+    try:
+        text_length_bytes = os.read(0, 4)
 
-if [ $(uname -s) == 'Darwin' ]; then
-  EXT_DIR=$HOME"/Library/Application Support/Google/Chrome/Default/Extensions/ooelecakcjobkpmbdnflfneaalbhejmk/"
-else
-  EXT_DIR=$HOME"/.config/google-chrome/Default/Extensions/ooelecakcjobkpmbdnflfneaalbhejmk/"
-fi
+        if len(text_length_bytes) == 0:
+            break
 
-SCRIPT_DIR=$(ls -d "$EXT_DIR"* 2> /dev/null | tail -1)
-if [ -z "$SCRIPT_DIR" ]
-then
-  echo SCRIPT_DIR not found, please install nutty extension >&2
-  exit 1
-fi
+        # Read the message length (4 bytes).
+        text_length = struct.unpack("i", text_length_bytes)[0]
+        text = os.read(0, text_length)
+        text = text.decode(encoding="UTF-8")
+        toterm = json.loads(text)
 
-NUTTYSCRIPT="$SCRIPT_DIR""/nutty.py"
+        if "rowcol" in toterm:
+            winsize = struct.pack("HHHH", toterm["row"], toterm["col"], 0, 0)
+            fcntl.ioctl(fd, termios.TIOCSWINSZ, winsize)
+            continue
 
+        if "data" in toterm:
+            os.write (fd, toterm["data"].encode("utf-8"))
+            continue
 
-if [ -z "$NUTTYSCRIPT" ]
-then
-  echo $SCRIPT_DIR"/nutty.py" not found, please install nutty extension >&2
-  exit 1
-fi
-chmod +x "$NUTTYSCRIPT" "$SCRIPT_DIR"/tmux*
-exec "$NUTTYSCRIPT"
+    except UnicodeDecodeError:
+        continue
 
-' > /usr/local/bin/nutty.sh
-
-if [ $? != 0 ] 
-then
-  echo failed to write to $NUTTYSCRIPT
-  exit 1
-fi
-
-chmod +x /usr/local/bin/nutty.sh
-echo Installed /usr/local/bin/nutty.sh
-
-
+    except Exception as e:
+        sys.stderr.write(str(e))
+        sys.stderr.write("main(): error in while(1)")
+        sys.stderr.flush()
+        break
 
