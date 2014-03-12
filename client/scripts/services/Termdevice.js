@@ -79,6 +79,7 @@ angular.module('nuttyapp')
                     safeApply($rootScope);
                     return;
                 }
+                console.log(msg);
                 if (inputcbk)
                     inputcbk(msg);
             });
@@ -120,7 +121,7 @@ angular.module('nuttyapp')
                     });
                     $timeout (function() {
                         if (!retobj.nativehost) {
-                            alertBox.alert('danger', 'Please install nutty scripts "sudo pip install nutty"');
+                            alertBox.alert('danger', 'Nutty not installed properly');
                             $timeout (function() {
                                 window.location.assign('/install');
                             }, 4000);
