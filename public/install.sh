@@ -1,8 +1,16 @@
 #!/bin/bash
 
-# to uninstall do: 
-# rm -f /etc/opt/chrome/native-messaging-hosts/io.nutty.terminal.json /usr/local/bin/nutty.py
-# rm -f /Library/Google/Chrome/NativeMessagingHosts/io.nutty.terminal.json (for macosx)
+# to uninstall on Linux do: 
+# rm -f /etc/opt/chrome/native-messaging-hosts/io.nutty.terminal.json
+# rm -f /etc/chromium/native-messaging-hosts/io.nutty.terminal.json
+# rm -f  /usr/local/bin/nutty.py
+# rm -f  /usr/local/etc/nutty.conf
+
+# to uninstall on MacOS do:
+# rm -f /Library/Google/Chrome/NativeMessagingHosts/io.nutty.terminal.json
+# rm -f '/Library/Application Support/Chromium/NativeMessagingHosts/io.nutty.terminal.json'
+# rm -f  /usr/local/bin/nutty.py
+# rm -f  /usr/local/etc/nutty.conf
 
 if [ $(uname -s) = 'Darwin' ]; then
   CHROME_TARGET_DIR='/Library/Google/Chrome/NativeMessagingHosts'
@@ -76,6 +84,7 @@ import termios
 
 os.environ["TERM"] = "xterm-256color"
 os.environ["DISPLAY"] = ""
+os.environ["PATH"] = os.environ["PATH"] + ":/usr/local/bin"
 
 version="1.0"
 
@@ -122,8 +131,8 @@ pid, fd = os.forkpty()
 if pid == 0:
     try:
         os.execlp("tmux", "tmux", "-f", "/usr/local/etc/nutty.conf")
-    except:
-        sys.stderr.write("unable to execute tmux")
+    except Exception as e:
+        sys.stderr.write("unable to execute tmux : " + str(e))
         sys.stderr.flush()
         sys.exit(1)
 
