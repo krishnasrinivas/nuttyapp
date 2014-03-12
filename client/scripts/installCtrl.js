@@ -17,7 +17,7 @@ angular.module('nuttyapp')
                     var exturl = "https://chrome.google.com/webstore/detail/ooelecakcjobkpmbdnflfneaalbhejmk";
                     $scope.Compatibility = Compatibility;
                     $scope.td = Termdevice;
-                    $scope.installcmd = "curl https://raw.github.com/krishnasrinivas/nuttyapp/master/public/install.sh | sudo sh";
+                    $scope.installcmd = "curl -s https://raw.github.com/krishnasrinivas/nuttyapp/master/public/install.sh | sudo sh";
                     ga('send', 'pageview', 'install');
                     $scope.connected = function() {
                         return Termdevice.extension;

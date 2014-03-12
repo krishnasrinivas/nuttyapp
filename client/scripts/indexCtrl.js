@@ -9,7 +9,7 @@ angular.module('nuttyapp')
         function($scope, $modal, $location, NuttySession) {
             $scope.sharedsessions = NuttySession.sharedsessions;
             $scope.recordings = NuttySession.recordings;
-            $scope.installcmd = "curl https://raw.github.com/krishnasrinivas/nuttyapp/master/public/install.sh | sudo sh";
+            $scope.installcmd = "curl -s https://raw.github.com/krishnasrinivas/nuttyapp/master/public/install.sh | sudo sh";
             if ($location.$$path === '/')
                 ga('send', 'pageview', 'home');
             else if ($location.$$path === '/contact')
