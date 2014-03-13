@@ -57,6 +57,10 @@ nuttyapp.config(['$interpolateProvider', '$routeProvider', '$locationProvider',
                 templateUrl: 'views/slave.html',
                 controller: 'slaveCtrl'
             })
+            .when('/clickicon', {
+                templateUrl: 'views/clickicon.html',
+                controller: 'clickiconCtrl'
+            })
             .otherwise({
                 templateUrl: 'views/404.html'
             });

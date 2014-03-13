@@ -65,7 +65,6 @@ angular.module('nuttyapp')
                         term.io.writeUTF16(msg.data);
                     }
                 });
-
                 lib.init(function() {
                     scope.term = term = new hterm.Terminal();
                     window.term = scope.term = term;
@@ -76,11 +75,7 @@ angular.module('nuttyapp')
                     }
 
                     term.nuttyPaste = function() {
-                        paste(function(data) {
-                            termController.toConnection({
-                                data: data
-                            });
-                        });
+                        termController.paste();
                     }
 
                     // term.focuscbk = function() {
@@ -96,8 +91,8 @@ angular.module('nuttyapp')
                     termController.changerowcol();
                 });
             },
-            controller: ['$scope', 'SlaveConnection', 'NuttySession', 'Recorder', 'Compatibility',
-                function($scope, SlaveConnection, NuttySession, Recorder, Compatibility) {
+            controller: ['$scope', 'SlaveConnection', 'NuttySession', 'Recorder', 'Compatibility', 'Clipboard',
+                function($scope, SlaveConnection, NuttySession, Recorder, Compatibility, Clipboard) {
                     var ctrl = this;
 
                     if (Compatibility.browser.browser !== "Chrome" && Compatibility.browser.browser !== "Firefox" && Compatibility.browser.browser !== "Safari") {
@@ -108,7 +103,9 @@ angular.module('nuttyapp')
                     hterm.Keyboard.KeyMap.prototype.onZoom_ = function(e, keyDef) {
                         return hterm.Keyboard.KeyActions.CANCEL;
                     };
-
+                    this.paste = function() {
+                        Clipboard.paste();
+                    }
                     this.fromConnection = function(cbk) {
                         SlaveConnection.pipe.ondata(function(msg) {
                             cbk(msg);
@@ -156,10 +153,15 @@ angular.module('nuttyapp')
                             $scope.term.setWidth(NuttySession.rowcol.col+1);
                         }
 
-
                         termElem.css({
                             left: (outerdivElem.width() - termElem.width()) / 2,
                             top: (outerdivElem.height() - termElem.height()) / 2
+                        });
+
+                        Clipboard.pastecbk(function(data) {
+                            ctrl.toConnection({
+                                data: data
+                            });
                         });
                         Recorder.write({
                             rowcol: 1,

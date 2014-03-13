@@ -7,10 +7,6 @@
 angular.module('nuttyapp')
     .controller('masterCtrl', ['$scope', '$modal', '$location','NuttySession', 'Termdevice', 'NuttyConnection', 'alertBox',
         function($scope, $modal, $location, NuttySession, Termdevice, NuttyConnection, alertBox) {
-            if (!NuttySession.indexvisited) {
-                $location.path('/').replace();
-                return;
-            }
             NuttyConnection.write = Termdevice.write;
             if (!Session.get("autoreload")) {
                 mixpanel.track("masterterminal");
@@ -47,7 +43,9 @@ angular.module('nuttyapp')
                 $scope.desc = NuttySession.desc;
             }
             $scope.copysharelink = function() {
-                copy($scope.sharelink);
+                Termdevice.write({
+                    copy: $scope.sharelink
+                });
                 mixpanel.track("copysharelink", {
                     clickedon: "input"
                 });

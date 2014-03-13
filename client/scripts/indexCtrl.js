@@ -53,17 +53,6 @@ angular.module('nuttyapp')
                     window.getSelection().addRange(range);
                 }
             }
-            window.addEventListener("message", function(event) {
-                if (event.source !== window)
-                    return;
-                if (event.data.type !== '_nutty_fromcontentscript')
-                    return;
-                if (event.data.share) {
-                    NuttySession.indexvisited = true;
-                    $location.path('/share').replace();
-                    $scope.$apply();
-                }
-            })
         }
     ])
 

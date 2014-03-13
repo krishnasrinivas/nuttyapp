@@ -307,19 +307,6 @@ angular.module('nuttyapp')
                 }
             });
 
-            window.paste = function(cbk) {
-                window.postMessage({
-                    paste: true,
-                    type: '_nutty_fromwebpage'
-                }, window.location.origin);
-            };
-
-            window.copy = function(msg) {
-                window.postMessage({
-                    copy: msg,
-                    type: '_nutty_fromwebpage'
-                }, window.location.origin);
-            };
             return retobj;
         }
     ]);

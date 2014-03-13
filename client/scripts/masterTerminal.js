@@ -76,7 +76,7 @@ angular.module('nuttyapp')
                     }
 
                     term.nuttyPaste = function() {
-                        paste({
+                        termController.toTermdevice({
                             paste: true
                         });
                     }

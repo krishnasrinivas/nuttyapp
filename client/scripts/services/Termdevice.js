@@ -9,10 +9,17 @@ angular.module('nuttyapp')
         function($rootScope, NuttySession, Compatibility, $timeout, alertBox, $location) {
             var inputcbk;
             var autoreload = false;
+            var port;
+            var extid = "ooelecakcjobkpmbdnflfneaalbhejmk";
+            // var extid = "jboablmfecefcaedlpaaciooecbgjbhl";
 
             function postMessage(msg) {
-                msg.type = '_nutty_fromwebpage';
-                window.postMessage(msg, window.location.origin);
+                if (port) {
+                    port.postMessage(msg)
+                } else {
+                    msg.type = '_nutty_fromwebpage';
+                    window.postMessage(msg, window.location.origin);
+                }
             }
 
             var retobj = {
@@ -48,6 +55,36 @@ angular.module('nuttyapp')
                     });
                 }
             }
+
+            if (chrome && chrome.runtime && chrome.runtime.connect)
+                port = chrome.runtime.connect(extid);
+            if (port) {
+                retobj.extension = true;
+                port.onMessage.addListener(function(msg) {
+                    if (!msg) {
+                        log.console("msg from extension is undefined");
+                        return;
+                    }
+                    if (msg.nativehost === "connected") {
+                        retobj.nativehost = true;
+                        safeApply($rootScope);
+                        return;
+                    }
+                    else if (msg.nativehost === "disconnected") {
+                        retobj.nativehost = false;
+                        safeApply($rootScope);
+                        return;
+                    }
+                    if (inputcbk)
+                        inputcbk(msg);
+                });
+                port.onDisconnect.addListener (function() {
+                    retobj.extension = false;
+                    port = undefined;
+                    console.log ("nutty extension disconnected");
+                });
+            }
+
             Meteor._reload.onMigrate("onMigrate", function() {
                 autoreload = true;
                 return [true];
@@ -79,7 +116,6 @@ angular.module('nuttyapp')
                     safeApply($rootScope);
                     return;
                 }
-                console.log(msg);
                 if (inputcbk)
                     inputcbk(msg);
             });
@@ -88,30 +124,6 @@ angular.module('nuttyapp')
             if (Compatibility.browser.incompatible) {
                 return retobj;
             }
-            // if (port) {
-            //     retobj.extension = true;
-            //     port.onMessage.addListener(function(msg) {
-            //         if (!msg) {
-            //             log.console("msg from extension is undefined");
-            //             return;
-            //         }
-            //         if (msg.nativehost === "connected") {
-            //             retobj.nativehost = true;
-            //             safeApply($rootScope);
-            //             return;
-            //         } else if (msg.nativehost === "disconnected") {
-            //             retobj.nativehost = false;
-            //             safeApply($rootScope);
-            //             return;
-            //         }
-            //         if (inputcbk)
-            //             inputcbk(msg);
-            //     });
-            //     port.onDisconnect.addListener(function() {
-            //         retobj.extension = false;
-            //         console.log("nutty extension disconnected");
-            //     });
-            // }
             $rootScope.$watch(function() {
                 return NuttySession.sessionid;
             }, function(newval) {
@@ -119,22 +131,28 @@ angular.module('nuttyapp')
                     postMessage({
                         setsessionid: newval
                     });
-                    $timeout (function() {
-                        if (!retobj.nativehost) {
-                            alertBox.alert('danger', 'Nutty not installed properly');
-                            $timeout (function() {
-                                window.location.assign('/install');
-                            }, 4000);
-                        }
-                    }, 2000);
                     if (Session.get("onreload")) {
                         postMessage({
                             data: String.fromCharCode(2) + 'r'
                         });
-                    } else
+                    } else {
+                        $timeout (function() {
+                            if (!retobj.nativehost) {
+                                alertBox.alert('danger', 'Nutty not installed properly');
+                                $timeout (function() {
+                                    window.location.assign('/install');
+                                }, 4000);
+                            }
+                        }, 4000);
                         Session.set("onreload", 1);
+                    }
                 }
             });
+            window.copy = function(text) {
+                retobj.write({
+                    copy: text
+                });
+            }
             return retobj;
         }
     ]);
