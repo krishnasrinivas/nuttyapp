@@ -272,10 +272,6 @@ angular.module('nuttyapp')
             });
             recordingscursor.observe({
                 addedAt: function(doc, atIndex, before) {
-                    console.log("addedAt");
-                    console.log(doc);
-                    console.log(atIndex);
-                    console.log(before);
                     if (before) {
                         recordings.unshift(doc);
                     } else {
@@ -285,17 +281,11 @@ angular.module('nuttyapp')
                     safeApply($rootScope);
                 },
                 changedAt: function(newdoc, olddoc, atIndex) {
-                    console.log("changedAt");
-                    console.log(newdoc);
-                    console.log(olddoc);
-                    console.log(addedAt);
                     recordings[atIndex] = newdoc;
                     recordings[atIndex].embedid = recordings[atIndex].filename.replace(/\./, '');
                     safeApply($rootScope);
                 },
                 removedAt: function(doc, atIndex) {
-                    console.log("removedAt");
-                    console.log(atIndex);
                     recordings.splice(atIndex, 1);
                     safeApply($rootScope);
                 },

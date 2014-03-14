@@ -58,7 +58,6 @@ angular.module('nuttyapp')
                     function uploadprogressupdate(event) {
                         if (event.lengthComputable) {
                             var percent = event.loaded / event.total * 100;
-                            console.log(percent);
                             $scope.uploadprogress = Math.floor(percent);
                             $scope.$apply();
                         }
@@ -96,7 +95,6 @@ angular.module('nuttyapp')
                                 var xhr = new XMLHttpRequest();
                                 var fd = new FormData();
                                 _uploaderr = false;
-                                console.log(data);
                                 fd.append('key', data.key);
                                 fd.append('AWSAccessKeyId', data.AWSAccessKeyId);
                                 fd.append('acl', data.acl);
@@ -194,7 +192,6 @@ angular.module('nuttyapp')
                             Session.set("recordfilename", filename);
                             Session.set("record", true);
                             Recorder.start(filename, true, function() {
-                                console.log("recording started");
                                 Recorder.write({
                                     rowcol: 1,
                                     row: term.screenSize.height,

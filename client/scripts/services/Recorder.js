@@ -49,8 +49,6 @@ angular.module('nuttyapp')
 
             function _flush() {
                 _flushactive = 1;
-                console.log(recordbytes);
-                console.log(recordfileWriter);
                 if (recordbytes.length && recordfileWriter &&
                     (recordfileWriter.readyState === recordfileWriter.INIT || recordfileWriter.readyState === recordfileWriter.DONE)) {
                     recordfileWriter.write(new Blob(recordbytes, {
@@ -78,7 +76,6 @@ angular.module('nuttyapp')
                         }, errorHandler);
 
                         fileEntry.createWriter(function(fileWriter) {
-                            console.log(fileWriter);
                             if (!create) {
                                 fileWriter.seek(fileWriter.length);
                             }
@@ -112,7 +109,6 @@ angular.module('nuttyapp')
                 var view16 = new Uint16Array(bytes);
                 if (record) {
                     if (obj.rowcol) {
-                        console.log("change rowcol in Recorder");
                         var view8 = new Uint8Array(bytes);
                         view16[0] = 65535;
                         view8[2] = obj.row;

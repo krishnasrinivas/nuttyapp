@@ -175,13 +175,11 @@ angular.module('nuttyapp')
                     }
                     _f();
                     $scope.focus = function() {
-                        console.log("focused here");
                         $scope.term.focus();
                     }
 
                     function errorHandler(e) {
                         var msg = '';
-                        console.log(e);
                         switch (e.code) {
                             case FileError.QUOTA_EXCEEDED_ERR:
                                 msg = 'QUOTA_EXCEEDED_ERR';
@@ -206,9 +204,7 @@ angular.module('nuttyapp')
                     }
                     this.start = function() {
                         var filename = Session.get("filename");
-                        console.log(filename);
                         if (filename) {
-                            console.log("filename already set");
                             $scope.$parent.showdownloadprogress = false;
                             $scope.$apply();
                             var onInitFs_record = function(fs) {
@@ -219,7 +215,6 @@ angular.module('nuttyapp')
                                             },
                                             function(_rowcol) {
                                                 rowcol = _rowcol;
-                                                console.log('changerowcol');
                                                 ctrl.changerowcol()
                                             });
                                         Player.play();
@@ -252,7 +247,6 @@ angular.module('nuttyapp')
                                     function downloadprogressupdate(event) {
                                         if (event.lengthComputable) {
                                             var percent = event.loaded / event.total * 100;
-                                            console.log(percent);
                                             $scope.$parent.downloadprogress = Math.floor(percent);
                                             $scope.$apply();
                                         }
@@ -263,7 +257,6 @@ angular.module('nuttyapp')
                                     }
 
                                     function downloadcomplete(event) {
-                                        console.log("recording downloaded!");
                                         $scope.$parent.showdownloadprogress = false;
                                         $scope.$apply();
                                         Player.start(xhr.response, function(_data) {
@@ -271,7 +264,6 @@ angular.module('nuttyapp')
                                             },
                                             function(_rowcol) {
                                                 rowcol = _rowcol;
-                                                console.log('changerowcol');
                                                 ctrl.changerowcol()
                                             });
                                         Player.play();
