@@ -56,7 +56,7 @@ angular.module('nuttyapp')
                 }
             }
 
-            if (chrome && chrome.runtime && chrome.runtime.connect)
+            if (window.chrome && chrome.runtime && chrome.runtime.connect)
                 port = chrome.runtime.connect(extid);
             if (port) {
                 retobj.extension = true;
