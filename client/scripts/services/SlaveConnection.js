@@ -17,8 +17,13 @@ angular.module('nuttyapp')
                     return;
                 retobj.master = master = new Meteor.PipeClientSlave(NuttySession.sessionid);
                 master.on('data', function(data) {
+                    var msg = {};
+                    if (data.data)
+                        msg.data = data.data;
+                    else
+                        return;
                     if (ondata)
-                        ondata(data);
+                        ondata(msg);
                 });
                 master.on('ready', function() {
                     master.send({
@@ -31,8 +36,16 @@ angular.module('nuttyapp')
                 master: undefined,
                 pipe: {
                     write: function(data) {
+                        var msg = {};
+                        if (data.data)
+                            msg.data = data.data;
+                        else if (data.newtmuxsession) {
+                            msg.newtmuxsession = data.newtmuxsession;
+                        } else {
+                            return;
+                        }
                         if (master)
-                            master.send(data);
+                            master.send(msg);
                     },
                     ondata: function(cbk) {
                         ondata = cbk;

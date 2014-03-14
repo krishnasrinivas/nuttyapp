@@ -150,7 +150,8 @@ angular.module('nuttyapp')
                             fontsize--;
                             $scope.term.setFontSize(fontsize);
                             $scope.term.setHeight(NuttySession.rowcol.row);
-                            $scope.term.setWidth(NuttySession.rowcol.col+1);
+                            $scope.term.setWidth(NuttySession.rowcol.col + 
+                                (Compatibility.ismobile ? 1:0));
                         }
 
                         termElem.css({

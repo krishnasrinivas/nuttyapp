@@ -109,13 +109,35 @@ angular.module('nuttyapp')
 
             BrowserDetect.init();
 
+            var isMobile = {
+                Android: function() {
+                    return navigator.userAgent.match(/Android/i);
+                },
+                BlackBerry: function() {
+                    return navigator.userAgent.match(/BlackBerry/i);
+                },
+                iOS: function() {
+                    return navigator.userAgent.match(/iPhone|iPad|iPod/i);
+                },
+                Opera: function() {
+                    return navigator.userAgent.match(/Opera Mini/i);
+                },
+                Windows: function() {
+                    return navigator.userAgent.match(/IEMobile/i);
+                },
+                any: function() {
+                    return (isMobile.Android() || isMobile.BlackBerry() || isMobile.iOS() || isMobile.Opera() || isMobile.Windows());
+                }
+            };
+
             if (BrowserDetect.browser === "Chrome" && BrowserDetect.version >= 29 && (BrowserDetect.OS == "Linux" || BrowserDetect.OS == "Mac" || BrowserDetect.OS == "ChromeOS"))
                 BrowserDetect.incompatible = 0;
             else
                 BrowserDetect.incompatible = 1;
 
             var retobj = {
-                browser: BrowserDetect
+                browser: BrowserDetect,
+                ismobile: isMobile.any()
             }
             window.Compatibility = retobj;
             return retobj;

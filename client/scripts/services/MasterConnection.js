@@ -15,6 +15,7 @@ angular.module('nuttyapp')
             }, function(newval, oldval) {
                 master = new Meteor.PipeClientMaster(NuttySession.sessionid);
                 master.on('data', function(data) {
+                    var msg = {};
                     if (!data)
                         return;
                     if (data.start) {
@@ -29,18 +30,30 @@ angular.module('nuttyapp')
                         if (data.data !== String.fromCharCode(2) + 'r')
                             return;
                     }
+                    if (data.data) {
+                        msg.data = data.data;
+                    } else if (data.newtmuxsession) {
+                        msg.newtmuxsession = data.newtmuxsession;
+                    } else {
+                        return;
+                    }
                     if (ondata)
-                        ondata(data);
+                        ondata(msg);
                 });
             });
             retobj = {
                 active: false,
                 pipe: {
                     write: function(data) {
+                        var msg = {};
                         if (!retobj.active)
                             return;
+                        if (data.data)
+                            msg.data = data.data;
+                        else
+                            return;
                         if (master) {
-                            master.send(data);
+                            master.send(msg);
                         }
                     },
                     ondata: function(cbk) {
