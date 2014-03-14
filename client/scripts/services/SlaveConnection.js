@@ -18,6 +18,8 @@ angular.module('nuttyapp')
                 retobj.master = master = new Meteor.PipeClientSlave(NuttySession.sessionid);
                 master.on('data', function(data) {
                     var msg = {};
+                    if (!data)
+                        return;
                     if (data.data)
                         msg.data = data.data;
                     else
