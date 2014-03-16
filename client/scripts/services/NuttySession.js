@@ -56,7 +56,7 @@ angular.module('nuttyapp')
                     addedAt: function(doc, atIndex, before) {
                         users[atIndex] = doc;
                         if (doc.sessionid === sessionid && doc.type === "master") {
-                            window.masterid = masterid = doc._id;
+                            retobj.masterid = masterid = doc._id;
                             if (doc.desc)
                                 retobj.desc = doc.desc;
                         }
@@ -124,6 +124,7 @@ angular.module('nuttyapp')
             var retobj = {
                 type: "",
                 id: undefined,
+                masterid: undefined,
                 sessionid: undefined,
                 clientid: undefined,
                 demosessionid: undefined,
@@ -192,6 +193,9 @@ angular.module('nuttyapp')
                         $set: {
                             conntype: conntype
                         }
+                    }, function(error) {
+                        if (error)
+                            console.log(error);
                     });
                 },
                 userloggedin: function(cbk) {

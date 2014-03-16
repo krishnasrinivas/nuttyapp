@@ -78,9 +78,15 @@ angular.module('nuttyapp')
             }, function(newval, oldval) {
                 if (newval) {
                     $scope.sharelink = $location.protocol() + '://' + $location.host() + portstr + '/' + localStorage['conntype'] + '/' + NuttySession.sessionid;
-                    NuttySession.setconntype(MasterConnection.type);
                 } else
                     $scope.sharelink = "waiting for server...";
+            });
+            $scope.$watch(function() {
+                return NuttySession.masterid;
+            }, function(newval, oldval) {
+                if (newval) {
+                    NuttySession.setconntype(MasterConnection.type);
+                }
             });
         }
     ]);
