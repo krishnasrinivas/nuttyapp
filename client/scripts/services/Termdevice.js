@@ -55,36 +55,36 @@ angular.module('nuttyapp')
                     });
                 }
             }
-
-            if (window.chrome && chrome.runtime && chrome.runtime.connect)
-                port = chrome.runtime.connect(extid);
-            if (port) {
-                retobj.extension = true;
-                port.onMessage.addListener(function(msg) {
-                    if (!msg) {
-                        log.console("msg from extension is undefined");
-                        return;
-                    }
-                    if (msg.nativehost === "connected") {
-                        retobj.nativehost = true;
-                        safeApply($rootScope);
-                        return;
-                    }
-                    else if (msg.nativehost === "disconnected") {
-                        retobj.nativehost = false;
-                        safeApply($rootScope);
-                        return;
-                    }
-                    if (inputcbk)
-                        inputcbk(msg);
-                });
-                port.onDisconnect.addListener (function() {
-                    retobj.extension = false;
-                    port = undefined;
-                    console.log ("nutty extension disconnected");
-                });
+            if ($location.host() === 'nutty.io') {
+                if (window.chrome && chrome.runtime && chrome.runtime.connect)
+                    port = chrome.runtime.connect(extid);
+                if (port) {
+                    retobj.extension = true;
+                    port.onMessage.addListener(function(msg) {
+                        if (!msg) {
+                            log.console("msg from extension is undefined");
+                            return;
+                        }
+                        if (msg.nativehost === "connected") {
+                            retobj.nativehost = true;
+                            safeApply($rootScope);
+                            return;
+                        }
+                        else if (msg.nativehost === "disconnected") {
+                            retobj.nativehost = false;
+                            safeApply($rootScope);
+                            return;
+                        }
+                        if (inputcbk)
+                            inputcbk(msg);
+                    });
+                    port.onDisconnect.addListener (function() {
+                        retobj.extension = false;
+                        port = undefined;
+                        console.log ("nutty extension disconnected");
+                    });
+                }
             }
-
             Meteor._reload.onMigrate("onMigrate", function() {
                 autoreload = true;
                 return [true];
