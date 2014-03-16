@@ -43,7 +43,7 @@
                 </thead>
                 <tbody>
                     <tr ng-repeat="sharedsession in sharedsessions">
-                        <td><a href="/share/[[sharedsession.sessionid]]" target="_blank">https://nutty.io/share/[[sharedsession.sessionid]]</a>
+                        <td><a href="/[[sharedsession.conntype]]/[[sharedsession.sessionid]]" target="_blank">https://nutty.io/[[sharedsession.conntype]]/[[sharedsession.sessionid]]</a>
                         </td>
                         <td>[[sharedsession.desc]]</td>
                     </tr>

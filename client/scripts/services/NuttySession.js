@@ -185,6 +185,15 @@ angular.module('nuttyapp')
                         }
                     });
                 },
+                setconntype: function(conntype) {
+                    SessionColl.update({
+                        _id: masterid
+                    }, {
+                        $set: {
+                            conntype: conntype
+                        }
+                    });
+                },
                 userloggedin: function(cbk) {
                     Meteor.call('userloggedin', retobj.sessionid, retobj.clientid, retobj.type, cbk);
                 },

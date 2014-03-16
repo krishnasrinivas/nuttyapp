@@ -114,7 +114,7 @@ NuttySession.allow({
         var desc;
         if (fields.length !== 1)
             return false;
-        if (fields[0] !== "rowcol" && fields[0] !== "desc" && fields[0] !== "readonly")
+        if (fields[0] !== "rowcol" && fields[0] !== "desc" && fields[0] !== "readonly" && fields[0] !== "conntype")
             return false;
         if (fields[0] === "desc") {
             desc = modifier["$set"].desc;

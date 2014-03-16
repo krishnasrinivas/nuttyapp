@@ -20,14 +20,6 @@ angular.module('nuttyapp')
                 Session.set("autoreload", 1);
             }
             $scope.$watch(function() {
-                return NuttySession.sessionid;
-            }, function(newval, oldval) {
-                if (newval) {
-                    $scope.sharelink = $location.protocol() + '://' + $location.host() + portstr + '/' + localStorage['conntype'] + '/' + NuttySession.sessionid;
-                } else
-                    $scope.sharelink = "waiting for server...";
-            });
-            $scope.$watch(function() {
                 return NuttySession.desc
             }, function(newval) {
                 $scope.desc = NuttySession.desc;
@@ -79,6 +71,16 @@ angular.module('nuttyapp')
             $scope.$watch('MasterConnection.type', function(newval) {
                 localStorage['conntype'] = newval;
                 $scope.sharelink = $location.protocol() + '://' + $location.host() + portstr + '/' + localStorage['conntype'] + '/' + NuttySession.sessionid;
+                NuttySession.setconntype(newval);
+            });
+            $scope.$watch(function() {
+                return NuttySession.sessionid;
+            }, function(newval, oldval) {
+                if (newval) {
+                    $scope.sharelink = $location.protocol() + '://' + $location.host() + portstr + '/' + localStorage['conntype'] + '/' + NuttySession.sessionid;
+                    NuttySession.setconntype(MasterConnection.type);
+                } else
+                    $scope.sharelink = "waiting for server...";
             });
         }
     ]);

@@ -64,7 +64,7 @@ angular.module('nuttyapp')
             return NuttySession.demosessionid;
         },function(newval) {
             if (newval)
-                $location.path('/share/' + NuttySession.demosessionid).replace();
+                $location.path('/websocket/' + NuttySession.demosessionid).replace();
         });
     }]);
 
