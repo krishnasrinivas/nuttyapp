@@ -7,9 +7,16 @@
         <div class="well well-sm pull-left col-xs-8" style="height:26px;padding:3px;text-align:center"><strong>[[currentuser()]]</strong>
         </div>
 
-        <input id="sharelinkbox" type="text" class="form-control" ng-model="sharelink" ng-readonly="sharelink" style="cursor:pointer;color:black;margin-bottom:10px;float:left;width:85%" ng-click="copysharelink()" tooltip="Copied!" tooltip-placement="bottom" tooltip-trigger="focus">
+        <input id="sharelinkbox" type="text" class="form-control" ng-model="sharelink" ng-readonly="sharelink" style="font-size:13px;cursor:pointer;color:black;float:left;width:85%" ng-click="copysharelink()" tooltip="Copied!" tooltip-placement="bottom" tooltip-trigger="focus">
         <a ng-click="sharelinkbtn()" style="float:left;padding:6px" tooltip-placement="bottom" tooltip="Copy link" class="btn btn-default"><span class="glyphicon glyphicon-share"></span></a>
-
+        <div class="text-center" style="margin-bottom:10px">
+        <div class="btn-group">
+            <button type="button" class="btn btn-primary" ng-model="MasterConnection.type"
+            btn-radio="'websocket'">WebSocket</button>
+            <button type="button" class="btn btn-primary" ng-model="MasterConnection.type"
+            btn-radio="'webrtc'">WebRTC</button>
+        </div>
+        </div>
         <form ng-submit="descsubmit()">
             <input class="form-control" placeholder="Description" ng-model="desc" ng-blur="descblur()"></input>
         </form>

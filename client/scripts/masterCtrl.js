@@ -5,9 +5,15 @@
  */
 
 angular.module('nuttyapp')
-    .controller('masterCtrl', ['$scope', '$modal', '$location','NuttySession', 'Termdevice', 'NuttyConnection', 'alertBox',
-        function($scope, $modal, $location, NuttySession, Termdevice, NuttyConnection, alertBox) {
+    .controller('masterCtrl', ['$scope', '$modal', '$location','NuttySession', 'Termdevice', 'NuttyConnection', 'alertBox', 'MasterConnection',
+        function($scope, $modal, $location, NuttySession, Termdevice, NuttyConnection, alertBox, MasterConnection) {
             NuttyConnection.write = Termdevice.write;
+            var port = $location.port();
+            var portstr = (port === 80 || port === 443) ? '' : ':' + port;
+
+            if (!localStorage['conntype'])
+                localStorage['conntype'] = 'websocket';
+
             if (!Session.get("autoreload")) {
                 mixpanel.track("masterterminal");
                 ga('send', 'pageview', 'masterterminal');
@@ -17,7 +23,7 @@ angular.module('nuttyapp')
                 return NuttySession.sessionid;
             }, function(newval, oldval) {
                 if (newval) {
-                    $scope.sharelink = $location.protocol() + '://' + $location.host() + '/share/' + NuttySession.sessionid;
+                    $scope.sharelink = $location.protocol() + '://' + $location.host() + portstr + '/' + localStorage['conntype'] + '/' + NuttySession.sessionid;
                 } else
                     $scope.sharelink = "waiting for server...";
             });
@@ -67,6 +73,12 @@ angular.module('nuttyapp')
                 setTimeout(function() {
                     $scope.$apply();
                 }, 0);
+            });
+            $scope.MasterConnection = MasterConnection;
+            MasterConnection.type = localStorage['conntype'];
+            $scope.$watch('MasterConnection.type', function(newval) {
+                localStorage['conntype'] = newval;
+                $scope.sharelink = $location.protocol() + '://' + $location.host() + portstr + '/' + localStorage['conntype'] + '/' + NuttySession.sessionid;
             });
         }
     ]);

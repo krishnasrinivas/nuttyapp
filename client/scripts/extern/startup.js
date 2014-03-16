@@ -53,7 +53,11 @@ nuttyapp.config(['$interpolateProvider', '$routeProvider', '$locationProvider',
                 templateUrl: 'views/master.html',
                 controller: 'masterCtrl'
             })
-            .when('/share/:sessionid', {
+            .when('/websocket/:sessionid', {
+                templateUrl: 'views/slave.html',
+                controller: 'slaveCtrl'
+            })
+            .when('/webrtc/:sessionid', {
                 templateUrl: 'views/slave.html',
                 controller: 'slaveCtrl'
             })

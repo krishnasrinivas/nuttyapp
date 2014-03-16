@@ -9,17 +9,37 @@ var authinfo;
 try {
     authinfo = JSON.parse(Assets.getText("authinfo.json"));
 } catch (ex) {
-    authinfo = {
-        google: {
-            clientId: "junk",
-            secret: "junk"
-        },
-        aws: {
-            awsid: "junk",
-            awssecret: "junk"
-        }
-    }
+    console.log("failed reading private/authinfo.json, using default values");
+    authinfo = {};
 }
+
+if (!authinfo.google)
+    authinfo.google = {
+        clientId: "junk",
+        secret: "junk"
+    }
+
+if (!authinfo.aws)
+    authinfo.aws = {
+        awsid: "junk",
+        awssecret: "junk"
+    }
+
+/*
+ * you can use google's STUN server or configure your own
+ * download STUN/TURN implementation here:
+ * https://code.google.com/p/rfc5766-turn-server/
+ *
+ * for webrtc signalling you can use peerjs.com's implementation:
+ * npm install peer
+ */
+
+if (!authinfo.webrtc)
+    authinfo.webrtc = {
+        host: "",
+        port: 9000,
+        'iceServers': [{ url: 'stun:stun.l.google.com:19302' }]
+    }
 
 ServiceConfiguration.configurations.remove({
     service: "google"
@@ -170,6 +190,9 @@ Meteor.startup(function() {
 });
 
 var methods = {};
+methods['getWebrtcConfig'] = function() {
+    return authinfo.webrtc;
+};
 methods['createMasterSession'] = function(clientid) {
     var sessionid = Random.hexString(10);
     if (!Match.test(clientid, String))

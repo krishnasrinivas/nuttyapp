@@ -5,8 +5,8 @@
  */
 
 angular.module('nuttyapp')
-    .controller('slaveCtrl', ['$scope', '$modal', '$routeParams', 'NuttySession', 'SlaveConnection', 'NuttyConnection', 'Compatibility',
-        function($scope, $modal, $routeParams, NuttySession, SlaveConnection, NuttyConnection, Compatibility) {
+    .controller('slaveCtrl', ['$scope', '$modal', '$routeParams', 'NuttySession', 'SlaveConnection', 'NuttyConnection', 'Compatibility', '$location',
+        function($scope, $modal, $routeParams, NuttySession, SlaveConnection, NuttyConnection, Compatibility, $location) {
             var clientid = Session.get("clientid");
             $scope.descro = true;
             $scope.Compatibility = Compatibility;
@@ -46,5 +46,17 @@ angular.module('nuttyapp')
                     $scope.$apply();
                 }, 0);
             });
+            $scope.$watch (function(){
+                return NuttySession.sessionid
+            }, function(newval) {
+                if (newval) {
+                    if ($location.path().match(/^\/websocket\//)) {
+                        SlaveConnection.type = 'websocket';
+                    } else if ($location.path().match(/^\/webrtc\//)) {
+                        SlaveConnection.type = 'webrtc';
+                    }
+                    SlaveConnection.connect();
+                }
+            })
         }
     ]);
