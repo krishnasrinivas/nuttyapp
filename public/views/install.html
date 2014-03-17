@@ -70,6 +70,9 @@
                 $ mrt install
             </li>
             <li>
+                Config <a href="/install#authinfo">authinfo.json</a>
+            </li>
+            <li>
                 $ meteor deploy &ltsomename&gt.meteor.com
             </li>
         </ul>
@@ -94,6 +97,9 @@
                 $ mrt install
             </li>
             <li>
+                Config <a href="/install#authinfo">authinfo.json</a>
+            </li>
+            <li>
                 $ meteor bundle ../bundle.tgz
             </li>
             <li>
@@ -106,7 +112,13 @@
                 $ export MONGO_URL=mongodb://localhost/nuttyapp
             </li>
             <li>
-                $ node bundle/main.js
+                $ export PORT=80
+            </li>
+            <li>
+                $ export ROOT_URL='http://yourserver.com'
+            </li>
+            <li>
+                $ sudo node bundle/main.js
             </li>
         </ul>
         <h3> <strong>Hosting nutty server on Heroku (using free dyno):</strong></h3>
@@ -119,6 +131,9 @@
             </li>
             <li>
                 cd nuttyapp-heroku
+            </li>
+            <li>
+                Config <a href="/install#authinfo">authinfo.json</a>
             </li>
             <li>
                 heroku apps:create &ltnuttyserver&gt
@@ -139,6 +154,25 @@
                 Thats it. Visit https://&ltnuttyserver&gt.herokuapp.com
             </li>
         </ul>
+        <a name="authinfo"></a>
+        <h3><strong>Configure private/authinfo.json</strong></h3>
+        authinfo.json (under private/ directory) should look like this:
+        <pre>
+        {
+            "google": {
+                "clientId": "googleoauth-clientid-optional",
+                "secret": "googleoauth-secret-optional"
+            },
+            "aws": {
+                "awsid": "s3upload-awsid-optional",
+                "awssecret": "s3upload-awssecret-optional"
+            },
+            "webrtc": {
+                "key": "key from peerjs.com - optional - if you need webrtc"
+            }
+        }
+        </pre>
+        For webrtc, you can run your own peerjs server too. check peerjs.com for details.
         <h3><strong>Chrome Extension configuration:</strong></h3>
         <ul>
             <li>open "chrome://extensions" in address bar</li>
