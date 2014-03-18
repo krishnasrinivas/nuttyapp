@@ -1,3 +1,4 @@
+<div id="wrap">
 <a href="https://github.com/krishnasrinivas/nuttyapp">
     <img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub">
 </a>
@@ -8,6 +9,8 @@
         <li><a href="/">Home</a>
         </li>
         <li class="active"><a href="/install">Install</a>
+        </li>
+        <li><a href="/faq">FAQ</a>
         </li>
         <!-- <li><a href="/pricing">Pricing</a></li> -->
         <li><a href="/contact">Contact</a>
@@ -23,9 +26,11 @@
         <ol>
             <li>
                 <a class="btn btn-success" target="_blank" href="https://chrome.google.com/webstore/detail/nutty/ooelecakcjobkpmbdnflfneaalbhejmk">Install Extension</a>
+                <br>After installing the extension you will see <img src="images/terminal.png" style="height:30px;width:30px" alt=""> icon beside the address bar.
             </li>
             <li>
                 Install <i>tmux</i>
+                <small>
                 <ul>
                     <li>
                         Ubuntu: <i>sudo apt-get install tmux</i>
@@ -38,150 +43,26 @@
                         <br>(install <i>brew</i> <a href="http://brew.sh" target="_blank">from here</a>)
                     </li>
                 </ul>
+                </small>
             </li>
            <li>
                 Run the following command in terminal:
-            <div class="well well-sm text-center" ng-click="selectinstallcmd()"><span id="installcmdid" style="font-size:14px">[[installcmd]]</span></div>
+                <pre><span id="installcmdid" ng-click="selectinstallcmd()" style="font-size:14px;font-family:Helvetica Neue,Helvetica,Arial,sans-serif">[[installcmd]]</span></pre>
             </li>
         </ol>
-        After step-3 click <img src="images/terminal.png" style="height:30px;width:30px" alt=""> icon beside the address bar.
+        After step-3 click <img src="images/terminal.png" style="height:30px;width:30px" alt=""> icon beside the address bar to start terminal in the browser, it will also give you a unique URL which you can share with a remote user.
     </div>
 
-
-    <div class="jumbotron">
-        <div>
-            <h3><strong>Optionally you can run your own nutty server too as nutty is Open Source under GPL.</strong></h3>
-        </div>
-        <h3> <strong>Deploy nutty server meteor.com:</strong></h3>
-        <ul>
-            <li>
-                Install meteor from meteor.com
-            </li>
-            <li>
-                $ sudo npm install -g meteorite
-            </li>
-            <li>
-                <small>$ git clone https://github.com/krishnasrinivas/nuttyapp.git</small>
-            </li>
-            <li>
-                $ cd nuttyapp
-            </li>
-            <li>
-                $ mrt install
-            </li>
-            <li>
-                Config <a href="/install#authinfo">authinfo.json</a>
-            </li>
-            <li>
-                $ meteor deploy &ltsomename&gt.meteor.com
-            </li>
-        </ul>
-        <h3> <strong>Deploy nutty server on a cloud server like EC2:</strong></h3>
-        <ul>
-            <li>
-                Install MongoDB
-            </li>
-            <li>
-                $ curl https://install.meteor.com/ | sh
-            </li>
-            <li>
-                $ sudo npm install -g meteorite
-            </li>
-            <li>
-                <small>$ git clone https://github.com/krishnasrinivas/nuttyapp.git</small>
-            </li>
-            <li>
-                $ cd nuttyapp
-            </li>
-            <li>
-                $ mrt install
-            </li>
-            <li>
-                Config <a href="/install#authinfo">authinfo.json</a>
-            </li>
-            <li>
-                $ meteor bundle ../bundle.tgz
-            </li>
-            <li>
-                $ cd ..
-            </li>
-            <li>
-                $ tar xzvf bundle.tgz
-            </li>
-            <li>
-                $ export MONGO_URL=mongodb://localhost/nuttyapp
-            </li>
-            <li>
-                $ export PORT=80
-            </li>
-            <li>
-                $ export ROOT_URL='http://yourserver.com'
-            </li>
-            <li>
-                $ sudo node bundle/main.js
-            </li>
-        </ul>
-        <h3> <strong>Hosting nutty server on Heroku (using free dyno):</strong></h3>
-        <ul>
-            <li>
-                Signup at mongohq.com, they offer free-tier
-            </li>
-            <li>
-                <small>git clone https://github.com/krishnasrinivas/nuttyapp.git nuttyapp-heroku</small>
-            </li>
-            <li>
-                cd nuttyapp-heroku
-            </li>
-            <li>
-                Config <a href="/install#authinfo">authinfo.json</a>
-            </li>
-            <li>
-                heroku apps:create &ltnuttyserver&gt
-            </li>
-            <li>
-                <small>heroku config:add BUILDPACK_URL=https://github.com/krishnasrinivas/heroku-buildpack-meteorite.git</small>
-            </li>
-            <li>
-                <small>heroku config:add MONGO_URL=&ltmogodb URL from mogohq.com&gt</small>
-            </li>
-            <li>
-                <small>heroku config:add ROOT_URL=https://&ltnuttyserver&gt.herokuapp.com</small>
-            </li>
-            <li>
-                git push heroku master
-            </li>
-            <li>
-                Thats it. Visit https://&ltnuttyserver&gt.herokuapp.com
-            </li>
-        </ul>
-        <a name="authinfo"></a>
-        <h3><strong>Configure private/authinfo.json</strong></h3>
-        authinfo.json (under private/ directory) should look like this:
-        <pre>
-        {
-            "google": {
-                "clientId": "googleoauth-clientid-optional",
-                "secret": "googleoauth-secret-optional"
-            },
-            "aws": {
-                "awsid": "s3upload-awsid-optional",
-                "awssecret": "s3upload-awssecret-optional"
-            },
-            "webrtc": {
-                "key": "key from peerjs.com - optional - if you need webrtc"
-            }
-        }
-        </pre>
-        For webrtc, you can run your own peerjs server too. check peerjs.com for details.
-        <h3><strong>Chrome Extension configuration:</strong></h3>
-        <ul>
-            <li>open "chrome://extensions" in address bar</li>
-            <li>
-                click "options" in the Nutty extension section
-            </li>
-            <li>
-                Set your new server domain name.
-            </li>
-        </ul>
+</div>
+</div>
+<div id="footer">
+<div class="navbar navbar-default">
+    <div class="container">
+    <div class="navbar-text">
+    <iframe allowtransparency="true" frameborder="0" scrolling="no"
+            src="https://platform.twitter.com/widgets/tweet_button.html?url=https://nutty.io&text=Browser based Terminal Sharing!&size=large&via=nuttydotio"
+            style="width:130px; height:20px;"></iframe>
     </div>
+    </div>
+</div>
 </div>

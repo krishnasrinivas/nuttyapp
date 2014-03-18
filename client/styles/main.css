@@ -53,6 +53,11 @@ body {
 .blue {
     color: #428bca;
 }
+.faq {
+   background-color: #eeeeee;
+   padding: 30px;
+   margin-bottom: 30px;
+}
 .nuttychat {
     padding: 10px;
     border: 1px solid #ccc;

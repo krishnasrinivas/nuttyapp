@@ -68,3 +68,11 @@ angular.module('nuttyapp')
         });
     }]);
 
+angular.module('nuttyapp')
+    .controller('faqCtrl', ['$scope', '$location', '$anchorScroll',
+        function($scope, $location, $anchorScroll) {
+            $scope.scrollto = function(id) {
+                $location.hash(id);
+                $anchorScroll();
+            }
+        }]);

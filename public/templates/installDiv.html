@@ -15,9 +15,11 @@
         <ol>
             <li>
                 <a class="btn btn-success" target="_blank" href="https://chrome.google.com/webstore/detail/nutty/ooelecakcjobkpmbdnflfneaalbhejmk">Install Extension</a>
+                <br><small>After installing the extension you will see <img src="images/terminal.png" style="height:30px;width:30px" alt=""> icon beside the address bar.</small>
             </li>
             <li>
                 Install <i>tmux</i>
+                <small>
                 <ul>
                     <li>
                         Ubuntu: <i>sudo apt-get install tmux</i>
@@ -30,14 +32,15 @@
                         <br>(install <i>brew</i> <a href="http://brew.sh" target="_blank">from here</a>)
                     </li>
                 </ul>
+                </small>
             </li>
            <li>
                 Run the following command in terminal:
-            <div class="well well-sm text-center" ng-click="selectinstallcmd()"><span id="installcmdid" style="font-size:14px">[[installcmd]]</span></div>
+                <pre><span id="installcmdid" ng-click="selectinstallcmd()" style="font-size:14px;font-family:Helvetica Neue,Helvetica,Arial,sans-serif">[[installcmd]]</span></pre>
             </li>
         </ol>
-        After step-3 click <img src="images/terminal.png" style="height:30px;width:30px" alt=""> icon beside the address bar.
- 
+        After step-3 click <img src="images/terminal.png" style="height:30px;width:30px" alt=""> icon beside the address bar to start terminal in the Chrome browser, it will also give you a unique URL which you can share with a remote user.
+
     </div>
 
 </div>
