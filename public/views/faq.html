@@ -1,0 +1,201 @@
+<div id="wrap">
+<a href="https://github.com/krishnasrinivas/nuttyapp">
+    <img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub">
+</a>
+<div class="navbar-brand blue"><strong>nutty.io</strong></div>
+
+<div class="container">
+    <ul class="nav nav-pills pull-left">
+        <li><a href="/">Home</a>
+        </li>
+        <li><a href="/install">Install</a>
+        </li>
+        <li class="active"><a href="/faq">FAQ</a>
+        </li>
+        <li><a href="/contact">Contact</a>
+        </li>
+    </ul>
+    <nutty-signin></nutty-signin>
+    <div class="well well-sm pull-right col-xs-1" style="height:26px;padding:3px;text-align:center">
+        <strong>[[currentuser()]]</strong>
+    </div>
+
+<div class="faq pushdown">
+    <ol>
+        <li><a href="" ng-click="scrollto('definenutty')">What is nutty?</a></li>
+        <li><a href="" ng-click="scrollto('advantages')">What advantages does it provide over tmux/screen?</a></li>
+        <li><a href="" ng-click="scrollto('license')">What is nutty's License?</a></li>
+        <li><a href="" ng-click="scrollto('rootaccess')">In the 3rd step of installation why does it require root access?</a></li>
+        <li><a href="" ng-click="scrollto('ajaxterm')">Is nutty like ajaxterm?</a></li>
+        <li><a href="" ng-click="scrollto('howto')">How do I share terminal using nutty?</a></li>
+        <li><a href="" ng-click="scrollto('proxy')">After sharing terminal, does nutty.io server proxy the data between peers?</a></li>
+        <li><a href="" ng-click="scrollto('webrtc')">What is WebRTC</a></li>
+        <li><a href="" ng-click="scrollto('encryption')">Is the terminal sharing encrypted?</a></li>
+        <li><a href="" ng-click="scrollto('password')">If I record terminal in nutty and upload, does it store passwords?</a></li>
+        <li><a href="" ng-click="scrollto('browsersupport')">What browsers and OSes are supported?</a></li>
+        <li><a href="" ng-click="scrollto('sandbox')">How can Chrome access terminal device? Isn't Chrome sandboxed?</a></li>
+        <li><a href="" ng-click="scrollto('mobile')">Does nutty work on mobile devices?</a></li>
+        <li><a href="" ng-click="scrollto('privatenutty')">I would like to run nutty server on a machine inside my private network, is that possible?</a></li>
+    </ol>
+
+    <a id="definenutty"></a>
+    <p>
+    <h3>1. What is nutty?</h3>
+    Nutty is a browser tool using which you can share your local desktop terminal console with a remote user. It does not matter if you or the remote user is behind firewall.
+    </p>
+    <a id="advantages"></a>
+    <p>
+        <h3>2. What advantages does it provide over tmux/screen?</h3>
+        tmux/screen works well when two users on the same machine want to share terminals. When you want to share the terminal with a remote user nutty will help.
+    </p>
+    <a id="license"></a>
+    <p>
+        <h3>3. What is nutty's License?</h3>
+        Nutty is licened under GPLv3
+    </p>
+    <a id="rootaccess"></a>
+    <p>
+        <h3>4. In the 3rd step of installation why does it require root access?</h3>
+        <pre><span style="font-size:12px">curl -s https://raw.github.com/krishnasrinivas/nuttyapp/master/public/install.sh | sudo sh</span></pre>
+        This is a Chrome limitation. <a href="https://code.google.com/p/chromium/issues/detail?id=237873">Bug-237873</a> had been raised which has been fixed in Chrome-34. So you do not need root permission to install nutty script for Chrome-34+ (Stable Chrome-34 has not been released yet)
+    </p>
+    <a id="ajaxterm"></a>
+    <p>
+        <h3>5. Is nutty like ajaxterm?</h3>
+        Not at all. Ajaxterm lets you login to a server using a browser. Nutty is a terminal sharing tool
+    </p>
+    <a id="howto"></a>
+    <p>
+        <h3>6. How do I share terminal using nutty?</h3>
+        Follow the <a href="/install">install</a> steps. After install click the <img src="images/terminal.png" style="height:30px;width:30px" alt=""> icon beside the browser bar. It will open a terminal window inside your Chrome browser and also give you a unique URL which you can share with anyone. That person can access your terminal using the URL even if you and him/her are behind firewall.
+    </p>
+    <a id="proxy"></a>
+    <p>
+        <h3>7. After sharing terminal, does nutty.io server proxy the data between peers?</h3>
+        You can share terminal with peers using either Websocket or WebRTC. If you choose the Websocket option nutty.io server proxies the data between peers. If you choose the WebRTC option the terminal sharing between peers happen with out any proxy, i.e it is entirely peer-to-peer.
+    </p>
+    <a id="webrtc"></a>
+    <p>
+        <h3>8. What is WebRTC</h3>
+        WebRTC enables peer-to-peer real-time communication in the browser. More info <a href="http://www.webrtc.org/">here</a>. Nutty makes use of <a href="http://peerjs.com" target="_blank">peerjs.com</a> WebRTC library.
+    </p>
+    <a id="encryption"></a>
+    <p>
+        <h3>9. Is the terminal sharing encrypted?</h3>
+        Yes. Websocket data transfer uses https-TLS encryption. WebRTC data traffic is encrypted by the browser by default.
+    </p>
+    <a id="password"></a>
+    <p>
+        <h3>10. If I record terminal in nutty and upload, does it store passwords?</h3>
+        No. Because passwords are not echoed back to the terminal.
+    </p>
+    <a id="browsersupport"></a>
+    <p>
+        <h3>11. What browsers/OSes are supported?</h3>
+        Right now for sharing has to be done using Chrome-29+ on Linux/MacOS/ChromeOS. In future Firefox will be supported for sharing.
+        For viewing, nutty has been tested on Chrome, it is known to work on FF and Safari regardless of the OS.
+    </p>
+    <a id="sandbox"></a>
+    <p>
+        <h3>12. How can Chrome access terminal device? Isn't Chrome sandboxed?</h3>
+        Nutty uses <a href="http://blog.chromium.org/2013/10/connecting-chrome-apps-and-extensions.html">Chrome's Native Messaging API</a> to provide terminal access to the browser. Nutty extension is restricted to the  https://nutty.io domain. Hence other websites will not be able to access/misuse it.
+    </p>
+    <a id="mobile"></a>
+    <p>
+        <h3>13. Does nutty work on mobile devices?</h3>
+        Yes. A "sharee" can view the shared terminal on mobile devices using mobile browsers. Ability to type in commands from mobile devices does not work right now.
+    </p>
+    <a id="privatenutty"></a>
+    <p>
+        <h3>14. I would like to run nutty server on a machine inside my private network(or on EC2), is that possible?</h3>
+        Yes. Since Nutty is GPLv3 you can download the server code and host a private nutty server. Here are the instructions:
+        <ol>
+            <li>
+                Install MongoDB
+            </li>
+            <li>
+                $ curl https://install.meteor.com/ | sh
+            </li>
+            <li>
+                $ sudo npm install -g meteorite
+            </li>
+            <li>
+                $ git clone https://github.com/krishnasrinivas/nuttyapp.git
+            </li>
+            <li>
+                $ cd nuttyapp
+            </li>
+            <li>
+                $ mrt install
+            </li>
+            <li>
+                Configure authinfo.json</a>
+            </li>
+            <li>
+                $ meteor bundle ../bundle.tgz
+            </li>
+            <li>
+                $ cd ..
+            </li>
+            <li>
+                $ tar xzvf bundle.tgz
+            </li>
+            <li>
+                $ export MONGO_URL=mongodb://localhost/nuttyapp
+            </li>
+            <li>
+                $ export PORT=80
+            </li>
+            <li>
+                $ export ROOT_URL='http://yourserver.com'
+            </li>
+            <li>
+                $ sudo node bundle/main.js
+            </li>
+        </ol>
+
+        authinfo.json (under private/ directory) should look like this:
+        <pre>
+        {
+            "google": {
+                "clientId": "googleoauth-clientid-optional",
+                "secret": "googleoauth-secret-optional"
+            },
+            "aws": {
+                "awsid": "s3upload-awsid-optional",
+                "awssecret": "s3upload-awssecret-optional"
+            },
+            "webrtc": {
+                "key": "key from peerjs.com - optional - if you need webrtc"
+            }
+        }
+        </pre>
+        For webrtc, you can run your own peerjs server too. check peerjs.com for details.
+        In case you want to host a private nutty server you need to do addtional configuration in Nutty's extension to use it:
+        <ul>
+            <li>open "chrome://extensions" in address bar</li>
+            <li>
+                click "options" in the Nutty extension section
+            </li>
+            <li>
+                Set your new server domain name.
+            </li>
+        </ul>
+    </p>
+
+</div>
+
+</div>
+</div>
+
+<div id="footer">
+<div class="navbar navbar-default">
+    <div class="container">
+    <div class="navbar-text">
+    <iframe allowtransparency="true" frameborder="0" scrolling="no"
+            src="https://platform.twitter.com/widgets/tweet_button.html?url=https://nutty.io&text=Browser based Terminal Sharing!&size=large&via=nuttydotio"
+            style="width:130px; height:20px;"></iframe>
+    </div>
+    </div>
+</div>
+</div>
