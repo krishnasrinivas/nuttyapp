@@ -71,6 +71,14 @@ angular.module('nuttyapp')
 angular.module('nuttyapp')
     .controller('faqCtrl', ['$scope', '$location', '$anchorScroll',
         function($scope, $location, $anchorScroll) {
+            $scope.currentuser = function() {
+                var user = Meteor.user();
+                if (user) {
+                    return user.username;
+                } else {
+                    return "";
+                }
+            };
             $scope.scrollto = function(id) {
                 $location.hash(id);
                 $anchorScroll();
