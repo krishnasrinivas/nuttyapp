@@ -71,6 +71,7 @@ angular.module('nuttyapp')
 angular.module('nuttyapp')
     .controller('faqCtrl', ['$scope', '$location', '$anchorScroll',
         function($scope, $location, $anchorScroll) {
+            ga('send', 'pageview', 'faq');
             $scope.currentuser = function() {
                 var user = Meteor.user();
                 if (user) {
