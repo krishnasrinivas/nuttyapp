@@ -5,8 +5,8 @@
  */
 
 angular.module('nuttyapp')
-    .controller('slaveCtrl', ['$scope', '$modal', '$routeParams', 'NuttySession', 'SlaveConnection', 'NuttyConnection', 'Compatibility', '$location',
-        function($scope, $modal, $routeParams, NuttySession, SlaveConnection, NuttyConnection, Compatibility, $location) {
+    .controller('slaveCtrl', ['$scope', '$modal', '$routeParams', 'NuttySession', 'SlaveConnection', 'NuttyConnection', 'Compatibility', '$location', 'alertBox',
+        function($scope, $modal, $routeParams, NuttySession, SlaveConnection, NuttyConnection, Compatibility, $location, alertBox) {
             var clientid = Session.get("clientid");
             $scope.descro = true;
             $scope.Compatibility = Compatibility;
@@ -54,6 +54,10 @@ angular.module('nuttyapp')
                         SlaveConnection.type = 'websocket';
                     } else if ($location.path().match(/^\/webrtc\//)) {
                         SlaveConnection.type = 'webrtc';
+                        if (Compatibility.browser.browser !== "Chrome") {
+                            alertBox.alert("danger", "WebRTC currently supported on Chrome. Try sharing using WebSockets")
+                            return;
+                        }
                     }
                     SlaveConnection.connect();
                 }
