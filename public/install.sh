@@ -88,7 +88,7 @@ os.environ["TERM"] = "xterm-256color"
 os.environ["DISPLAY"] = ""
 os.environ["PATH"] = os.environ["PATH"] + ":/usr/local/bin"
 
-version="1.0"
+version="1.2"
 
 signal.signal(signal.SIGCHLD, signal.SIG_IGN)
 def newterm(fd):
