@@ -61,7 +61,9 @@ done
 NUTTYSCRIPT=/usr/local/bin/nutty.py
 
 mkdir -p /usr/local/etc
-echo 'set -g mouse-select-window on
+echo 'set -g prefix C-b
+bind C-b send-prefix
+set -g mouse-select-window on
 set -g mouse-select-pane on
 set -g mouse-resize-pane on
 bind-key k kill-session
@@ -130,7 +132,7 @@ def newterm(fd):
 pid, fd = os.forkpty()
 if pid == 0:
     try:
-        os.execlp("tmux", "tmux", "-f", "/usr/local/etc/nutty.conf")
+        os.execlp("tmux", "tmux", "-L", "nutty", "-f", "/usr/local/etc/nutty.conf")
     except Exception as e:
         sys.stderr.write("unable to execute tmux : " + str(e))
         sys.stderr.flush()
