@@ -165,7 +165,7 @@ NuttyRecordings.allow({
         }
         if (doc.userId !== userId)
             return false;
-        if (doc.desc.length > 100)
+        if (doc.desc && (doc.desc.length > 100)
             false;
 
         return true;
