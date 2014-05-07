@@ -134,7 +134,9 @@ angular.module('nuttyapp')
                 } else {
                     chrome.webstore.install("https://chrome.google.com/webstore/detail/jeiifmbcmlhfgncnihbiicdbhnbagmnk",
                     function() {
-                        afterinstall();
+                        setTimeout(function() {
+                            afterinstall();
+                        }, 2000);
                     }, function() {
                         alert("Nutty install failed.");
                     });
@@ -216,7 +218,9 @@ angular.module('nuttyapp')
                 } else {
                     chrome.webstore.install("https://chrome.google.com/webstore/detail/jeiifmbcmlhfgncnihbiicdbhnbagmnk",
                     function() {
-                        afterinstall();
+                        setTimeout(function() {
+                            afterinstall();
+                        }, 2000);
                     }, function() {
                         alert("Nutty install failed.");
                     });
