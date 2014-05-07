@@ -5,6 +5,9 @@ body {
 .fullheight {
     height: 100%;
 }
+.fullwidth {
+    width: 100%;
+}
 .row {
     /*margin-left: 0px;*/
     margin-right: 0px;
@@ -14,6 +17,7 @@ body {
 }
 .container {
     max-width: 800px;
+    width: auto;
 }
 /* Wrapper for page content to push down footer */
 #wrap {
@@ -93,4 +97,81 @@ body {
 
 .center {
     text-align: center;
+}
+
+.navbar {
+  border: 0px;
+  border-radius: 0px;
+}
+/* make sidebar nav vertical */ 
+@media (min-width: 768px) {
+  .sidebar-nav .navbar .navbar-collapse {
+    padding: 0;
+    max-height: none;
+  }
+  .sidebar-nav .navbar ul {
+    float: none;
+    display: block;
+  }
+  .sidebar-nav .navbar li {
+    float: none;
+    display: block;
+  }
+  .sidebar-nav .navbar li a {
+    padding-top: 12px;
+    padding-bottom: 12px;
+  }
+}
+
+.vertical-container {
+  display: -webkit-flex;
+  display: flex;
+}
+.vertically-centered {
+  margin: auto;
+}
+
+.content {
+  min-height: 100%;
+  border-right: 4px solid #428bca;
+  padding: 50px;
+}
+
+.nutty-ssh-creds {
+  border: 2px solid grey;
+  border-radius: 4px;
+  padding: 20px;
+  box-shadow: 0 5px 25px #666;
+  margin: 40px;
+}
+
+.pad0 {
+  padding: 0px;
+}
+
+.navbar-default .navbar-nav > .active > a,
+.navbar-default .navbar-nav > .active > a:hover,
+.navbar-default .navbar-nav > .active > a:focus {
+  color: white;
+  background-color: #428bca;
+}
+
+.serverlist {
+  margin-top: 50px;
+/*  border: 2px solid grey;
+  border-radius: 4px;*/
+}
+
+.nuttysidebar {
+  min-height: 100%;
+}
+
+.termpanel {
+  padding-top: 50px;
+}
+
+.socialbtns {
+  width: 200px;
+  margin: 0 auto;
+  margin-bottom: 20px;
 }

@@ -1,0 +1,7 @@
+<div class="modal-body">
+        <div class="text-center" ng-show="spinshow()" style="height:50px;width:50px; margin:0 auto;padding:50px;">
+            <div us-spinner></div>
+        </div>
+        <div ng-show="spinshow()" style="width:100px;margin:0 auto"><strong>[[sshstate.state]]...</strong></div>
+    <alert type="danger" ng-show="sshstate.error">[[sshstate.error]]</alert>
+</div>

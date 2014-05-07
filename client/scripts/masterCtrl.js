@@ -5,9 +5,9 @@
  */
 
 angular.module('nuttyapp')
-    .controller('masterCtrl', ['$scope', '$modal', '$location','NuttySession', 'Termdevice', 'NuttyConnection', 'alertBox', 'MasterConnection',
-        function($scope, $modal, $location, NuttySession, Termdevice, NuttyConnection, alertBox, MasterConnection) {
-            NuttyConnection.write = Termdevice.write;
+    .controller('masterCtrl', ['$scope', '$modal', '$location','NuttySession', 'ssh', 'NuttyConnection', 'alertBox', 'MasterConnection',
+        function($scope, $modal, $location, NuttySession, ssh, NuttyConnection, alertBox, MasterConnection) {
+            NuttyConnection.write = ssh.write;
             var port = $location.port();
             var portstr = (port === 80 || port === 443) ? '' : ':' + port;
 
@@ -41,24 +41,12 @@ angular.module('nuttyapp')
                 $scope.desc = NuttySession.desc;
             }
             $scope.copysharelink = function() {
-                Termdevice.write({
-                    copy: $scope.sharelink
-                });
                 mixpanel.track("copysharelink", {
                     clickedon: "input"
                 });
-                setTimeout(function() {
-                    term.focus();
-                }, 1000);
-            }
-            $scope.sharelinkbtn = function() {
-                mixpanel.track("copysharelink", {
-                    clickedon: "button"
-                });
-                setTimeout(
-                    function() {
-                        $("#sharelinkbox").focus().click();
-                    }, 0);
+                var elem = document.getElementById("sharelinkbox")
+                elem.focus();
+                elem.select();
             }
             Deps.autorun(function() {
                 Meteor.userId();

@@ -20,6 +20,14 @@ angular.module('nuttyapp')
                             $scope.$apply();
                         }, 0);
                     });
+                    $scope.currentuser = function() {
+                        var user = Meteor.user();
+                        if (user) {
+                            return user.username;
+                        } else {
+                            return "";
+                        }
+                    };
                     $scope.signintext = function() {
                         if (Meteor.userId()) {
                             return "Sign Out";

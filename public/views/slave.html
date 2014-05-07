@@ -2,12 +2,9 @@
     <div class="col-xs-9 fullheight">
         <slave-terminal ng-style="style"></slave-terminal>
     </div>
-    <div class="col-xs-3 fullheight">
+    <div class="col-xs-3 fullheight termpanel">
         <nutty-signin></nutty-signin>
-        <div class="well well-sm pull-left col-xs-8" style="height:26px;padding:3px;text-align:center"><strong>[[currentuser()]]</strong>
-        </div>
         <input type="text" class="form-control" placeholder="Description" ng-model="desc" ng-readonly="descro" style="cursor:pointer;color:black;margin-bottom:10px">
-        <tmux-buttons></tmux-buttons>
         <record-buttons></record-buttons>
         <nutty-alert></nutty-alert>
         <nutty-chat></nutty-chat>

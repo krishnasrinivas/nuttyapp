@@ -116,7 +116,7 @@ angular.module('nuttyapp')
                                         return;
                                     }
                                     if (!_uploaderr) {
-                                        alertBox.alert("success", "upload done! check homepage (https://nutty.io)");
+                                        alertBox.alert("success", "upload done! check https://nutty.io/uploads");
                                         var userId = Meteor.userId();
                                         mixpanel.track("upload", {
                                             state: "success"
@@ -197,9 +197,14 @@ angular.module('nuttyapp')
                                     row: term.screenSize.height,
                                     col: term.screenSize.width
                                 });
-                                NuttyConnection.write({
-                                    data: String.fromCharCode(2) + 'r'
-                                })
+                                Recorder.write({
+                                    termshot: term.document_.body.firstChild.firstChild.innerHTML
+                                });
+                                Recorder.write({
+                                    cursorposition: true,
+                                    row: term.getCursorRow(),
+                                    col: term.getCursorColumn()
+                                });
                             });
                         } else {
                             Session.set("record", false);

@@ -13,6 +13,10 @@ angular.module('nuttyapp')
             var ondata;
             var retobj;
 
+            Meteor._reload.onMigrate("onMigrate", function() {
+                console.log(arguments);
+                return [false];
+            });
             retobj = {
                 type: '',
                 connect: function () {
@@ -22,6 +26,10 @@ angular.module('nuttyapp')
                             return;
                         if (data.data)
                             msg.data = data.data;
+                        else if (data.settermshot)
+                            msg.settermshot = data.settermshot;
+                        else if (data.setcursorposition)
+                            msg.setcursorposition = data.setcursorposition;
                         else
                             return;
                         if (ondata)
@@ -31,9 +39,11 @@ angular.module('nuttyapp')
                         wsocketslave = new Meteor.PipeClientSlave(NuttySession.sessionid);
                         wsocketslave.on('data', processinput);
                         wsocketslave.on('ready', function() {
-                            wsocketslave.send({
-                                data: String.fromCharCode(2) + 'r'
-                            });
+                            setTimeout ( function() {
+                                wsocketslave.send({
+                                    gettermshot: true
+                                });
+                            }, 1000);
                         });
                     } else if (retobj.type === 'webrtc') {
                         Meteor.call('getWebrtcConfig', function(err, webrtcconfig) {
@@ -55,9 +65,11 @@ angular.module('nuttyapp')
                             wrtcconn = wrtcslave.connect(NuttySession.sessionid);
                             wrtcconn.on('open', function() {
                                 console.log('connected to master');
-                                wrtcconn.send({
-                                    data: String.fromCharCode(2) + 'r'
-                                });
+                                setTimeout ( function() {
+                                    wrtcconn.send({
+                                        gettermshot: true
+                                    });
+                                }, 1000);
                             });
                             wrtcconn.on('error', function(error) {
                                 console.log('error on connection to master');
@@ -76,6 +88,8 @@ angular.module('nuttyapp')
                             msg.data = data.data;
                         else if (data.newtmuxsession) {
                             msg.newtmuxsession = data.newtmuxsession;
+                        } else if (data.gettermshot) {
+                            msg.gettermshot = data.gettermshot;
                         } else {
                             return;
                         }

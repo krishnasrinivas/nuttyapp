@@ -4855,8 +4855,8 @@ hterm.getClientHeight = function(dom) {
  * @param {HTMLDocument} The document with the selection to copy.
  */
 hterm.copySelectionToClipboard = function(document, text) {
-   if (text)
-       copy(text);
+   // if (text)
+   //     copy(text);
 //  document.execCommand('copy');
 };
 
@@ -6205,6 +6205,8 @@ hterm.Keyboard.KeyMap.prototype.onCtrlC_ = function(e, keyDef) {
   setTimeout(selection.collapseToEnd.bind(selection), 750);
   return hterm.Keyboard.KeyActions.PASS;
 };
+
+
 
 /**
  * Either send a ^N or open a new window to the same location.
@@ -8851,7 +8853,7 @@ hterm.ScrollPort.prototype.onCopy = function(e) { };
  */
 hterm.ScrollPort.prototype.onCopy_ = function(e) {
   this.onCopy(e);
-
+console.log("hterm.ScrollPort.prototype.onCopy_()");
   if (e.defaultPrevented)
     return;
 
@@ -11559,7 +11561,8 @@ hterm.Terminal.prototype.onPaste_ = function(e) {
  * React when the user tries to copy from the scrollPort.
  */
 hterm.Terminal.prototype.onCopy_ = function(e) {
-  e.preventDefault();
+  //kris : comment out e.preventDefault() so that browser copies the selection
+  // e.preventDefault();
   this.copySelectionToClipboard();
 };
 

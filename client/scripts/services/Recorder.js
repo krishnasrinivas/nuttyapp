@@ -114,14 +114,33 @@ angular.module('nuttyapp')
                         view8[2] = obj.row;
                         view8[3] = obj.col;
                         recordbytes.push(bytes);
+                    } else if (obj.termshot) {
+                        var view8 = new Uint8Array(bytes);
+                        view16[0] = 65534;
+
+                        var b = new Blob([obj.termshot]);
+                        var fr = new FileReader();
+                        fr.onload = function(e) {
+                            var wdata = e.target.result;
+                            view16[1] = wdata.byteLength;
+                            recordbytes.push(bytes);
+                            recordbytes.push(wdata);
+                        };
+                        fr.readAsArrayBuffer(b);
+                    } else if (obj.cursorposition) {
+                        var view8 = new Uint8Array(bytes);
+                        view16[0] = 65533;
+                        view8[2] = obj.row;
+                        view8[3] = obj.col;
+                        recordbytes.push(bytes);                        
                     } else if (obj.data) {
                         newtime = new Date;
                         var delta = newtime - oldtime;
                         oldtime = newtime;
                         delta = Math.floor(delta / 10);
                         delta = delta % 65536;
-                        if (delta === 65535)
-                            delta = 65534;
+                        if (delta === 65535 || delta === 65534 || delta === 65533)
+                            delta = 65532;
                         view16[0] = delta;
 
                         // write as UTF-8 string

@@ -39,6 +39,8 @@ angular.module('nuttyapp')
                             msg.data = data.data;
                         } else if (data.newtmuxsession) {
                             msg.newtmuxsession = data.newtmuxsession;
+                        } else if (data.gettermshot) {
+                            msg.gettermshot = data.gettermshot;
                         } else {
                             return;
                         }
@@ -92,6 +94,10 @@ angular.module('nuttyapp')
                         var msg = {};
                         if (data.data)
                             msg.data = data.data;
+                        else if (data.settermshot)
+                            msg.settermshot = data.settermshot;
+                        else if (data.setcursorposition)
+                            msg.setcursorposition = data.setcursorposition;
                         else
                             return;
                         if (retobj.type === 'websocket') {

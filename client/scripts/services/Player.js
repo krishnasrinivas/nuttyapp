@@ -26,7 +26,7 @@ angular.module('nuttyapp')
             var timercount = 0;
             var timer;
 
-            function start(_file, _write, _changerowcol) {
+            function start(_file, _write, _changerowcol, _termshot, _curspos) {
                 file = _file;
                 write = _write;
                 changerowcol = _changerowcol;
@@ -53,19 +53,39 @@ angular.module('nuttyapp')
                             });
                             _play();
                             return;
+                        } else if (delta === 65534) {
+
+                        } else if (delta === 65533) {
+                            var view8 = new Uint8Array(data);
+                            _curspos({
+                                row: view8[2],
+                                col: view8[3]
+                            });
+                            _play();
+                            return;                            
+                        } else {
+                            if (delta === 0)
+                                delta = 5;
+                            delta = delta * 10;
                         }
-                        if (delta === 0)
-                            delta = 5;
-                        delta = delta * 10;
                         var blob = file.slice(filestart, filestart + length);
                         filestart = filestart + length;
                         time = false;
                         // readAsBinaryString reads as UTF-8 string
                         // readAsText reads as UTF-16
-                        filereader.readAsBinaryString(blob);
+                        // if (delta === 65534)
+                        //     filereader.readAsText(blob);
+                        // else
+                        //     filereader.readAsBinaryString(blob);
+                        filereader.readAsText(blob);
                     } else {
                         consoledata = e.target.result;
-                        timeoutvar = setTimeout(_play, delta);
+                        if (delta === 65534) {
+                            _termshot(consoledata);
+                            consoledata = "";
+                            _play();
+                        } else
+                            timeoutvar = setTimeout(_play, delta);
                     }
                 }
             }
@@ -73,7 +93,8 @@ angular.module('nuttyapp')
                 // term.io.writeUTF8(consoledata);
                 if (retobj.pausevar)
                     return;
-                write(consoledata);
+                if (consoledata)
+                    write(consoledata);
                 retobj.progress = Math.floor(filestart / file.size * 100);
                 safeApply($rootScope);
                 consoledata = "";

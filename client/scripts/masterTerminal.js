@@ -44,7 +44,7 @@ angular.module('nuttyapp')
                 }
 
                 Nuttyterm.prototype.sendString_ = function(str) {
-                    termController.toTermdevice({
+                    termController.tossh({
                         data: str
                     });
                 };
@@ -55,12 +55,12 @@ angular.module('nuttyapp')
                     scope.$digest();
                 };
 
-                termController.fromTermdevice(function(msg) {
+                termController.fromssh(function(msg) {
                     if (term && msg.data) {
-                        term.io.writeUTF16(msg.data);
+                        term.io.writeUTF8(msg.data);
                     }
                     if (term && msg.paste) {
-                        termController.toTermdevice({
+                        termController.tossh({
                             data: msg.paste
                         });
                     }
@@ -76,7 +76,7 @@ angular.module('nuttyapp')
                     }
 
                     term.nuttyPaste = function() {
-                        termController.toTermdevice({
+                        termController.tossh({
                             paste: true
                         });
                     }
@@ -87,24 +87,24 @@ angular.module('nuttyapp')
 
                     term.setCursorPosition(0, 0);
                     term.setCursorVisible(true);
-                    term.vt.setDECMode('1000', true);
+                    // term.vt.setDECMode('1000', true);
                     term.runCommandClass(Nuttyterm, document.location.hash.substr(1));
                     termController.setmaster();
                 });
             },
-            controller: ['$scope', 'Termdevice', 'MasterConnection', 'NuttySession', 'Recorder',
-                function($scope, Termdevice, MasterConnection, NuttySession, Recorder) {
+            controller: ['$scope', 'ssh', 'MasterConnection', 'NuttySession', 'Recorder',
+                function($scope, ssh, MasterConnection, NuttySession, Recorder) {
                     var ctrl = this;
                     $scope.rowcol = {};
-                    this.fromTermdevice = function(cbk) {
-                        Termdevice.ondata(function(msg) {
+                    this.fromssh = function(cbk) {
+                        ssh.ondata(function(msg) {
                             cbk(msg);
                             MasterConnection.pipe.write(msg);
                             Recorder.write(msg);
                         });
                     }
-                    this.toTermdevice = function(msg) {
-                        Termdevice.write(msg);
+                    this.tossh = function(msg) {
+                        ssh.write(msg);
                     }
                     this.changerowcol = function(msg) {
                         NuttySession.setrowcol({
@@ -112,7 +112,7 @@ angular.module('nuttyapp')
                             col: msg.col,
                         });
                         msg.rowcol = 1;
-                        Termdevice.write(msg);
+                        ssh.write(msg);
                         Recorder.write(msg);
                     }
                     this.setmaster = function() {
@@ -134,7 +134,21 @@ angular.module('nuttyapp')
                         }
                     }
                     MasterConnection.pipe.ondata(function(msg) {
-                        Termdevice.write(msg);
+                        if (msg.gettermshot) {
+                            console.log("got gettermshot");
+                            var termshot = term.document_.body.firstChild.firstChild.innerHTML;
+                            MasterConnection.pipe.write({
+                                settermshot: termshot
+                            });
+                            MasterConnection.pipe.write({
+                                setcursorposition: {
+                                    row: term.getCursorRow(),
+                                    col: term.getCursorColumn()
+                                }
+                            })
+                            return;
+                        }
+                        ssh.write(msg);
                     });
                     $scope.$watch('rowcol', function(newval, oldval) {
                         if (newval && NuttySession.sessionid) {

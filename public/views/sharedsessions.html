@@ -1,0 +1,59 @@
+<div class="row fullheight">
+  <div class="col-xs-9 content">
+  <div class="vertical-container fullheight">
+    <div class="vertically-centered">
+
+      <h3 ng-show="currentuser()">Number of Sessions shared : [[sharedsessions.length]]</h3>
+      <alert ng-hide="currentuser()" type="danger"><h3>Not loggedin</h3></alert>
+      <table class="table table-bordered">
+        <tbody>
+          <tr ng-repeat="sharedsession in sharedsessions">
+            <td>[[$index+1]]</td>
+            <td><a href="/[[sharedsession.conntype]]/[[sharedsession.sessionid]]" target="_blank">https://nutty.io/[[sharedsession.conntype]]/[[sharedsession.sessionid]]</a>
+            </td>
+            <td>[[sharedsession.desc]]</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  </div>
+  <div class="col-xs-3 fullheight pad0">
+  <div class="vertical-container fullheight">
+    <div class="sidebar-nav fullwidth vertically-centered">
+      <nutty-signin></nutty-signin>
+      <div class="socialbtns row">
+        <div class="pull-left">
+              <iframe allowtransparency="true" frameborder="0" scrolling="no"
+              src="https://platform.twitter.com/widgets/tweet_button.html?url=https://nutty.io&text=Browser based Terminal Sharing!&size=large&via=nuttydotio"
+              style="width:90px; height:20px;"></iframe>
+        </div>
+        <div class="pull-right">
+              <iframe src="/github-btn.html?user=krishnasrinivas&repo=nuttyapp&type=watch&count=true" allowtransparency="true" frameborder="0" scrolling="0" width="90" height="20"></iframe>
+        </div>
+      </div>
+
+      <div class="navbar navbar-default" role="navigation">
+<!--         <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".sidebar-navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <span class="visible-xs navbar-brand">Sidebar menu</span>
+        </div>
+        <div class="navbar-collapse collapse sidebar-navbar-collapse"> -->
+        <div>
+          <ul class="nav navbar-nav">
+            <li><a href="/">Home</a></li>
+            <li class="active"><a href="/sharedsessions">Shared Sessions</a></li>
+            <li><a href="/uploads">Uploaded recorded sessions</a></li>
+            <li><a href="/faq">FAQ</a></li>
+          </ul>
+        </div><!--/.nav-collapse -->
+      </div>
+    </div>
+  </div>
+  </div>
+</div>

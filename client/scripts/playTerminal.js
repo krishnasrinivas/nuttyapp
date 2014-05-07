@@ -211,11 +211,24 @@ angular.module('nuttyapp')
                                 fs.root.getFile(filename, {}, function(fileEntry) {
                                     fileEntry.file(function(_file) {
                                         Player.start(_file, function(data) {
-                                                term.io.writeUTF16(data);
+                                                term.io.writeUTF8(data);
                                             },
                                             function(_rowcol) {
                                                 rowcol = _rowcol;
                                                 ctrl.changerowcol()
+                                            }, function(data) {
+                                                console.log("got settermshot");
+                                                window.termshot = term.document_.createElement('div');
+                                                termshot.innerHTML = data;
+                                                var to = term.document_.body.firstChild.firstChild;
+                                                var i, j;
+                                                for (i = to.firstChild,j = termshot.firstChild; i && j; i = i.nextSibling, j = j.nextSibling) {
+                                                    i.innerHTML = j.innerHTML;
+                                                }
+                                            }, function(curspos) {
+                                                console.log("got curspos");
+                                                term.setCursorPosition(curspos.row, curspos.col);
+                                                term.syncCursorPosition_();
                                             });
                                         Player.play();
                                     }, errorHandler);
@@ -259,14 +272,38 @@ angular.module('nuttyapp')
                                     function downloadcomplete(event) {
                                         $scope.$parent.showdownloadprogress = false;
                                         $scope.$apply();
-                                        Player.start(xhr.response, function(_data) {
-                                                term.io.writeUTF16(_data);
+                                        // Player.start(xhr.response, function(_data) {
+                                        //         term.io.writeUTF16(_data);
+                                        //     },
+                                        //     function(_rowcol) {
+                                        //         rowcol = _rowcol;
+                                        //         ctrl.changerowcol()
+                                        //     });
+                                        // Player.play();
+
+                                        Player.start(xhr.response, function(data) {
+                                                term.io.writeUTF8(data);
                                             },
                                             function(_rowcol) {
                                                 rowcol = _rowcol;
                                                 ctrl.changerowcol()
+                                            }, function(data) {
+                                                console.log("got settermshot");
+                                                window.termshot = term.document_.createElement('div');
+                                                termshot.innerHTML = data;
+                                                var to = term.document_.body.firstChild.firstChild;
+                                                var i, j;
+                                                for (i = to.firstChild,j = termshot.firstChild; i && j; i = i.nextSibling, j = j.nextSibling) {
+                                                    i.innerHTML = j.innerHTML;
+                                                }
+                                            }, function(curspos) {
+                                                console.log("got curspos");
+                                                term.setCursorPosition(curspos.row, curspos.col);
+                                                term.syncCursorPosition_();
                                             });
                                         Player.play();
+
+
                                     }
                                     xhr.send();
                                 }

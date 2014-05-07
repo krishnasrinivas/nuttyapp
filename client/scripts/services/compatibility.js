@@ -130,7 +130,7 @@ angular.module('nuttyapp')
                 }
             };
 
-            if (BrowserDetect.browser === "Chrome" && BrowserDetect.version >= 29 && (BrowserDetect.OS == "Linux" || BrowserDetect.OS == "Mac" || BrowserDetect.OS == "ChromeOS"))
+            if (BrowserDetect.browser === "Chrome")
                 BrowserDetect.incompatible = 0;
             else
                 BrowserDetect.incompatible = 1;

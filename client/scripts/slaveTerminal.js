@@ -46,7 +46,7 @@ angular.module('nuttyapp')
                     this.io = this.argv_.io.push();
 
                     this.io.onVTKeystroke = this.sendString_.bind(this);
-                    this.io.sendString = this.sendString_.bind(this);
+                    // this.io.sendString = this.sendString_.bind(this);
                     this.io.onTerminalResize = this.onTerminalResize.bind(this);
                 }
 
@@ -62,7 +62,22 @@ angular.module('nuttyapp')
 
                 termController.fromConnection(function(msg) {
                     if (term && msg && msg.data) {
-                        term.io.writeUTF16(msg.data);
+                        term.io.writeUTF8(msg.data);
+                        term.syncCursorPosition_();
+                    }
+                    if (term && msg && msg.settermshot) {
+                        console.log("got settermshot");
+                        window.termshot = term.document_.createElement('div');
+                        termshot.innerHTML = msg.settermshot;
+                        var to = term.document_.body.firstChild.firstChild;
+                        var i, j;
+                        for (i = to.firstChild,j = termshot.firstChild; i && j; i = i.nextSibling, j = j.nextSibling) {
+                            i.innerHTML = j.innerHTML;
+                        }
+                    }
+                    if (term && msg && msg.setcursorposition) {
+                        term.setCursorPosition(msg.setcursorposition.row, msg.setcursorposition.col);
+                        term.syncCursorPosition_();
                     }
                 });
                 lib.init(function() {
@@ -85,14 +100,13 @@ angular.module('nuttyapp')
 
                     term.setCursorPosition(0, 0);
                     term.setCursorVisible(true);
-                    term.setScrollbarVisible(false);
-                    term.vt.setDECMode('1000', true);
+                    // term.vt.setDECMode('1000', true);
                     term.runCommandClass(Nuttyterm, document.location.hash.substr(1));
                     termController.changerowcol();
                 });
             },
-            controller: ['$scope', 'SlaveConnection', 'NuttySession', 'Recorder', 'Compatibility', 'Clipboard',
-                function($scope, SlaveConnection, NuttySession, Recorder, Compatibility, Clipboard) {
+            controller: ['$scope', 'SlaveConnection', 'NuttySession', 'Recorder', 'Compatibility',
+                function($scope, SlaveConnection, NuttySession, Recorder, Compatibility) {
                     var ctrl = this;
 
                     if (Compatibility.browser.browser !== "Chrome" && Compatibility.browser.browser !== "Firefox" && Compatibility.browser.browser !== "Safari") {
@@ -159,18 +173,10 @@ angular.module('nuttyapp')
                             top: (outerdivElem.height() - termElem.height()) / 2
                         });
 
-                        Clipboard.pastecbk(function(data) {
-                            ctrl.toConnection({
-                                data: data
-                            });
-                        });
                         Recorder.write({
                             rowcol: 1,
                             row: term.screenSize.height,
                             col: term.screenSize.width
-                        });
-                        ctrl.toConnection({
-                            data: String.fromCharCode(2) + 'r'
                         });
                     }
                     $scope.$watch(function() {
@@ -180,8 +186,6 @@ angular.module('nuttyapp')
                     }, true);
                     $(window).resize(ctrl.changerowcol);
                     function _f() {
-                        if ($scope.term)
-                            $scope.term.setScrollbarVisible(false);
                         if ($scope.term && ($scope.term.screenSize.height !== NuttySession.rowcol.row ||
                             $scope.term.screenSize.width !== NuttySession.rowcol.col)) {
                             ctrl.changerowcol();
