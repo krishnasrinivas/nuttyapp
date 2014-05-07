@@ -27,8 +27,8 @@ angular.module('nuttyapp')
     .factory('ssh', ['$rootScope', 'sshstate', function($rootScope, sshstate) {
             var port;
             var inputcbk;
-            // var extid = "jeiifmbcmlhfgncnihbiicdbhnbagmnk";
-            var extid = "doafdnipfndehkkojdhpocnoifknlend";
+            var extid = "jeiifmbcmlhfgncnihbiicdbhnbagmnk";
+            // var extid = "doafdnipfndehkkojdhpocnoifknlend";
             var trans;
             var channel;
 
