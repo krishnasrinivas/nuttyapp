@@ -3,6 +3,7 @@
   "dependencies": {
     "basePackages": {
       "winston": {},
+      "crypto-base": {},
       "crypto-hmac": {},
       "crypto-sha1": {},
       "crypto-md5": {},
@@ -14,6 +15,11 @@
         "git": "https://github.com/tomrogers3/meteor-winston.git",
         "tag": "v0.0.3",
         "commit": "60dc02303ca003ef05254f94fbb9bfd40915d5d3"
+      },
+      "crypto-base": {
+        "git": "https://github.com/oortcloud/meteor-crypto-base.git",
+        "tag": "v3.1.2.0",
+        "commit": "e35646bd01ffd1f3fb938df50a99d20f61c9d57a"
       },
       "crypto-hmac": {
         "git": "https://github.com/oortcloud/meteor-crypto-hmac.git",
@@ -39,11 +45,6 @@
         "git": "https://github.com/ewindso/meteor-knox.git",
         "tag": "v0.8.5.2",
         "commit": "62c778c40f89884cb10cfd2097e614e01ca8b8cc"
-      },
-      "crypto-base": {
-        "git": "https://github.com/oortcloud/meteor-crypto-base.git",
-        "tag": "v3.1.2.0",
-        "commit": "e35646bd01ffd1f3fb938df50a99d20f61c9d57a"
       }
     }
   }
