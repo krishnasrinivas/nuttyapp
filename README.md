@@ -52,8 +52,8 @@ nutty.io's webrtc config looks like this:
             }
 
 
-In case you want to host a private nutty server you need to do addtional configuration in Nutty's extension to use it:
+In case you want to host a private nutty server you need to make an entry in hosts file so that
+the name "privatenutty" resolves to the IP address where you host nutty server. You will then
+need to use "privatenutty" in the address bar of Chrome. More instructions on how to edit host
+files is here: http://www.rackspace.com/knowledge_center/article/how-do-i-modify-my-hosts-file
 
-1.  open "chrome://extensions" in address bar
-2.  click "options" in the Nutty extension section
-3.  Set your new server domain name.
