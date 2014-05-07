@@ -12,13 +12,16 @@ angular.module('nuttyapp')
         function($scope, $modal, $location, NuttySession, ssh, Compatibility) {
             ga('send', 'pageview', 'home');
             var pvtkey = undefined;
+            var notmobile = !Compatibility.ismobile;
 
             $scope.Compatibility = Compatibility;
-            indexed('hosts').create(function(){});
-            indexed('hosts').find(function(err, data) {
-                $scope.servers = data;
-                safeApply($scope);
-            });
+            if (notmobile) {
+                indexed('hosts').create(function(){});
+                indexed('hosts').find(function(err, data) {
+                    $scope.servers = data;
+                    safeApply($scope);
+                });
+            }
 
             function connect(host, port, username, password, pkey) {
                 var paramikojsPkey;
@@ -149,7 +152,6 @@ angular.module('nuttyapp')
                     gKeys[1] = e.target.result;
                     // pvtkey = new paramikojs.RSAKey(null, null, 1, null, null, null);
                     pvtkey = e.target.result;
-                    console.log(pvtkey);
                 }
                 reader.readAsText($('#pvtkey')[0].files[0]);
             }
@@ -184,25 +186,26 @@ angular.module('nuttyapp')
                     password: $scope.password,
                     pvtkey: pvtkey
                 }
-                console.log(hostobj);
-                indexed('hosts').insert(hostobj, function(){
-                    indexed('hosts').find(function(err, data) {
-                        $scope.servers = data;
-                        console.log(data);
-                        $scope.$apply();
+                if (notmobile) {
+                    indexed('hosts').insert(hostobj, function(){
+                        indexed('hosts').find(function(err, data) {
+                            $scope.servers = data;
+                            $scope.$apply();
+                        });
                     });
-                });
+                }
             }
             $scope.serverdelete = function(id) {
-                indexed('hosts').delete({
-                    _id: id
-                }, function(err, data) {
-                    indexed('hosts').find(function(err, data) {
-                        $scope.servers = data;
-                        console.log(data);
-                        $scope.$apply();
+                if (notmobile) {
+                    indexed('hosts').delete({
+                        _id: id
+                    }, function(err, data) {
+                        indexed('hosts').find(function(err, data) {
+                            $scope.servers = data;
+                            $scope.$apply();
+                        });
                     });
-                });
+                }
             }
             $scope.serverconnect = function(server) {
                 function afterinstall() {
