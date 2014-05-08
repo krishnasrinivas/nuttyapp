@@ -134,7 +134,6 @@ body {
 .content {
   min-height: 100%;
   border-right: 4px solid #428bca;
-  padding: 50px;
 }
 
 .nutty-ssh-creds {

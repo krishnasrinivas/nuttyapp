@@ -5,7 +5,7 @@
     <div class="col-lg-3 col-md-3 col-sm-12 fullheight termpanel">
         <nutty-signin></nutty-signin>
 
-        <input id="sharelinkbox" type="text" class="form-control" ng-model="sharelink" ng-readonly="sharelink" style="font-size:13px;cursor:pointer;color:black;" ng-click="copysharelink()">
+        <input id="sharelinkbox" type="text" class="form-control" ng-model="sharelink" ng-readonly="sharelink" tooltip="Ctrl-C to Copy" tooltip-trigger="focus" style="font-size:13px;cursor:pointer;color:black;" ng-click="copysharelink()">
         <div class="text-center" style="margin-bottom:10px">
         <div class="btn-group">
             <button type="button" class="btn btn-primary" ng-model="MasterConnection.type"

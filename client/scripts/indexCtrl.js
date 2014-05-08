@@ -13,7 +13,9 @@ angular.module('nuttyapp')
             ga('send', 'pageview', 'home');
             var pvtkey = undefined;
             var notmobile = !Compatibility.ismobile;
-
+            $scope.creds = {
+                password: ''
+            };
             $scope.Compatibility = Compatibility;
             if (notmobile) {
                 indexed('hosts').create(function(){});
@@ -103,7 +105,7 @@ angular.module('nuttyapp')
                 if (!$scope.username) {
                     return "username required";
                 }
-                if (!$scope.password && !pvtkey) {
+                if (!$scope.creds.password && !pvtkey) {
                     return "password or pvtkey required";
                 }
                 return "";
@@ -126,7 +128,7 @@ angular.module('nuttyapp')
                     $scope.loginerrshow = loginformerr();
                     if ($scope.loginerrshow)
                         return;
-                    connect(host, port, $scope.username, $scope.password, pvtkey);
+                    connect(host, port, $scope.username, $scope.creds.password, pvtkey);
                 }
                 if (Compatibility.browser.incompatible) {
                     alert("Supported on Chrome. Firefox support coming soon!");
@@ -167,6 +169,9 @@ angular.module('nuttyapp')
 
             $scope.save = function() {
                 var host, port;
+                if (!$scope.hostport) {
+                    $scope.hostport = "localhost";
+                }
                 if ($scope.hostport && $scope.hostport.match(/:/)) {
                     host = $scope.hostport.match(/(.*):(.*)/)[1];
                     port = parseInt($scope.hostport.match(/(.*):(.*)/)[2]);
@@ -183,7 +188,7 @@ angular.module('nuttyapp')
                     host: host,
                     port: port,
                     username: $scope.username,
-                    password: $scope.password,
+                    password: $scope.creds.password,
                     pvtkey: pvtkey
                 }
                 if (notmobile) {
@@ -228,6 +233,11 @@ angular.module('nuttyapp')
                         alert("Nutty install failed.");
                     });
                 }
+            }
+            $scope.demo = function() {
+                var modalInstance = $modal.open({
+                    templateUrl: 'templates/demo.html',
+                });
             }
         }
     ]);
