@@ -2,6 +2,7 @@ angular.module('nuttyapp')
     .controller('uploadsCtrl', ['$scope', 'NuttySession', '$modal',
         function($scope, NuttySession, $modal) {
         	$scope.recordings = NuttySession.recordings;
+            ga('send', 'pageview', 'uploads');
             $scope.currentuser = function() {
                 var user = Meteor.user();
                 if (user) {

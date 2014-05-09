@@ -22,7 +22,10 @@ nuttyapp.config(['$interpolateProvider', '$routeProvider', '$locationProvider',
                 controller: 'sharedsessionsCtrl'
             })
             .when('/faq', {
-                templateUrl: 'views/faq.html'
+                templateUrl: 'views/faq.html',
+                controller: [function() {
+                    ga('send', 'pageview', 'faq');
+                }]
             })
             .when('/uploads', {
                 templateUrl: 'views/uploads.html',
