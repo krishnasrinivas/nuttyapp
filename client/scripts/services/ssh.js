@@ -127,6 +127,10 @@ angular.module('nuttyapp')
                     inputcbk = cbk;
                 },
                 write: function(msg) {
+                    if (!channel) {
+                        window.location.pathname = '/';
+                        return;
+                    }
                     if (!msg) {
                         console.log("ssh.write(): msg is null")
                         return;
