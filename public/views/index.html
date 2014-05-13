@@ -12,6 +12,13 @@
       <h4>Supported only on Chrome. Firefox support coming soon.</h4>
     </alert>
       <form class="form-horizontal nutty-ssh-creds" role="form">
+        <div class="row" style="margin-bottom:10px" ng-show="disabled()">
+          <div class="col-xs-5"></div>
+          <div class="col-xs-2">
+            <div class="btn btn-success" ng-click="addtochrome()">Install Nutty</div>
+          </div>
+          <div class="col-xs-5"></div>
+        </div>
         <div class="form-group [[sshhostporterr()]]">
           <label for="inputEmail3" class="col-xs-3 control-label">SshHost:port</label>
           <div class="col-xs-9">
@@ -39,8 +46,8 @@
         </div>
         <div class="form-group">
           <div class="col-xs-offset-3 col-xs-9">
-            <button type="submit" ng-click="submit()" class="btn btn-success">Connect</button>
-            <button ng-click="save()" tooltip-placement="bottom" tooltip="Save to localdisk" class="btn btn-primary pull-right">Save</button>
+            <button type="submit" ng-click="submit()" class="btn btn-success [[disabled()]]">Connect</button>
+            <button ng-click="save()" tooltip-placement="bottom" tooltip="Save to localdisk" class="btn btn-primary pull-right [[disabled()]]">Save</button>
           </div>
         </div>
         <alert ng-show="loginerrshow" type="danger" close="loginerrclose()">[[loginerrshow]]</alert>
@@ -50,8 +57,8 @@
           <tr ng-repeat="server in servers">
             <td>[[$index+1]]</td>
             <td>[[server.username]]@[[server.host]]:[[server.port]]</td>
-            <td><button class="btn btn-xs btn-success" ng-click="serverconnect(server)">Connect</button></td>
-            <td><button class="btn btn-xs btn-danger" ng-click="serverdelete(server._id)">Delete</button></td>
+            <td><button class="btn btn-xs btn-success [[disabled()]]" ng-click="serverconnect(server)">Connect</button></td>
+            <td><button class="btn btn-xs btn-danger [[disabled()]]" ng-click="serverdelete(server._id)">Delete</button></td>
           </tr>
         </tbody>
       </table>

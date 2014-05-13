@@ -145,15 +145,26 @@ angular.module('nuttyapp')
                 }
             }
 
-            if (window.chrome && window.chrome.runtime && window.chrome.runtime.connect) {
-                var _port = chrome.runtime.connect(extid);
-                _port.onMessage.addListener(function(msg) {
-                    if (msg.connected) {
-                        retobj.appinstalled = true;
+            function looptillinstalled() {
+                if (window.chrome && window.chrome.runtime && window.chrome.runtime.connect) {
+                    var _port = chrome.runtime.connect(extid);
+                    _port.onMessage.addListener(function(msg) {
+                        if (msg.connected) {
+                            retobj.appinstalled = true;
+                            $rootScope.$apply();
+                        }
+                    });
+                }
+                setTimeout(function() {
+                    if (_port)
                         _port.disconnect();
+                    if (!retobj.appinstalled) {
+                        console.log("not yet installed");
+                        looptillinstalled();
                     }
-                });
+                }, 2000);
             }
+            looptillinstalled();
             window.ssh = retobj;
             return retobj;
         }]);

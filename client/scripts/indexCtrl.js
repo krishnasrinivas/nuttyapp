@@ -34,6 +34,7 @@ angular.module('nuttyapp')
                         try {
                             paramikojsPkey = new paramikojs.DSSKey(null, null, 1, null, null, null);
                         } catch (ex) {
+                            alert("Neither RSA nor DSA key?");
                             console.log("Neither RSA nor DSA key?");
                             console.log(ex);
                             $scope.loginerrshow = "Invalid RSA or DSA key";
@@ -112,42 +113,26 @@ angular.module('nuttyapp')
             }
 
             $scope.submit = function() {
-                function afterinstall() {
-                    var host, port;
-                    if (!$scope.hostport) {
-                        $scope.hostport = "localhost";
-                    }
-                    if ($scope.hostport && $scope.hostport.match(/:/)) {
-                        host = $scope.hostport.match(/(.*):(.*)/)[1];
-                        port = parseInt($scope.hostport.match(/(.*):(.*)/)[2]);
-                    }
-                    if (!host)
-                        host = $scope.hostport;
-                    if (!port)
-                        port = 22;
-                    $scope.loginerrshow = loginformerr();
-                    if ($scope.loginerrshow)
-                        return;
-                    connect(host, port, $scope.username, $scope.creds.password, pvtkey);
-                }
-                if (Compatibility.browser.incompatible) {
-                    alert("Supported on Chrome. Firefox support coming soon!");
+                if (!ssh.appinstalled) {
+                    alert("Click 'Add to Chrome'");
                     return;
                 }
-                if (ssh.appinstalled) {
-                    afterinstall();
-                } else {
-                    chrome.webstore.install("https://chrome.google.com/webstore/detail/jeiifmbcmlhfgncnihbiicdbhnbagmnk",
-                    function() {
-                        mixpanel.track("installsuccess");
-                        setTimeout(function() {
-                            afterinstall();
-                        }, 2000);
-                    }, function() {
-                        mixpanel.track("installfail");
-                        alert("Nutty install failed.");
-                    });
+                var host, port;
+                if (!$scope.hostport) {
+                    $scope.hostport = "localhost";
                 }
+                if ($scope.hostport && $scope.hostport.match(/:/)) {
+                    host = $scope.hostport.match(/(.*):(.*)/)[1];
+                    port = parseInt($scope.hostport.match(/(.*):(.*)/)[2]);
+                }
+                if (!host)
+                    host = $scope.hostport;
+                if (!port)
+                    port = 22;
+                $scope.loginerrshow = loginformerr();
+                if ($scope.loginerrshow)
+                    return;
+                connect(host, port, $scope.username, $scope.creds.password, pvtkey);
             }
 
             $scope.readpvtkey = function() {
@@ -215,33 +200,37 @@ angular.module('nuttyapp')
                 }
             }
             $scope.serverconnect = function(server) {
-                function afterinstall() {
+                if (ssh.appinstalled) {
                     gKeys[1] = server.pvtkey;
                     connect(server.host, server.port, server.username, server.password, server.pvtkey);
-                }
-                if (Compatibility.browser.incompatible) {
-                    alert("Supported on Chrome. Firefox support coming soon!");
-                    return;
-                }
-                if (ssh.appinstalled) {
-                    afterinstall();
                 } else {
-                    chrome.webstore.install("https://chrome.google.com/webstore/detail/jeiifmbcmlhfgncnihbiicdbhnbagmnk",
-                    function() {
-                        mixpanel.track("installsuccess");
-                        setTimeout(function() {
-                            afterinstall();
-                        }, 2000);
-                    }, function() {
-                        mixpanel.track("installfail");
-                        alert("Nutty install failed.");
-                    });
+                    alert("Click 'Add to Chrome'");
                 }
             }
             $scope.demo = function() {
                 var modalInstance = $modal.open({
                     templateUrl: 'templates/demo.html',
                 });
+            }
+            $scope.disabled = function() {
+                if (ssh.appinstalled)
+                    return "";
+                else
+                    return "disabled";
+            }
+            $scope.addtochrome = function() {
+                    if (Compatibility.browser.incompatible) {
+                        alert("Supported on Chrome. Firefox support coming soon!");
+                        return;
+                    }
+                    chrome.webstore.install("https://chrome.google.com/webstore/detail/jeiifmbcmlhfgncnihbiicdbhnbagmnk",
+                    function() {
+                        mixpanel.track("installsuccess");
+                        window.location.pathname = "/";
+                    }, function() {
+                        mixpanel.track("installfail");
+                        alert("Nutty install failed.");
+                    });
             }
         }
     ]);
