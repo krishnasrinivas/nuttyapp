@@ -204,7 +204,7 @@ angular.module('nuttyapp')
                     gKeys[1] = server.pvtkey;
                     connect(server.host, server.port, server.username, server.password, server.pvtkey);
                 } else {
-                    alert("Click 'Add to Chrome'");
+                    alert("Click 'Install Nutty'");
                 }
             }
             $scope.demo = function() {
