@@ -114,7 +114,7 @@ angular.module('nuttyapp')
 
             $scope.submit = function() {
                 if (!ssh.appinstalled) {
-                    alert("Click 'Add to Chrome'");
+                    alert("Click 'Install Nutty'");
                     return;
                 }
                 var host, port;
