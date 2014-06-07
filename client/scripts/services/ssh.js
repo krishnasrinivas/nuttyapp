@@ -66,7 +66,6 @@ angular.module('nuttyapp')
                                 });
                             };
                             function auth_success() {
-                                console.log("auth_success");
                                 sshstate.state = "authsuccess";
                                 sshstate.error = "";
                                 $rootScope.$apply();
@@ -79,6 +78,10 @@ angular.module('nuttyapp')
                                 trans.open_session(on_success);
                             }
                             window.input = function() {
+                                if (!window.term) {
+                                    //in case the term is not yet ready
+                                    return;
+                                }
                                 try {
                                     var stdin = channel.recv(65536);
                                 } catch (ex) {}

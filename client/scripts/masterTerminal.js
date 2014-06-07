@@ -90,6 +90,8 @@ angular.module('nuttyapp')
                     // term.vt.setDECMode('1000', true);
                     term.runCommandClass(Nuttyterm, document.location.hash.substr(1));
                     termController.setmaster();
+                    // start processing the ssh input
+                    input();
                 });
             },
             controller: ['$scope', 'ssh', 'MasterConnection', 'NuttySession', 'Recorder',
