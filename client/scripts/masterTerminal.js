@@ -94,19 +94,31 @@ angular.module('nuttyapp')
                     input();
                 });
             },
-            controller: ['$scope', 'ssh', 'MasterConnection', 'NuttySession', 'Recorder',
-                function($scope, ssh, MasterConnection, NuttySession, Recorder) {
+            controller: ['$scope', 'ssh', 'MasterConnection', 'NuttySession', 'Recorder', 'sshext', '$location',
+                function($scope, ssh, MasterConnection, NuttySession, Recorder, sshext, $location) {
                     var ctrl = this;
+                    var nuttyio = $location.host() === 'nutty.io' || $location.host() === 'www.nutty.io';
                     $scope.rowcol = {};
                     this.fromssh = function(cbk) {
-                        ssh.ondata(function(msg) {
-                            cbk(msg);
-                            MasterConnection.pipe.write(msg);
-                            Recorder.write(msg);
-                        });
+                        if (nuttyio) {
+                            ssh.ondata(function(msg) {
+                                cbk(msg);
+                                MasterConnection.pipe.write(msg);
+                                Recorder.write(msg);
+                            });
+                        } else {
+                            sshext.ondata(function(msg) {
+                                cbk(msg);
+                                MasterConnection.pipe.write(msg);
+                                Recorder.write(msg);
+                            });
+                        }
                     }
                     this.tossh = function(msg) {
-                        ssh.write(msg);
+                        if (nuttyio)
+                            ssh.write(msg);
+                        else
+                            sshext.write(msg);
                     }
                     this.changerowcol = function(msg) {
                         NuttySession.setrowcol({
@@ -114,7 +126,10 @@ angular.module('nuttyapp')
                             col: msg.col,
                         });
                         msg.rowcol = 1;
-                        ssh.write(msg);
+                        if (nuttyio)
+                            ssh.write(msg);
+                        else
+                            sshext.write(msg);
                         Recorder.write(msg);
                     }
                     this.setmaster = function() {
@@ -150,7 +165,10 @@ angular.module('nuttyapp')
                             })
                             return;
                         }
-                        ssh.write(msg);
+                        if (nuttyio)
+                            ssh.write(msg);
+                        else
+                            sshext.write(msg);
                     });
                     $scope.$watch('rowcol', function(newval, oldval) {
                         if (newval && NuttySession.sessionid) {

@@ -8,14 +8,28 @@
     <h3><img src="/images/nutty.png" alt=""><strong>SSH-Terminal sharing using Browser!</strong></h3>
     <div class="row">
       <div class="col-xs-5"></div>
-      <div class="btn btn-warning col-xs-2" ng-click="demo()">Demo</div>      
+      <div class="btn btn-warning col-xs-2" ng-click="demo()">Demo</div>
       <div class="col-xs-5"></div>
     </div>
     <alert type="danger" class="text-center" ng-show="Compatibility.browser.incompatible">
       <h4>Supported only on Chrome. Firefox support coming soon.</h4>
     </alert>
-      <form class="form-horizontal nutty-ssh-creds" role="form">
-        <div class="row" style="margin-bottom:10px" ng-show="disabled()">
+    <div class="well nutty-ssh-creds" ng-show="nonnuttyio_install_visible()">
+        <strong>Install nutty app and extension:</strong>
+        <ol>
+            <li>Install
+                <a target="_blank" href="https://chrome.google.com/webstore/detail/jeiifmbcmlhfgncnihbiicdbhnbagmnk/">
+                Nutty-App
+                </a>
+            </li>
+            <li>
+                Install <a target="_blank" href="https://chrome.google.com/webstore/detail/hlkhkflnmejehnnikchdilcdhngfojdj/">Nutty-extension</a>
+            </li>
+        </ol>
+        And then click the nutty icon <img src="/images/nutty.png" height="30px" alt=""> beside address bar to enable "Connect" button
+    </div>
+    <form class="form-horizontal nutty-ssh-creds" role="form">
+        <div class="row" style="margin-bottom:10px" ng-show="nuttyio_install_visible()">
           <div class="col-xs-5"></div>
           <div class="col-xs-2">
             <div class="btn btn-success" ng-click="addtochrome()">Install Nutty</div>
@@ -54,7 +68,7 @@
           </div>
         </div>
         <alert ng-show="loginerrshow" type="danger" close="loginerrclose()">[[loginerrshow]]</alert>
-      </form>
+    </form>
       <table class="table serverlist">
         <tbody>
           <tr ng-repeat="server in servers">

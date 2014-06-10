@@ -87,7 +87,7 @@ body {
     border-radius: 0px;
 }
 .container .jumbotron {
-   border-radius: 0px; 
+   border-radius: 0px;
 }
 .btn {
     border-radius: 0px;
@@ -104,7 +104,7 @@ body {
   border: 0px;
   border-radius: 0px;
 }
-/* make sidebar nav vertical */ 
+/* make sidebar nav vertical */
 @media (min-width: 768px) {
   .sidebar-nav .navbar .navbar-collapse {
     padding: 0;
@@ -174,4 +174,8 @@ body {
   width: 200px;
   margin: 0 auto;
   margin-bottom: 20px;
+}
+
+.installinstr {
+    margin-top: 20px;
 }

@@ -8,11 +8,13 @@ gKeys = [];
 
 
 angular.module('nuttyapp')
-    .controller('indexCtrl', ['$scope', '$modal', '$location', 'NuttySession', 'ssh', 'Compatibility',
-        function($scope, $modal, $location, NuttySession, ssh, Compatibility) {
+    .controller('indexCtrl', ['$scope', '$modal', '$location', 'NuttySession', 'ssh', 'Compatibility', '$location', 'sshext',
+        function($scope, $modal, $location, NuttySession, ssh, Compatibility, $location, sshext) {
             ga('send', 'pageview', 'home');
             var pvtkey = undefined;
             var notmobile = !Compatibility.ismobile;
+            var nuttyio = $location.host() === 'nutty.io' || $location.host() === 'www.nutty.io';
+
             $scope.creds = {
                 password: ''
             };
@@ -42,13 +44,23 @@ angular.module('nuttyapp')
                         }
                     }
                 }
-                ssh.connect(host, port, username, password, paramikojsPkey, function(err) {
-                    Meteor._reload.onMigrate("onMigrate", function() {
-                        return [false];
+                if (nuttyio) {
+                    ssh.connect(host, port, username, password, paramikojsPkey, function(err) {
+                        Meteor._reload.onMigrate("onMigrate", function() {
+                            return [false];
+                        });
+                        $location.path('/share');
+                        $scope.$apply();
                     });
-                    $location.path('/share');
-                    $scope.$apply();
-                });
+                } else {
+                    sshext.connect(host, port, username, password, paramikojsPkey, function(err) {
+                        Meteor._reload.onMigrate("onMigrate", function() {
+                            return [false];
+                        });
+                        $location.path('/share');
+                        $scope.$apply();
+                    });
+                }
                 modalInstance = $modal.open({
                     templateUrl: 'templates/connectmodal.html',
                     controller: ['$scope', '$modalInstance', 'sshstate',
@@ -113,8 +125,8 @@ angular.module('nuttyapp')
             }
 
             $scope.submit = function() {
-                if (!ssh.appinstalled) {
-                    alert("Click 'Install Nutty'");
+                if (!ssh.appinstalled && !sshext.appinstalled) {
+                    alert("Nutty not installed");
                     return;
                 }
                 var host, port;
@@ -200,7 +212,7 @@ angular.module('nuttyapp')
                 }
             }
             $scope.serverconnect = function(server) {
-                if (ssh.appinstalled) {
+                if (ssh.appinstalled || sshext.appinstalled) {
                     gKeys[1] = server.pvtkey;
                     connect(server.host, server.port, server.username, server.password, server.pvtkey);
                 } else {
@@ -213,10 +225,25 @@ angular.module('nuttyapp')
                 });
             }
             $scope.disabled = function() {
-                if (ssh.appinstalled)
+                if (ssh.appinstalled || sshext.appinstalled)
                     return "";
                 else
                     return "disabled";
+            }
+            $scope.nuttyio_install_visible = function() {
+                if ($location.host() !== 'nutty.io' && $location.host() !== 'www.nutty.io') {
+                    return false;
+                }
+                if (ssh.appinstalled)
+                    return false;
+                else
+                    return true;
+            }
+            $scope.nonnuttyio_install_visible = function() {
+                if ($location.host() !== 'nutty.io' && $location.host() !== 'www.nutty.io') {
+                    return true;
+                } else
+                    return false;
             }
             $scope.addtochrome = function() {
                     if (Compatibility.browser.incompatible) {

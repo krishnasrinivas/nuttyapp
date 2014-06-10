@@ -43,17 +43,10 @@ aws.awsid and aws.awssecret can be configured if you plan to record terminal and
 webrtc should be configured if you need WebRTC. For webrtc config details check http://peerjs.com/.
 nutty.io's webrtc config looks like this:
 
-            "webrtc": {
-                "host": "nutty.io",
-                "port": 9000,
-                "iceServers": [{
-                    "url": "stun:webrtc.nutty.io:3478"
-                }]
-            }
-
-
-In case you want to host a private nutty server you need to make an entry in hosts file so that
-the name "privatenutty" resolves to the IP address where you host nutty server. You will then
-need to use "privatenutty" in the address bar of Chrome. More instructions on how to edit host
-files is here: http://www.rackspace.com/knowledge_center/article/how-do-i-modify-my-hosts-file
-
+        "webrtc": {
+            "host": "webrtc-nuttyapp.rhcloud.com",
+            "port": 8443,
+            "iceServers": [{
+                "url": "stun:stun.l.google.com:19302"
+            }]
+        }

@@ -7,7 +7,6 @@
 gRsaKeyWorkerJs = 'views/sign_ssh_data_worker.js';
 paramikojs_log = false;
 
-
 angular.module('nuttyapp')
     .factory('sshstate', ['$rootScope', function($rootScope) {
         var retobj = {
@@ -24,13 +23,18 @@ angular.module('nuttyapp')
     }]);
 
 angular.module('nuttyapp')
-    .factory('ssh', ['$rootScope', 'sshstate', function($rootScope, sshstate) {
+    .factory('ssh', ['$rootScope', 'sshstate', '$location', function($rootScope, sshstate, $location) {
             var port;
             var inputcbk;
             var extid = "jeiifmbcmlhfgncnihbiicdbhnbagmnk";
-            // var extid = "doafdnipfndehkkojdhpocnoifknlend";
+            // var extid = "lkgbmmefjhdfcgdlmofkleimdojgklha";
             var trans;
             var channel;
+            var nuttyio = $location.host() === 'nutty.io' || $location.host() === 'www.nutty.io';
+
+            if (!nuttyio) {
+                return {};
+            }
 
             var retobj = {
                 appinstalled: false,
