@@ -15,6 +15,11 @@ angular.module('nuttyapp')
             var notmobile = !Compatibility.ismobile;
             var nuttyio = $location.host() === 'nutty.io' || $location.host() === 'www.nutty.io';
 
+            if (nuttyio) {
+                if ($location.protocol() === 'http')
+                    window.location.protocol = 'https';
+            }
+
             $scope.creds = {
                 password: ''
             };
