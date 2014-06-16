@@ -12,8 +12,8 @@ angular.module('nuttyapp')
             restrict: 'E',
             replace: true,
             link: function(scope, element, attrs, Ctrl) {},
-            controller: ['$scope', 'Recorder', 'NuttyConnection', 'alertBox', 'NuttySession',
-                function($scope, Recorder, NuttyConnection, alertBox, NuttySession) {
+            controller: ['$scope', 'Recorder', 'NuttyConnection', 'alertBox', 'NuttySession', '$location',
+                function($scope, Recorder, NuttyConnection, alertBox, NuttySession, $location) {
                     var _uploaderr = false;
                     var record = Session.get("record");
                     var upload = false;
@@ -42,7 +42,7 @@ angular.module('nuttyapp')
                     $scope.play = function() {
                         if (filename) {
                             mixpanel.track("localplay");
-                            window.open("https://nutty.io/localrecord/" + filename);
+                            window.open($location.protocol() + "://" + $location.host() + ":" + $location.port() + "/localrecord/" + filename);
                         } else
                             alertBox.alert("danger", "No recording available");
                     }
