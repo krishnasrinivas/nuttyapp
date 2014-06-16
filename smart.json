@@ -1,11 +1,11 @@
 {
   "packages": {
     "winston": {},
-    "crypto-base": {},
     "crypto-hmac": {},
     "crypto-sha1": {},
     "crypto-md5": {},
     "crypto-base64": {},
+    "crypto-base": {"version":"3.1.2.1"},
     "knox": {}
   }
 }
