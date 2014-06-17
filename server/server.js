@@ -190,7 +190,7 @@ Meteor.startup(function() {
 });
 
 var methods = {};
-methods['getWebrtcConfig'] = function() {
+methods['getWebrtcConfig'] = function(host) {
     return authinfo.webrtc;
 };
 methods['createMasterSession'] = function(clientid) {
@@ -462,7 +462,7 @@ Meteor.publish('ownedsessions', function() {
     if (!this.userId) {
         this.ready();
         return;
-    }    
+    }
     return NuttySession.find({
         userId: this.userId,
         type: "master"

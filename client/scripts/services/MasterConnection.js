@@ -18,7 +18,7 @@ angular.module('nuttyapp')
             }, function(newval, oldval) {
                 if (!newval)
                     return;
-                Meteor.call('getWebrtcConfig', function(err, webrtcconfig) {
+                Meteor.call('getWebrtcConfig', $location.host(), function(err, webrtcconfig) {
                     function processinput(data) {
                         var msg = {};
                         if (!data)
