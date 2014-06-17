@@ -34,12 +34,12 @@ if (!authinfo.aws)
  * npm install peer
  */
 
-if (!authinfo.webrtc)
-    authinfo.webrtc = {
-        host: "",
-        port: 9000,
-        'iceServers': [{ url: 'stun:stun.l.google.com:19302' }]
-    }
+// if (!authinfo.webrtc)
+//     authinfo.webrtc = {
+//         host: "",
+//         port: 9000,
+//         'iceServers': [{ url: 'stun:stun.l.google.com:19302' }]
+//     }
 
 ServiceConfiguration.configurations.remove({
     service: "google"
@@ -191,8 +191,15 @@ Meteor.startup(function() {
 
 var methods = {};
 methods['getWebrtcConfig'] = function(host) {
+    if (!authinfo.webrtc)
+        authinfo.webrtc = {
+            host: host,
+            port: process.env.PEERJSPORT,
+            iceServers: [{ url: 'stun:' + host + ':' + process.env.TURNPORT}]
+        }
     return authinfo.webrtc;
 };
+
 methods['createMasterSession'] = function(clientid) {
     var sessionid = Random.hexString(10);
     if (!Match.test(clientid, String))
