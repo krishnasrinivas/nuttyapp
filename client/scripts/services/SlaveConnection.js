@@ -46,7 +46,7 @@ angular.module('nuttyapp')
                             }, 1000);
                         });
                     } else if (retobj.type === 'webrtc') {
-                        Meteor.call('getWebrtcConfig', function(err, webrtcconfig) {
+                        Meteor.call('getWebrtcConfig', $location.host(), function(err, webrtcconfig) {
                             if (err) {
                                 console.log("Meteor.call(getWebrtcConfig) returned : " + (err.reason));
                                 return;
