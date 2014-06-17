@@ -20,5 +20,5 @@ RUN tar xzf bundle.tgz
 EXPOSE 80
 ENV PORT 80
 ENV MONGO_URL mongodb://localhost/nuttyapp?autoReconnect=true
-ENTRYPOINT service mongodb start; sleep 2; node /opt/bundle/main.js
+ENTRYPOINT mongod --noprealloc --smallfiles --fork --logpath /var/log/mongodb/mongod.log;  node /opt/bundle/main.js
 
