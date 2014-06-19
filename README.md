@@ -4,6 +4,11 @@ LICENSE
 -------
 nutty is licensed under GPLv3
 
+Docker image
+------------
+Details here: https://registry.hub.docker.com/u/krishnasrinivas/nuttyapp/
+(docker specific code on docker branch)
+
 Nutty server install
 --------------------
 
