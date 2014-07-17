@@ -15,6 +15,8 @@ angular.module('nuttyapp')
             var notmobile = !Compatibility.ismobile;
             var nuttyio = $location.host() === 'nutty.io' || $location.host() === 'www.nutty.io';
 
+            $scope.hostport = "localhost";
+
             if (nuttyio) {
                 if ($location.protocol() === 'http')
                     window.location.protocol = 'https';
