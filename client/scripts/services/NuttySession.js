@@ -5,8 +5,8 @@
  */
 
 angular.module('nuttyapp')
-    .factory('NuttySession', ['$rootScope',
-        function($rootScope) {
+    .factory('NuttySession', ['$rootScope', 'alertBox',
+        function($rootScope, alertBox) {
             var SessionColl = new Meteor.Collection('nuttysession');
             var users = [];
             var sscursor;
@@ -70,6 +70,9 @@ angular.module('nuttyapp')
                     },
                     removedAt: function(doc, atIndex) {
                         users.splice(atIndex, 1);
+                        if (doc.type === 'master') {
+                            alertBox.alert("danger", "Sharer has disconnected");
+                        }
                         safeApply($rootScope);
                     },
                     movedTo: function(document, fromIndex, toIndex, before) {
@@ -167,6 +170,15 @@ angular.module('nuttyapp')
                                 retobj.userloggedout();
                         }
                     });
+                    setTimeout(function() {
+                        if (!_.find(users,
+                            function(doc) {
+                                return doc.type === 'master'
+                        })) {
+                            alertBox.alert("danger", "Looks like the sharer has disconnected");
+                            $rootScope.$apply();
+                        }
+                    }, 6000);
                 },
                 setreadonly: function(ro) {
                     SessionColl.update({
