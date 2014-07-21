@@ -74,7 +74,7 @@ angular.module('nuttyapp')
                     removedAt: function(doc, atIndex) {
                         users.splice(atIndex, 1);
                         if (doc.type === 'master' && retobj.type === 'slave') {
-                            alertBox.alert("danger", "Sharer has disconnected");
+                            alertBox.alert("danger", "Sharer is not connected");
                         }
                         safeApply($rootScope);
                     },
@@ -177,7 +177,7 @@ angular.module('nuttyapp')
                             function(doc) {
                                 return doc.type === 'master'
                         })) {
-                            alertBox.alert("danger", "Looks like the sharer has disconnected");
+                            alertBox.alert("danger", "Sharer is not connected");
                             $rootScope.$apply();
                         }
                     }, 6000);
