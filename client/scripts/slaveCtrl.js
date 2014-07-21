@@ -56,6 +56,7 @@ angular.module('nuttyapp')
                         SlaveConnection.type = 'webrtc';
                         if (Compatibility.browser.browser !== "Chrome") {
                             alertBox.alert("danger", "WebRTC currently supported on Chrome. Try sharing using WebSockets")
+                            alert("WebRTC currently supported on Chrome. Try sharing using WebSockets")
                             return;
                         }
                     }

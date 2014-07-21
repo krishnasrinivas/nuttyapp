@@ -12,8 +12,8 @@ angular.module('nuttyapp')
             restrict: 'E',
             replace: true,
             link: function(scope, element, attrs, Ctrl) {},
-            controller: ['$scope', 'Recorder', 'NuttyConnection', 'alertBox', 'NuttySession', '$location',
-                function($scope, Recorder, NuttyConnection, alertBox, NuttySession, $location) {
+            controller: ['$scope', 'Recorder', 'NuttyConnection', 'alertBox', 'NuttySession', '$location', 'Compatibility',
+                function($scope, Recorder, NuttyConnection, alertBox, NuttySession, $location, Compatibility) {
                     var _uploaderr = false;
                     var record = Session.get("record");
                     var upload = false;
@@ -40,6 +40,10 @@ angular.module('nuttyapp')
                             return "";
                     }
                     $scope.play = function() {
+                        if (Compatibility.browser.browser !== "Chrome") {
+                            alertBox.alert("danger", "Only Chrome supported right now");
+                            return;
+                        }
                         if (filename) {
                             mixpanel.track("localplay");
                             window.open($location.protocol() + "://" + $location.host() + ":" + $location.port() + "/localrecord/" + filename);
@@ -65,6 +69,10 @@ angular.module('nuttyapp')
 
                     $scope.upload = function() {
                         submitted = true;
+                        if (Compatibility.browser.browser !== "Chrome") {
+                            alertBox.alert("danger", "Only Chrome supported right now");
+                            return;
+                        }
                         setTimeout(function() {
                             term.focus();
                         }, 0);
@@ -185,6 +193,10 @@ angular.module('nuttyapp')
                     }
 
                     $scope.record = function() {
+                        if (Compatibility.browser.browser !== "Chrome") {
+                            alertBox.alert("danger", "Only Chrome supported right now");
+                            return;
+                        }
                         record = !record;
                         if (record) {
                             mixpanel.track("record");
