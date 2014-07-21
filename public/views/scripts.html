@@ -6,28 +6,42 @@
   <div class="vertical-container fullheight">
     <div class="vertically-centered">
 
-      <h3 ng-show="currentuser()">Number of uploaded recordings : [[recordings.length]]</h3>
+      <h3 class="pushdown text-center" ng-show="currentuser()">Canned support Scripts:</h3>
       <alert ng-hide="currentuser()" type="danger"><h3>Not loggedin</h3></alert>
-      <table class="table table-bordered">
+
+      <div ng-show="currentuser()" class="form-group pushdown nutty-ssh-creds">
+        <div class="row">
+          <div class="col-xs-4" style="margin-top:6px">
+            <strong>Choose file to upload:</strong>
+          </div>
+          <div class="col-xs-8" style="margin-top:6px">
+            <input id="script" type="file" ng-change="change()" ng-model="unusedmodel">
+          </div>
+        </div>
+        <br>
+        <div class="row">
+          <div class="col-xs-4">
+            <strong>Description:</strong>
+          </div>
+          <div class="col-xs-8">
+            <input ng-model="desc" class="form-control"></input>
+          </div>
+        </div>
+        <br>
+        <button ng-click="upload()" class="col-xs-push-4 col-xs-3 btn btn-primary">Upload</button>
+        <br><br>
+      </div>
+
+      <table class="table serverlist">
         <tbody>
-          <tr ng-repeat="recording in recordings">
+          <tr ng-repeat="script in scripts">
             <td>[[$index+1]]</td>
-            <td>
-              <a href="/recording/[[recording.filename]]" target="_blank" class="pull-left">[[recording.sessionid]] </a>
-              <button ng-click="embed($index)" class="btn btn-default btn-xs pull-right">Embed</button>
-            </td>
-            <td>
-                [[recording.desc]]
-            </td>
-            <td>
-                [[datetime($index)]]
-            </td>
-            <td>
-              <button class="btn btn-danger btn-xs" ng-click="deleterecording($index)">Delete</button>
-            </td>
+            <td>[[script.description]]</td>
+            <td><button class="btn btn-xs btn-danger" ng-click="removescript(script._id)">Delete</button></td>
           </tr>
         </tbody>
       </table>
+
     </div>
   </div>
   </div>
@@ -59,8 +73,8 @@
           <ul class="nav navbar-nav">
             <li><a href="/">Home</a></li>
             <li><a href="/sharedsessions">Shared Sessions</a></li>
-            <li class="active"><a href="/uploads">Uploaded recorded sessions</a></li>
-            <li><a href="/scripts">Canned support scipts</a></li>
+            <li><a href="/uploads">Uploaded recorded sessions</a></li>
+            <li class="active"><a href="/scripts">Canned support scipts</a></li>
             <li><a href="/faq">FAQ</a></li>
           </ul>
         </div>

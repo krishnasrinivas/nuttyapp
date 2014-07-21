@@ -179,6 +179,27 @@ NuttyRecordings.allow({
     }
 });
 
+CannedScripts = new Meteor.Collection('cannedscripts');
+CannedScripts._ensureIndex({
+    userId: 1,
+    createdAt: -1
+});
+CannedScripts.allow({
+    insert: function(userId, doc) {
+        if (doc.userId !== userId)
+            return false;
+        if (!doc.description)
+            return false;
+        return true;
+    },
+    remove: function(userId, doc) {
+        if (userId && userId === doc.userId)
+            return true;
+        else
+            return false;
+    }
+});
+
 Meteor.startup(function() {
     NuttySession.remove({
         $or: [{
@@ -327,6 +348,19 @@ methods['userloggedout'] = function(sessionid, clientid) {
             username: ''
         }
     });
+}
+
+methods['getscriptcontent'] = function(_id) {
+    if (!this.userId) {
+        return;
+    }
+
+    var script = CannedScripts.findOne({_id:_id});
+    if (script.userId !== this.userId)
+        return;
+    if (script) {
+        return script.content;
+    }
 }
 
 Meteor.methods(methods);
@@ -486,5 +520,19 @@ Meteor.publish('ownedrecordings', function() {
 Meteor.publish('demosession', function() {
     return NuttySession.find({
         sessionid: "demosessionid"
+    });
+});
+
+Meteor.publish('ownedcannedscripts', function() {
+    if (!this.userId) {
+        this.ready();
+        return;
+    }
+    return CannedScripts.find({
+        userId: this.userId,
+    }, {
+        fields: {
+            content: 0
+        }
     });
 });

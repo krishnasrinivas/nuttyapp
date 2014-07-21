@@ -60,6 +60,9 @@ angular.module('nuttyapp')
                             if (doc.desc)
                                 retobj.desc = doc.desc;
                         }
+                        if (doc.type === 'master' && retobj.type === 'slave') {
+                            alertBox.close();
+                        }
                         safeApply($rootScope);
                     },
                     changedAt: function(newdoc, olddoc, atIndex) {
@@ -70,7 +73,7 @@ angular.module('nuttyapp')
                     },
                     removedAt: function(doc, atIndex) {
                         users.splice(atIndex, 1);
-                        if (doc.type === 'master') {
+                        if (doc.type === 'master' && retobj.type === 'slave') {
                             alertBox.alert("danger", "Sharer has disconnected");
                         }
                         safeApply($rootScope);
@@ -83,7 +86,6 @@ angular.module('nuttyapp')
                     }
                 });
             }
-
             function observeSession(sessionid) {
                 var session = SessionColl.find({
                     type: "session",
