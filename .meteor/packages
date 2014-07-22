@@ -16,3 +16,6 @@ crypto-md5
 crypto-hmac
 knox
 service-configuration
+accounts-base
+accounts-password
+email

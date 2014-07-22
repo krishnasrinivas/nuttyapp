@@ -5,8 +5,8 @@
  */
 
 angular.module('nuttyapp')
-    .factory('NuttySession', ['$rootScope', 'alertBox',
-        function($rootScope, alertBox) {
+    .factory('NuttySession', ['$rootScope', 'alertBox', '$timeout',
+        function($rootScope, alertBox, $timeout) {
             var SessionColl = new Meteor.Collection('nuttysession');
             var users = [];
             var sscursor;
@@ -323,7 +323,10 @@ angular.module('nuttyapp')
                     console.log(before);
                 }
             });
-
+            // function rootScopeapply() {
+            //     $timeout(rootScopeapply, 2000);
+            // }
+            // rootScopeapply();
             return retobj;
         }
     ]);

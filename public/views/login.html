@@ -1,0 +1,212 @@
+<a href="https://github.com/krishnasrinivas/nuttyapp" style="position: absolute; top: 0; left: 0; border: 0;z-index:1">
+    <img src="/images/forkme.png" alt="">
+</a>
+<div class="row fullheight">
+    <div class="col-xs-9 content">
+        <div class="vertical-container fullheight">
+            <div class="vertically-centered">
+
+                <h3 class="text-center pushdown" ng-show="loggedinas()">Loggedin as <strong><i>[[loggedinas()]]</i></strong></h3>
+                <alert ng-show="verification.show" type="success" close="verification.close()">
+                [[verification.msg]]
+                </alert>
+                <div ng-hide="loggedinas()">
+
+                <div ng-show="showresetpwdbox" style="width:500px" class="mainbox pushdown col-xs-6">
+                    <div class="panel panel-info">
+                        <div class="panel-heading">
+                            <div class="panel-title">Forgot password? Enter your emailid</div>
+                            <div style="float:right; font-size: 85%; position: relative; top:-20px">
+                                <button id="signinlink" class="btn btn-primary btn-xs" ng-click="showloginbox=true;showresetpwdbox=false">Sign In</button>
+                            </div>
+                        </div>
+
+                        <div style="padding-top:30px" class="panel-body">
+
+                            <div style="display:none" id="login-alert" class="alert alert-danger col-sm-12"></div>
+
+                            <form id="loginform" ng-submit="resetpwd.reset()" class="form-horizontal" role="form">
+
+                                <div style="margin-bottom: 25px" class="input-group">
+                                    <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                                    <input type="text" ng-model="resetpwd.email" class="form-control" value="" placeholder="email">
+                                </div>
+
+                                <div style="margin-top:10px" class="form-group">
+                                    <div class="col-sm-12 controls">
+                                        <input id="btn-login" type="submit" value="Reset" class="btn btn-success"></input>
+                                    </div>
+                                    <div class="pull-right" style="height:50px;width:50px" ng-show="resetpwd.spinner">
+                                        <div us-spinner></div>
+                                    </div>
+                                </div>
+
+                                <alert style='margin:10px;margin-bottom:0px' ng-show='resetpwd.show' type='danger' close='resetpwd.close()'>[[resetpwd.msg]]</alert>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+
+
+
+
+                <div ng-show="showloginbox" style="width:500px" class="mainbox pushdown col-xs-6">
+                    <div class="panel panel-info">
+                        <div class="panel-heading">
+                            <div class="panel-title">Sign In</div>
+                            <div style="float:right; font-size: 80%;cursor:pointer; position: relative; top:-10px"><a ng-click="showresetpwdbox=true;showloginbox=false">Forgot password?</a>
+                            </div>
+                        </div>
+
+                        <div style="padding-top:30px" class="panel-body">
+
+                            <div style="display:none" id="login-alert" class="alert alert-danger col-sm-12"></div>
+
+                            <form id="loginform" ng-submit="login()" class="form-horizontal" role="form">
+
+                                <div style="margin-bottom: 25px" class="input-group">
+                                    <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                                    <input id="login-username" type="text" ng-model="lusername" class="form-control" name="username" value="" placeholder="username or email">
+                                </div>
+
+                                <div style="margin-bottom: 25px" class="input-group">
+                                    <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
+                                    <input id="login-password" type="password" ng-model="lpassword" class="form-control" name="password" placeholder="password">
+                                </div>
+
+                                <div style="margin-top:10px" class="form-group">
+                                    <div class="col-sm-12 controls">
+                                        <input id="btn-login" class="btn btn-success" type="submit" value="Login"></input>
+                                        <a id="btn-fblogin" ng-click="googlelogin()" class="btn btn-primary">Login with Google</a>
+                                        <div class="pull-right" style="margin-top:20px;height:50px;width:50px" ng-show="spinnershow()">
+                                            <div us-spinner></div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <alert style='margin:10px;margin-bottom:0px' ng-show='lalert.show' type='lalert.type' close='lalert.close()'>[[lalert.msg]]</alert>
+
+                                <div class="form-group">
+                                    <div class="col-md-12 control">
+                                        <div style="border-top: 1px solid#888; padding-top:15px; font-size:85%">
+                                            Don't have an account?
+                                            <a class="btn btn-danger btn-xs" ng-click="showsignupbox=true;showloginbox=false;showresetpwdbox=false">
+                                            Sign Up Here
+                                        </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- <div id="signupbox" ng-show="showsignupbox" class="mainbox pushdown col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2"> -->
+                <div id="signupbox" ng-show="showsignupbox" class="mainbox pushdown" style="width:500px">
+                    <div class="panel panel-info">
+                        <div class="panel-heading">
+                            <div class="panel-title">Sign Up</div>
+                            <div style="float:right; font-size: 85%; position: relative; top:-20px">
+                                <button id="signinlink" class="btn btn-primary btn-xs" ng-click="showsignupbox=false;showloginbox=true;showresetpwdbox=false">Sign In</button>
+                            </div>
+                        </div>
+                        <div class="panel-body">
+                            <form id="signupform" ng-submit="signuppassword()" class="form-horizontal" role="form">
+
+                                <div id="signupalert" style="display:none" class="alert alert-danger">
+                                    <p>Error:</p>
+                                    <span></span>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="email" class="col-md-3 control-label">Email</label>
+                                    <div class="col-md-9">
+                                        <input type="text" ng-model="email" class="form-control" name="email" placeholder="Email Address">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="lastname" class="col-md-3 control-label">Username</label>
+                                    <div class="col-md-9">
+                                        <input type="text" ng-model="username" class="form-control" name="username" placeholder="Username">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="password" class="col-md-3 control-label">Password</label>
+                                    <div class="col-md-9">
+                                        <input type="password" ng-model="password" class="form-control" name="passwd" placeholder="Password">
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <!-- Button -->
+                                    <div class="col-md-offset-3 col-md-9">
+                                        <!-- <button ng-click="signuppassword()" id="btn-signup" type="button" class="btn btn-info">Sign Up</button> -->
+                                        <input type="submit" type="submit" class="btn btn-info" value="Sign Up"></input>
+                                        <span style="margin-left:8px;">or</span>
+                                        <div class="pull-right" style="margin-top:20px;height:50px;width:50px" ng-show="spinnershow()">
+                                            <div us-spinner></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <alert style='margin:10px;margin-bottom:0px' ng-show='alert.show' type='alert.type' close='alert.close()'>[[alert.msg]]</alert>
+                                <div style="border-top: 1px solid #999; padding-top:20px" class="form-group">
+                                    <div class="col-md-offset-3 col-md-9">
+                                        <button ng-click="googlelogin()" id="btn-fbsignup" type="button" class="btn btn-primary">Sign Up with Google</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+    <div class="col-xs-3 fullheight pad0">
+        <div class="vertical-container fullheight">
+            <div class="sidebar-nav fullwidth vertically-centered">
+                <nutty-signin></nutty-signin>
+                <div class="socialbtns row">
+                    <div class="pull-left">
+                        <iframe allowtransparency="true" frameborder="0" scrolling="no" src="https://platform.twitter.com/widgets/tweet_button.html?url=https://nutty.io&text=SSH-Terminal sharing using Browser!&size=large&via=nuttydotio" style="width:90px; height:20px;"></iframe>
+                    </div>
+                    <div class="pull-right">
+                        <iframe src="/github-btn.html?user=krishnasrinivas&repo=nuttyapp&type=watch&count=true" allowtransparency="true" frameborder="0" scrolling="0" width="90" height="20"></iframe>
+                    </div>
+                </div>
+                <div class="socialbtns row">
+                    <div class="pull-left">
+                        <a target="_blank" href="https://twitter.com/nuttydotio" class="btn btn-default btn-xs" style="height:22px;border-radius:4px;background-color:rgb(242,242,242)">
+                            <img src="/images/twitter.png" height="16" alt=""> <strong>@nuttydotio</strong>
+                        </a>
+                    </div>
+                    <div class="">
+                        <a target="_blank" href="https://groups.google.com/group/nuttydotio" class="btn btn-default btn-xs" style="height:22px;border-radius:4px;margin-left:10px;background-color:rgb(242,242,242)"><strong>Email</strong></a>
+                    </div>
+                </div>
+
+                <div class="navbar navbar-default" role="navigation">
+                    <div>
+                        <ul class="nav navbar-nav">
+                            <li><a href="/">Home</a>
+                            </li>
+                            <li class="active"><a href="/login">Login</a>
+                            </li>
+                            <li><a href="/sharedsessions">Shared Sessions</a>
+                            </li>
+                            <li><a href="/uploads">Uploaded recorded sessions</a>
+                            </li>
+                            <li><a href="/scripts">Canned support scipts</a>
+                            </li>
+                            <li><a href="/faq">FAQ</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -7,6 +7,7 @@
 angular.module('nuttyapp')
     .factory('NuttyConnection', ['$rootScope', 'NuttySession',
         function($rootScope, NuttySession) {
-            return {}
+        	var retobj = {};
+            return retobj;
         }
     ]);

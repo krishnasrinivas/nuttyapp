@@ -12,8 +12,8 @@ angular.module('nuttyapp')
             restrict: 'E',
             replace: true,
             link: function(scope, element, attrs, termController) {},
-            controller: ['$scope', 'NuttySession', '$modal',
-                function($scope, NuttySession, $modal) {
+            controller: ['$scope', 'NuttySession', '$modal', '$location',
+                function($scope, NuttySession, $modal, $location) {
                     Deps.autorun(function() {
                         Meteor.userId();
                         setTimeout(function() {
@@ -30,9 +30,9 @@ angular.module('nuttyapp')
                     };
                     $scope.signintext = function() {
                         if (Meteor.userId()) {
-                            return "Sign Out";
+                            return "Log Out";
                         } else
-                            return "Sign In";
+                            return "Log In";
                     }
                     $scope.signinout = function($event) {
                         // $event.stopPropagation();
@@ -45,68 +45,17 @@ angular.module('nuttyapp')
                                     $scope.$apply();
                                 });
                             });
-                        } else
-                            Meteor.loginWithGoogle(function(err) {
-                                if (err) {
-                                    console.log("Error logging in: " + err);
-                                    return;
-                                }
-                                if (Meteor.user().username) {
-                                    NuttySession.userloggedin();
-                                    $scope.$apply();
-                                    return;
-                                }
-                                var modalInstance = $modal.open({
-                                    templateUrl: 'templates/username.html',
-                                    controller: ['$scope', '$modalInstance',
-                                        function($scope, $modalInstance) {
-                                            $scope.user = {
-                                                username: ""
-                                            };
-                                            $scope.spinner = {
-                                                spin: false
-                                            };
-                                            $scope.ok = function() {
-                                                $scope.spinner.spin = true;
-                                                $scope.error = "";
-                                                console.log("username is : " + $scope.user.username);
-                                                Meteor.call('userExists', $scope.user.username, function(err, alreadyexists) {
-                                                    if (alreadyexists) {
-                                                        $scope.spinner.spin = false;
-                                                        $scope.error = "Username " + $scope.user.username + " already exists";
-                                                        $scope.$apply();
-                                                    } else {
-                                                        $scope.spinner.spin = false;
-                                                        Meteor.users.update({
-                                                            _id: Meteor.userId()
-                                                        }, {
-                                                            $set: {
-                                                                username: $scope.user.username
-                                                            }
-                                                        }, function(err) {
-                                                            if (err) {
-                                                                $scope.spinner.spin = false;
-                                                                $scope.error = "Error, try different username";
-                                                                $scope.$apply();
-                                                            } else
-                                                                $modalInstance.close($scope.user.username);
-                                                        });
-                                                    }
-                                                });
-                                            }
-                                        }
-                                    ]
-                                });
-                                modalInstance.result.then(function(username) {
-                                    NuttySession.userloggedin();
-                                    console.log("username is : " + username);
-                                }, function() {
-                                    console.log('Modal dismissed at: ' + new Date());
-                                    Meteor.logout(function() {
-                                        $scope.$apply();
-                                    });
-                                });
-                            });
+                        } else {
+                            if (NuttySession.type) {
+                                var port = $location.port();
+                                var portstr = (port === 80 || port === 443) ? '' : ':' + port;
+                                window.open($location.protocol() + '://' + $location.host() + portstr + '/login');
+                                return;
+                            } else {
+                                $location.path('/login');
+                                return;
+                            }
+                        }
                     };
                 }
             ]

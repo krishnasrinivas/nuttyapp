@@ -7,9 +7,14 @@
 angular.module('nuttyapp')
     .controller('masterCtrl', ['$scope', '$modal', '$location','NuttySession', 'ssh', 'NuttyConnection', 'alertBox', 'MasterConnection',
         function($scope, $modal, $location, NuttySession, ssh, NuttyConnection, alertBox, MasterConnection) {
-            NuttyConnection.write = ssh.write;
+            var nuttyio = $location.host() === 'nutty.io' || $location.host() === 'www.nutty.io';
             var port = $location.port();
             var portstr = (port === 80 || port === 443) ? '' : ':' + port;
+
+            if (nuttyio)
+                NuttyConnection.write = ssh.write;
+            else
+                NuttyConnection.write = sshext.write;
 
             if (!localStorage['conntype'])
                 localStorage['conntype'] = 'websocket';

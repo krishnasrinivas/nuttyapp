@@ -51,6 +51,41 @@ ServiceConfiguration.configurations.insert({
     secret: authinfo.google.secret
 });
 
+Accounts.config({
+    sendVerificationEmail: true
+});
+
+Accounts.emailTemplates.siteName = "nutty.io";
+Accounts.emailTemplates.from = "Nutty Admin <no-reply@nutty.io>";
+Accounts.emailTemplates.verifyEmail.text = function (user, url) {
+    return "Hello,\n\n" +
+        "To verify your account email, simply click the link below.\n\n" +
+        url.replace('/#', '') + "\n\n" +
+        "Thanks.";
+};
+
+Accounts.emailTemplates.resetPassword.text = function (user, url) {
+    return "Hello,\n\n" +
+        "To reset your password, simply click the link below.\n\n" +
+        url.replace('/#', '') + "\n\n" +
+        "Thanks.";
+};
+
+Accounts.validateNewUser(function(user) {
+    console.log(user);
+    if (user.services.google)  {
+        if (!user.services.google.email) {
+            return false;
+        }
+    }
+    if (user.services.password) {
+        if (!user.username)
+            throw new Meteor.Error(403, "Username not provided");
+        if (!user.emails)
+            throw new Meteor.Error(403, "Email not provided");
+    }
+    return true;
+});
 
 var awsid = authinfo.aws.awsid;
 var awssecret = authinfo.aws.awssecret;

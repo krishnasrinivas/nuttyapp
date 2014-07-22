@@ -17,6 +17,18 @@ nuttyapp.config(['$interpolateProvider', '$routeProvider', '$locationProvider',
                 templateUrl: 'views/index.html',
                 controller: 'indexCtrl'
             })
+            .when('/login', {
+                templateUrl: 'views/login.html',
+                controller: 'loginCtrl'
+            })
+            .when('/verify-email/:token', {
+                templateUrl: 'views/login.html',
+                controller: 'loginCtrl'
+            })
+            .when('/reset-password/:token', {
+                templateUrl: 'views/resetPassword.html',
+                controller: 'resetPasswordCtrl'
+            })
             .when('/sharedsessions', {
                 templateUrl: 'views/sharedsessions.html',
                 controller: 'sharedsessionsCtrl'
