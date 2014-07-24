@@ -95,6 +95,7 @@ angular.module('nuttyapp')
                                     $scope.verification.msg = "Email verified!";
                                 }
                                 $scope.verification.show = true;
+                                $scope.$apply();
                             });
                         }
                     }
