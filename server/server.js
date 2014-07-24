@@ -72,7 +72,6 @@ Accounts.emailTemplates.resetPassword.text = function (user, url) {
 };
 
 Accounts.validateNewUser(function(user) {
-    console.log(user);
     if (user.services.google)  {
         if (!user.services.google.email) {
             return false;
