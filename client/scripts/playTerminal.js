@@ -204,7 +204,31 @@ angular.module('nuttyapp')
                     }
                     this.start = function() {
                         var filename = Session.get("filename");
-                        if (filename) {
+                        if (Player.playback) {
+                            $scope.$parent.showdownloadprogress = false;
+                            $scope.$apply();
+                            Player.start(Player.playback, function(data) {
+                                    term.io.writeUTF8(data);
+                                },
+                                function(_rowcol) {
+                                    rowcol = _rowcol;
+                                    ctrl.changerowcol()
+                                }, function(data) {
+                                    console.log("got settermshot");
+                                    window.termshot = term.document_.createElement('div');
+                                    termshot.innerHTML = data;
+                                    var to = term.document_.body.firstChild.firstChild;
+                                    var i, j;
+                                    for (i = to.firstChild,j = termshot.firstChild; i && j; i = i.nextSibling, j = j.nextSibling) {
+                                        i.innerHTML = j.innerHTML;
+                                    }
+                                }, function(curspos) {
+                                    console.log("got curspos");
+                                    term.setCursorPosition(curspos.row, curspos.col);
+                                    term.syncCursorPosition_();
+                                });
+                            Player.play();
+                        } else if (filename) {
                             $scope.$parent.showdownloadprogress = false;
                             $scope.$apply();
                             var onInitFs_record = function(fs) {

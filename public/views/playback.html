@@ -5,9 +5,15 @@
   <div class="col-xs-9 content">
   <div class="vertical-container fullheight">
     <div class="vertically-centered">
+    <div class="pushdown">
 
-      <h3 ng-show="currentuser()">Number of uploaded recordings : [[recordings.length]]</h3>
-      <alert ng-hide="currentuser()" type="danger"><h3>Not loggedin</h3></alert>
+    <div class="jumbotron" style="display:inline-block">
+      <div class="pull-left"><strong>Playback recorded file:</strong></div>
+      <div class="pull-right"><input ng-model="unusedmodel" ng-change="change()" id="playbackrec" type="file"></input></div>
+    </div>
+
+      <h3 class="pushdown text-center" ng-show="currentuser()">Number of uploaded recordings : [[recordings.length]]</h3>
+      <alert class="pushdown" ng-hide="currentuser()" type="danger"><h3>Not loggedin</h3></alert>
       <table class="table table-bordered">
         <tbody>
           <tr ng-repeat="recording in recordings">
@@ -28,6 +34,7 @@
           </tr>
         </tbody>
       </table>
+      </div>
     </div>
   </div>
   </div>
@@ -60,7 +67,7 @@
             <li><a href="/">Home</a></li>
             <li><a href="/login">Login</a></li>
             <li><a href="/sharedsessions">Shared Sessions</a></li>
-            <li class="active"><a href="/uploads">Uploaded recorded sessions</a></li>
+            <li class="active"><a href="/playback">Playback recorded sessions</a></li>
             <li><a href="/scripts">Canned support scipts</a></li>
             <li><a href="/faq">FAQ</a></li>
           </ul>

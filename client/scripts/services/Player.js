@@ -153,7 +153,8 @@ angular.module('nuttyapp')
                 progress: 0,
                 time: "0:0",
                 pausevar: false,
-                playvar: false
+                playvar: false,
+                playback: undefined
             }
             window.Player = retobj;
             return retobj;

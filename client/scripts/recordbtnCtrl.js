@@ -39,6 +39,17 @@ angular.module('nuttyapp')
                         else
                             return "";
                     }
+                    $scope.save = function() {
+                        if (Compatibility.browser.browser !== "Chrome") {
+                            alertBox.alert("danger", "Only Chrome supported right now");
+                            return;
+                        }
+                        if (filename) {
+                            mixpanel.track("localplay");
+                            saveAs(Recorder.file, NuttySession.sessionid + ".nut");
+                        } else
+                            alertBox.alert("danger", "No recording available");
+                    }
                     $scope.play = function() {
                         if (Compatibility.browser.browser !== "Chrome") {
                             alertBox.alert("danger", "Only Chrome supported right now");

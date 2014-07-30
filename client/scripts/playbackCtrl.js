@@ -1,8 +1,11 @@
 angular.module('nuttyapp')
-    .controller('uploadsCtrl', ['$scope', 'NuttySession', '$modal',
-        function($scope, NuttySession, $modal) {
+    .controller('playbackCtrl', ['$scope', 'NuttySession', '$modal', '$location', 'Player',
+        function($scope, NuttySession, $modal, $location, Player) {
         	$scope.recordings = NuttySession.recordings;
             ga('send', 'pageview', 'uploads');
+            if (Player.playback) {
+                window.location.pathname = '/playback';
+            }
             $scope.currentuser = function() {
                 var user = Meteor.user();
                 if (user) {
@@ -34,5 +37,9 @@ angular.module('nuttyapp')
             }
             $scope.deleterecording = function(idx) {
                 NuttySession.deleterecording($scope.recordings[idx]._id);
+            }
+            $scope.change = function() {
+                Player.playback = $("#playbackrec")[0].files[0];
+                $location.path('/localplay');
             }
         }]);

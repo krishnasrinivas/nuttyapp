@@ -39,9 +39,9 @@ nuttyapp.config(['$interpolateProvider', '$routeProvider', '$locationProvider',
                     ga('send', 'pageview', 'faq');
                 }]
             })
-            .when('/uploads', {
-                templateUrl: 'views/uploads.html',
-                controller: 'uploadsCtrl'
+            .when('/playback', {
+                templateUrl: 'views/playback.html',
+                controller: 'playbackCtrl'
             })
             .when('/localrecord/:filename', {
                 template: '<div></div>',
