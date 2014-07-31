@@ -190,8 +190,7 @@ NuttyRecordings.allow({
             filename: String,
             sessionid: String,
             desc: Match.Optional(String),
-            createdAt: Date,
-            _id: String
+            createdAt: Date
         })) {
             console.log("does not match");
             console.log(doc);
