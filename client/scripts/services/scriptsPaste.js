@@ -9,8 +9,13 @@ angular.module('nuttyapp')
             controller: ['$scope', 'NuttyConnection', 'alertBox', 'cannedscripts',
                 function($scope, NuttyConnection, alertBox, cannedscripts) {
                     $scope.scripts = cannedscripts.scripts;
+                    $scope.selectedscript = {};
                     $scope.paste = function() {
-                        cannedscripts.getscriptcontent($scope.script._id, function(err, content) {
+                        if (!$scope.selectedscript.script) {
+                            alertBox.alert("danger", "Please select a script");
+                            return;
+                        }
+                        cannedscripts.getscriptcontent($scope.selectedscript.script._id, function(err, content) {
                             if (content)
                                 NuttyConnection.write({
                                     data: content
