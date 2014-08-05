@@ -70,7 +70,7 @@ angular.module('nuttyapp')
                         sshstate.error = "";
                         $rootScope.$apply();
                         var on_success = function(chan) {
-                            chan.get_pty('xterm-256color', 96, 28);
+                            chan.get_pty('linux', 96, 28);
                             chan.invoke_shell();
                             channel = chan;
                             authcbk();
