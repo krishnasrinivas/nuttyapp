@@ -389,7 +389,7 @@ methods['getscriptcontent'] = function(_id) {
     }
 
     var script = CannedScripts.findOne({_id:_id});
-    if (script.userId !== this.userId)
+    if (script.userId !== "standardscript" && script.userId !== this.userId)
         return;
     if (script) {
         return script.content;
@@ -562,10 +562,15 @@ Meteor.publish('ownedcannedscripts', function() {
         return;
     }
     return CannedScripts.find({
-        userId: this.userId,
+        $or : [{
+            userId: this.userId
+        }, {
+            userId: "standardscript"
+        }]
     }, {
         fields: {
-            content: 0
+            content: 0,
+            userId: 0
         }
     });
 });
