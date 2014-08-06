@@ -32,15 +32,15 @@ angular.module('nuttyapp')
                             return;
                         }
                         if (NuttySession.readonly) {
-                            if (data.data !== String.fromCharCode(2) + 'r')
+                            if (!data.gettermshot)
                                 return;
                         }
-                        if (data.data) {
-                            msg.data = data.data;
+                        if (data.gettermshot) {
+                            msg.gettermshot = data.gettermshot;
                         } else if (data.newtmuxsession) {
                             msg.newtmuxsession = data.newtmuxsession;
-                        } else if (data.gettermshot) {
-                            msg.gettermshot = data.gettermshot;
+                        } else if (data.data) {
+                            msg.data = data.data;
                         } else {
                             return;
                         }
