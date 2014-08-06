@@ -130,6 +130,16 @@ angular.module('nuttyapp')
                         console.log ("nutty BG app disconnected");
                     });
                 },
+                restartsession: function(cbk) {
+                    var on_success = function(chan) {
+                        chan.get_pty('linux', term.screenSize.width, term.screenSize.height);
+                        chan.invoke_shell();
+                        channel = chan;
+                        if (cbk)
+                            cbk();
+                    };
+                    trans.open_session(on_success);
+                },
                 ondata: function(cbk) {
                     inputcbk = cbk;
                 },
@@ -142,7 +152,9 @@ angular.module('nuttyapp')
                         console.log("ssh.write(): msg is null")
                         return;
                     }
-                    if (msg.data) {
+                    if (msg.newtmuxsession) {
+                        retobj.restartsession();
+                    } else if (msg.data) {
                         channel.send(msg.data);
                     } else if (msg.rowcol) {
                         channel.resize_pty(msg.col, msg.row);
