@@ -105,8 +105,8 @@ angular.module('nuttyapp')
                     termController.changerowcol();
                 });
             },
-            controller: ['$scope', 'SlaveConnection', 'NuttySession', 'Recorder', 'Compatibility',
-                function($scope, SlaveConnection, NuttySession, Recorder, Compatibility) {
+            controller: ['$scope', 'SlaveConnection', 'NuttySession', 'Compatibility',
+                function($scope, SlaveConnection, NuttySession, Compatibility) {
                     var ctrl = this;
 
                     if (Compatibility.browser.browser !== "Chrome" && Compatibility.browser.browser !== "Firefox" && Compatibility.browser.browser !== "Safari") {
@@ -123,7 +123,6 @@ angular.module('nuttyapp')
                     this.fromConnection = function(cbk) {
                         SlaveConnection.pipe.ondata(function(msg) {
                             cbk(msg);
-                            Recorder.write(msg);
                         });
                     }
                     this.toConnection = function(msg) {
@@ -173,11 +172,6 @@ angular.module('nuttyapp')
                             top: (outerdivElem.height() - termElem.height()) / 2
                         });
 
-                        Recorder.write({
-                            rowcol: 1,
-                            row: term.screenSize.height,
-                            col: term.screenSize.width
-                        });
                     }
                     $scope.$watch(function() {
                         return NuttySession.rowcol

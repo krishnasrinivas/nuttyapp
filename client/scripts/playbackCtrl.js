@@ -17,13 +17,11 @@ angular.module('nuttyapp')
             $scope.embed = function(idx) {
                 var modalInstance = $modal.open({
                     template: '<textarea style="width:100%;height:100%" id="embedid">' +
-                                '<iframe width="640" height="360" src="' + 'https://nutty.io/recording/' + $scope.recordings[idx].filename + ' frameborder="0"></iframe>'
+                                '<iframe width="640" height="360" src="' + 'https://nutty.io/recording/' + $scope.recordings[idx].sessionid + ' frameborder="0"></iframe>'
                                 +'</textarea>',
                     controller: ['$scope', '$modalInstance',
                         function($scope, $modalInstance) {
                             setTimeout(function() {
-                                // $('#embedid').value =
-                                //     '<iframe width="640" height="360" src="' + 'https://nutty.io/recording/' + $scope.recordings[idx].filename + '" frameborder="0"></iframe>';
                                 $('#embedid').focus();
                                 $('#embedid').select();
                             }, 0);

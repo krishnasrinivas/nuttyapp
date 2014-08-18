@@ -94,8 +94,9 @@ angular.module('nuttyapp')
                         var msg = {};
                         if (data.data)
                             msg.data = data.data;
-                        else if (data.settermshot)
+                        else if (data.settermshot) {
                             msg.settermshot = data.settermshot;
+                        }
                         else if (data.setcursorposition)
                             msg.setcursorposition = data.setcursorposition;
                         else
@@ -107,9 +108,14 @@ angular.module('nuttyapp')
                                 wsocketmaster.send(msg);
                             }
                         } else if (retobj.type === 'webrtc') {
+                            // console.log(wrtcconns);
                             for (var i = 0; i < wrtcconns.length; i++) {
                                 try {
-                                    wrtcconns[i].send(msg);
+                                    if (msg.settermshot) {
+                                        wrtcconns[i].settermshot = true;
+                                    }
+                                    if (wrtcconns[i].settermshot)
+                                        wrtcconns[i].send(msg);
                                 } catch (ex) {
                                     console.log ("unable to write to peer");
                                 }

@@ -22,6 +22,7 @@ angular.module('nuttyapp')
                 connect: function () {
                     function processinput(data) {
                         var msg = {};
+                        console.log(data);
                         if (!data)
                             return;
                         if (data.data)

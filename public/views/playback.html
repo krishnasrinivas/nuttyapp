@@ -4,11 +4,6 @@
     <div class="vertically-centered">
     <div class="pushdown">
 
-    <div class="jumbotron" style="display:inline-block">
-      <div class="pull-left"><strong>Playback recorded file:</strong></div>
-      <div class="pull-right"><input ng-model="unusedmodel" ng-change="change()" id="playbackrec" type="file"></input></div>
-    </div>
-
       <h3 class="pushdown text-center" ng-show="currentuser()">Number of uploaded recordings : [[recordings.length]]</h3>
       <alert class="pushdown" ng-hide="currentuser()" type="danger"><h3>Not loggedin</h3></alert>
       <table class="table table-bordered">
@@ -16,11 +11,8 @@
           <tr ng-repeat="recording in recordings">
             <td>[[$index+1]]</td>
             <td>
-              <a href="/recording/[[recording.filename]]" target="_blank" class="pull-left">[[recording.sessionid]] </a>
+              <a href="/recording/[[recording.sessionid]]" target="_blank" class="pull-left">[[recording.sessionid]] </a>
               <button ng-click="embed($index)" class="btn btn-default btn-xs pull-right">Embed</button>
-            </td>
-            <td>
-                [[recording.desc]]
             </td>
             <td>
                 [[datetime($index)]]

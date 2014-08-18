@@ -16,9 +16,6 @@ angular.module('nuttyapp')
                 var outerdivElem;
                 var terminalIframeElem;
 
-                if (scope.Compatibility.browser.browser !== "Chrome")
-                    return;
-
                 termElem = scope.terminalElem;
                 outerdivElem = scope.outerdivElem;
                 terminalIframeElem = scope.terminalIframeElem;
@@ -30,6 +27,8 @@ angular.module('nuttyapp')
                 };
 
                 scope.termstyle = {
+                    height: "100%",
+                    width: "100%",
                     position: "relative"
                 };
 
@@ -51,12 +50,6 @@ angular.module('nuttyapp')
 
                 Nuttyterm.prototype.onTerminalResize = function(col, row) {};
 
-                termController.fromRecording(function(msg) {
-                    if (term && msg && msg.data) {
-                        term.io.writeUTF16(msg.data);
-                    }
-                });
-
                 lib.init(function() {
                     scope.term = term = new hterm.Terminal();
                     window.term = scope.term = term;
@@ -72,84 +65,158 @@ angular.module('nuttyapp')
                     term.setCursorVisible(true);
                     term.vt.setDECMode('1000', true);
                     term.runCommandClass(Nuttyterm, document.location.hash.substr(1));
-                    // setTimeout(function() {
                     termController.start();
-                    // }, 500);
                 });
             },
-            controller: ['$scope', '$routeParams', '$http', '$location', 'Player', 'Compatibility',
-                function($scope, $routeParams, $http, $location, Player, Compatibility) {
-                    var ctrl = this;
-                    var play = true;
+            controller: ['$scope', '$routeParams', '$http', '$location', '$rootScope', '$q', 'Compatibility',
+                function($scope, $routeParams, $http, $location, $rootScope, $q, Compatibility) {
+                    var sessionid = $routeParams.sessionid;
                     var rowcol = {
                         row: 24,
                         col: 80
                     };
-                    $scope.Compatibility = Compatibility;
-                    if (Compatibility.browser.browser !== "Chrome")
-                        return;
-                    $scope.$parent.showdownloadprogress = true;
-                    $("#progressbarid").height($("#btngroupid").height());
-                    $("#timerid").height($("#btngroupid").height());
+                    var paused = 0;
+                    var onFinishhack = 0;
+                    var testtimeout;
+                    var tindex = 0;
+                    var timeout = undefined;
+                    var deltatimeout = undefined;
+                    var sliderinit = {
+                        min: 0,
+                        max: 1000,
+                        type: 'single',
+                        step: 1,
+                        from: 0,
+                        // gridMargin: 5,
+                        prettify: false,
+                        // hasGrid: true,
+                        onFinish: function(obj) {
+                            if (onFinishhack)
+                                return;
+                            onFinishhack = 1;
+                            clearTimeout(timeout);
+                            clearTimeout(deltatimeout);
+                            clearTimeout(testtimeout);
+                            sliderinit.from = Math.floor(obj.fromNumber / 30) * 30;
+                            if (sliderinit.from === sliderinit.max) {
+                                sliderinit.from = sliderinit.from - 30;
+                            }
+                            tindex = (sliderinit.from / 30);
+                            $("#example_id").ionRangeSlider("remove");
+                            $("#example_id").ionRangeSlider(sliderinit);
+                            loop();
+                            onFinishhack = 0;
+                        },
+                        onChange: function(obj) {
+                            clearTimeout(testtimeout);
+                        }
+                    }
+                    $scope.pauseplay = function() {
+                        if (paused) {
+                            paused = 0;
+                            tindex--;
+                            sliderinit.from = tindex * 30;
+                            $("#example_id").ionRangeSlider("remove");
+                            $("#example_id").ionRangeSlider(sliderinit);                            
+                            loop();
+                        } else {
+                            paused = 1;
+                            clearTimeout(timeout);
+                            clearTimeout(deltatimeout);
+                            clearTimeout(testtimeout);
+                        }
+                    }
+                    $scope.btnstate = function() {
+                        if (paused)
+                            return "play"
+                        else
+                            return "pause"
+                    }
+                    function test () {
+                        if (!(sliderinit.from < sliderinit.max))
+                            return;
+                        sliderinit.from += 1;
+                        $("#example_id").ionRangeSlider("update", {
+                            from: sliderinit.from
+                        });
+                        testtimeout = setTimeout(test, 1000);
+                    }
+
                     hterm.Keyboard.KeyMap.prototype.onZoom_ = function(e, keyDef) {
                         return hterm.Keyboard.KeyActions.CANCEL;
                     };
+                    // changerowcol = function(size) {
+                    //     var termElem;
+                    //     var outerdivElem;
+                    //     var terminalIframeElem;
+                    //     if (!rowcol.row)
+                    //         return;
+                    //     if (!$scope.term)
+                    //         return;
+                    //     if (!size)
+                    //         size = 15;
+                    //     if (size === 6)
+                    //         return;
+                    //     window.termElem = termElem = $scope.terminalElem;
+                    //     window.outerdivElem = outerdivElem = termElem.parent();
+                    //     window.terminalIframeElem = terminalIframeElem = $scope.terminalIframeElem;
+                    //     // termElem.height(terminalIframeElem.height());
+                    //     // termElem.width(terminalIframeElem.width());
+                    //     // return;
+                    //     console.log(rowcol);
+                    //     console.log(size);
+                    //     $scope.term.setFontSize(size);
+                    //     $scope.term.setHeight(rowcol.row);
+                    //     $scope.term.setWidth(rowcol.col);
 
-                    $scope.playpause = function() {
-                        if (Player.pausevar)
-                            Player.play();
-                        else if (Player.playvar)
-                            Player.pause();
-                        else
-                            Player.replay();
-                        term.focus();
-                    }
-                    $scope.playpauseicon = function() {
-                        if (Player.pausevar)
-                            return "play";
-                        else if (Player.playvar)
-                            return "pause";
-                        else
-                            return "play";
-                    }
-                    $scope.playpauseactive = function() {
-                        if (Player.playvar)
-                            return "active";
-                        if (Player.pausevar)
-                            return "active";
-                        return "";
-                    }
-                    $scope.replay = function() {
-                        Player.replay();
-                        term.focus();
-                    }
-                    $scope.playprogress = function() {
-                        return Player.progress;
-                    }
-                    $scope.timercountstr = function() {
-                        return Player.time;
-                    }
-                    this.fromRecording = function(cbk) {}
 
-                    this.changerowcol = function() {
+                    //     termElem.height(terminalIframeElem.height());
+                    //     termElem.width(terminalIframeElem.width());
+                    //     // return;
+                    //     setTimeout(function() {
+                    //         var H = outerdivElem.height();
+                    //         var W = outerdivElem.width();
+                    //         var h = termElem.height();
+                    //         var w = termElem.width();
+                    //         if ((w < W && h < H) || (w === W && h < H)) {
+                    //             termElem.css({
+                    //                 left: (outerdivElem.width() - termElem.width()) / 2,
+                    //                 top: (outerdivElem.height() - termElem.height()) / 2
+                    //             });
+                    //             return;
+                    //         }
+                    //         var fontsize = $scope.term.getFontSize();
+                    //         fontsize--;
+                    //         console.log(fontsize);
+                    //         changerowcol(fontsize);
+                    //     }, 0);
+                    // }
+
+                    changerowcol = function() {
                         var termElem;
                         var outerdivElem;
+                        var terminalIframeElem;
+                        var h, H, w, W;
+
                         if (!rowcol.row)
                             return;
                         if (!$scope.term)
                             return;
+
                         $scope.term.setFontSize(15);
                         $scope.term.setHeight(rowcol.row);
                         $scope.term.setWidth(rowcol.col);
 
+                        terminalIframeElem = terminalIframeElem = $scope.terminalIframeElem;
                         termElem = $scope.terminalElem;
                         outerdivElem = termElem.parent();
 
+
                         while (1) {
-                            var H = outerdivElem.height();
-                            var W = outerdivElem.width();
-                            var h = termElem.height();
-                            var w = termElem.width();
+                            H = outerdivElem.height();
+                            W = outerdivElem.width();
+                            h = termElem.height();
+                            w = termElem.width();
                             if (w < W && h < H)
                                 break;
                             var fontsize = $scope.term.getFontSize();
@@ -164,175 +231,131 @@ angular.module('nuttyapp')
                             top: (outerdivElem.height() - termElem.height()) / 2
                         });
                     }
-                    $(window).resize(ctrl.changerowcol);
 
-                    function _f() {
-                        if ($scope.term && ($scope.term.screenSize.height !== rowcol.row ||
-                            $scope.term.screenSize.width !== rowcol.col)) {
-                            ctrl.changerowcol();
-                        }
-                        setTimeout(_f, 1000);
-                    }
-                    _f();
-                    $scope.focus = function() {
-                        $scope.term.focus();
-                    }
 
-                    function errorHandler(e) {
-                        var msg = '';
-                        switch (e.code) {
-                            case FileError.QUOTA_EXCEEDED_ERR:
-                                msg = 'QUOTA_EXCEEDED_ERR';
-                                break;
-                            case FileError.NOT_FOUND_ERR:
-                                msg = 'NOT_FOUND_ERR';
-                                break;
-                            case FileError.SECURITY_ERR:
-                                msg = 'SECURITY_ERR';
-                                break;
-                            case FileError.INVALID_MODIFICATION_ERR:
-                                msg = 'INVALID_MODIFICATION_ERR';
-                                break;
-                            case FileError.INVALID_STATE_ERR:
-                                msg = 'INVALID_STATE_ERR';
-                                break;
-                            default:
-                                msg = 'Unknown Error';
-                                break;
-                        };
-                        console.log("recordTerminal error " + msg);
-                    }
+                    // changerowcol = function(size) {
+                    //     var termElem;
+                    //     var outerdivElem;
+                    //     if (!rowcol.row)
+                    //         return;
+                    //     if (!$scope.term)
+                    //         return;
+                    //     $scope.term.setFontSize(size);
+                    //     $scope.term.setHeight(rowcol.row);
+                    //     $scope.term.setWidth(rowcol.col);
+
+                    //     setTimeout(function() {
+                    //     termElem = $scope.terminalElem;
+                    //     outerdivElem = termElem.parent();
+
+                    //     var H = outerdivElem.height();
+                    //     var W = outerdivElem.width();
+                    //     var h = termElem.height();
+                    //     var w = termElem.width();
+                    //     if (w <= W && h <= H) {
+                    //         termElem.css({
+                    //             left: (outerdivElem.width() - termElem.width()) / 2,
+                    //             top: (outerdivElem.height() - termElem.height()) / 2
+                    //         });
+                    //         return;
+                    //     }
+                    //     var fontsize = $scope.term.getFontSize();
+                    //     fontsize--;
+                    //     if (fontsize === 1) {
+                    //         return;
+                    //     }
+                    //     $scope.term.setFontSize(fontsize);
+                    //     $scope.term.setHeight(rowcol.row);
+                    //     $scope.term.setWidth(rowcol.col);
+
+                    //     changerowcol(fontsize);
+                    //     }, 100);
+                    // }
                     this.start = function() {
-                        var filename = Session.get("filename");
-                        if (Player.playback) {
-                            $scope.$parent.showdownloadprogress = false;
-                            $scope.$apply();
-                            Player.start(Player.playback, function(data) {
-                                    term.io.writeUTF8(data);
-                                },
-                                function(_rowcol) {
-                                    rowcol = _rowcol;
-                                    ctrl.changerowcol()
-                                }, function(data) {
-                                    console.log("got settermshot");
-                                    window.termshot = term.document_.createElement('div');
-                                    termshot.innerHTML = data;
-                                    var to = term.document_.body.firstChild.firstChild;
-                                    var i, j;
-                                    for (i = to.firstChild,j = termshot.firstChild; i && j; i = i.nextSibling, j = j.nextSibling) {
-                                        i.innerHTML = j.innerHTML;
-                                    }
-                                }, function(curspos) {
-                                    console.log("got curspos");
-                                    term.setCursorPosition(curspos.row, curspos.col);
-                                    term.syncCursorPosition_();
-                                });
-                            Player.play();
-                        } else if (filename) {
-                            $scope.$parent.showdownloadprogress = false;
-                            $scope.$apply();
-                            var onInitFs_record = function(fs) {
-                                fs.root.getFile(filename, {}, function(fileEntry) {
-                                    fileEntry.file(function(_file) {
-                                        Player.start(_file, function(data) {
-                                                term.io.writeUTF8(data);
-                                            },
-                                            function(_rowcol) {
-                                                rowcol = _rowcol;
-                                                ctrl.changerowcol()
-                                            }, function(data) {
-                                                console.log("got settermshot");
-                                                window.termshot = term.document_.createElement('div');
-                                                termshot.innerHTML = data;
-                                                var to = term.document_.body.firstChild.firstChild;
-                                                var i, j;
-                                                for (i = to.firstChild,j = termshot.firstChild; i && j; i = i.nextSibling, j = j.nextSibling) {
-                                                    i.innerHTML = j.innerHTML;
-                                                }
-                                            }, function(curspos) {
-                                                console.log("got curspos");
-                                                term.setCursorPosition(curspos.row, curspos.col);
-                                                term.syncCursorPosition_();
-                                            });
-                                        Player.play();
-                                    }, errorHandler);
-                                }, errorHandler);
-                            };
-
-                            navigator.webkitTemporaryStorage.requestQuota(1024 * 1024, function(grantedBytes) {
-                                window.webkitRequestFileSystem(TEMPORARY, grantedBytes, onInitFs_record, errorHandler);
-                            }, function(e) {
-                                log.error('Error', e);
-                            });
-                        } else {
-                            Meteor.call('s3downloadinfo', $routeParams.remotefilename, function(err, data) {
-                                if (err) {
-                                    alertBox.alert("danger", "Server err during download");
-                                    $scope.$apply();
+                            Meteor.call('recget', sessionid, "rec.json", function(err, data) {
+                                if (!err) {
+                                    sliderinit.max = (data.end + 1) * 30;
+                                    $("#example_id").ionRangeSlider(sliderinit);
+                                    loop();
                                 } else {
-                                    var xhr = new XMLHttpRequest();
-                                    var _downloaderror = false;
-                                    xhr.addEventListener("error", downloaderror);
-                                    xhr.addEventListener("progress", downloadprogressupdate);
-                                    xhr.addEventListener("load", downloadcomplete);
-                                    xhr.responseType = 'blob';
-                                    var getstr = "https://nutty.s3.amazonaws.com/" + $routeParams.remotefilename + "?AWSAccessKeyId=" + data.AWSAccessKeyId + "&Expires=" + data.Expires + "&Signature=" + encodeURIComponent(data.Signature);
-                                    xhr.open('GET', getstr, true);
-                                    $scope.$parent.downloadprogress = 10;
-                                    safeApply($scope);
-
-                                    function downloadprogressupdate(event) {
-                                        if (event.lengthComputable) {
-                                            var percent = event.loaded / event.total * 100;
-                                            $scope.$parent.downloadprogress = Math.floor(percent);
-                                            $scope.$apply();
-                                        }
-                                    }
-
-                                    function downloaderror(event) {
-                                        _downloaderror = true;
-                                    }
-
-                                    function downloadcomplete(event) {
-                                        $scope.$parent.showdownloadprogress = false;
-                                        $scope.$apply();
-                                        // Player.start(xhr.response, function(_data) {
-                                        //         term.io.writeUTF16(_data);
-                                        //     },
-                                        //     function(_rowcol) {
-                                        //         rowcol = _rowcol;
-                                        //         ctrl.changerowcol()
-                                        //     });
-                                        // Player.play();
-
-                                        Player.start(xhr.response, function(data) {
-                                                term.io.writeUTF8(data);
-                                            },
-                                            function(_rowcol) {
-                                                rowcol = _rowcol;
-                                                ctrl.changerowcol()
-                                            }, function(data) {
-                                                console.log("got settermshot");
-                                                window.termshot = term.document_.createElement('div');
-                                                termshot.innerHTML = data;
-                                                var to = term.document_.body.firstChild.firstChild;
-                                                var i, j;
-                                                for (i = to.firstChild,j = termshot.firstChild; i && j; i = i.nextSibling, j = j.nextSibling) {
-                                                    i.innerHTML = j.innerHTML;
-                                                }
-                                            }, function(curspos) {
-                                                console.log("got curspos");
-                                                term.setCursorPosition(curspos.row, curspos.col);
-                                                term.syncCursorPosition_();
-                                            });
-                                        Player.play();
-
-
-                                    }
-                                    xhr.send();
+                                    alert("Recording not yet available!");
                                 }
                             });
-                        }
+                    }
+                    $(window).resize(changerowcol);
+
+                    function loop() {
+                        Meteor.call('recget', sessionid, tindex, function(err, data) {
+                            if (!err) {
+                                var di = 0;
+                                if (tindex === 0) {
+                                    var to = term.document_.body.firstChild.firstChild;
+                                    var i, j;
+                                    for (i = to.firstChild; i; i = i.nextSibling) {
+                                        i.innerHTML = "";
+                                    }
+                                    term.setCursorPosition(1, 1);
+                                }
+                                try {
+                                    $("#example_id").ionRangeSlider("remove");
+                                } catch (ex) {}
+                                $("#example_id").ionRangeSlider(sliderinit);
+                                clearTimeout(testtimeout);
+                                test();
+                                function termdata() {
+                                    if (!data.length) {
+                                        tindex++;
+                                        loop();
+                                        return;
+                                    }
+                                    var obj = data[di];
+                                    function _f() {
+                                        if (obj.data) {
+                                            term.io.writeUTF8(obj.data);
+                                            // term.syncCursorPosition_();
+                                        } else if (obj.rowcol) {
+                                            rowcol.row = obj.row;
+                                            rowcol.col = obj.col;
+                                            changerowcol();
+                                        } else if (obj.settermshot) {
+                                            window.termshot = term.document_.createElement('div');
+                                            termshot.innerHTML = obj.settermshot;
+                                            var to = term.document_.body.firstChild.firstChild;
+                                            var i, j;
+                                            for (i = to.firstChild,j = termshot.firstChild; i && j; i = i.nextSibling, j = j.nextSibling) {
+                                                i.innerHTML = j.innerHTML;
+                                            }
+                                            term.setCursorPosition(obj.row, obj.col);
+                                            term.syncCursorPosition_();
+                                        }
+                                        di++;
+                                        if (di < data.length) {
+                                            if (obj.rowcol)
+                                                data[di].delta = 400;
+                                            termdata();
+                                        } else {
+                                            if (!timeout) {
+                                                loop();
+                                            }
+                                        }
+                                    }
+                                    if (!obj.delta) {
+                                        _f();
+                                    } else {
+                                        deltatimeout = setTimeout(_f, obj.delta);
+                                    }
+                                }
+
+                                termdata();
+                                tindex++;
+                                timeout = setTimeout(function() {
+                                    timeout = undefined;
+                                    if (di === data.length) {
+                                        loop();
+                                    }
+                                }, 30 * 1000);
+                            }
+                        });
                     }
                 }
             ]

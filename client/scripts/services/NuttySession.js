@@ -304,12 +304,10 @@ angular.module('nuttyapp')
                     } else {
                         recordings[atIndex] = doc;
                     }
-                    recordings[atIndex].embedid = recordings[atIndex].filename.replace(/\./, '');
                     safeApply($rootScope);
                 },
                 changedAt: function(newdoc, olddoc, atIndex) {
                     recordings[atIndex] = newdoc;
-                    recordings[atIndex].embedid = recordings[atIndex].filename.replace(/\./, '');
                     safeApply($rootScope);
                 },
                 removedAt: function(doc, atIndex) {
@@ -323,12 +321,7 @@ angular.module('nuttyapp')
                     console.log(before);
                 }
             });
-            // function rootScopeapply() {
-            //     $timeout(rootScopeapply, 2000);
-            // }
-            // rootScopeapply();
             return retobj;
         }
     ]);
 
-// when master session ends cleanup

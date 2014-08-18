@@ -43,16 +43,8 @@ nuttyapp.config(['$interpolateProvider', '$routeProvider', '$locationProvider',
                 templateUrl: 'views/playback.html',
                 controller: 'playbackCtrl'
             })
-            .when('/localrecord/:filename', {
-                template: '<div></div>',
-                controller: 'localrecordCtrl'
-            })
-            .when('/localplay', {
+            .when('/recording/:sessionid', {
                 template: '<play-terminal ng-style="style"></play-terminal>'
-            })
-            .when('/recording/:remotefilename', {
-                templateUrl: 'views/remoterecord.html',
-                controller: 'remoterecordCtrl'
             })
             .when('/share', {
                 templateUrl: 'views/master.html',

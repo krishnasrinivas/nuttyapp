@@ -19,3 +19,4 @@ service-configuration
 accounts-base
 accounts-password
 email
+http

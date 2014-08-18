@@ -174,13 +174,9 @@ NuttySession.allow({
 
 NuttyRecordings = new Meteor.Collection('nuttyrecordings');
 NuttyRecordings._ensureIndex({
+    sessionid: 1,
     userId: 1,
     createdAt: -1
-});
-NuttyRecordings._ensureIndex({
-    filename: 1
-}, {
-    unique: true
 });
 
 NuttyRecordings.allow({
@@ -205,7 +201,6 @@ NuttyRecordings.allow({
     },
     remove: function(userId, doc) {
         if (userId && userId === doc.userId) {
-            client.del(doc.filename).on('response', function(res) {}).end();
             return true;
         } else
             return false;
@@ -360,6 +355,32 @@ methods['userloggedin'] = function(sessionid, clientid, type) {
             username: username
         }
     });
+
+    var r = NuttySession.findOne({
+        sessionid: sessionid,
+        userId: this.userId,
+        clientid: clientid
+    });
+    if (!r) {
+        return;
+    }
+    r = NuttyRecordings.findOne({
+        sessionid: sessionid,
+        userId: this.userId
+    });
+    if (r) {
+        return;
+    }
+    NuttyRecordings.upsert({
+        sessionid: sessionid,
+        userId: this.userId
+    }, {
+        $set: {
+            sessionid: sessionid,
+            userId: this.userId,
+            createdAt: new Date()
+        }
+    });
 }
 
 methods['userloggedout'] = function(sessionid, clientid) {
@@ -395,6 +416,29 @@ methods['getscriptcontent'] = function(_id) {
         return script.content;
     }
 }
+
+methods['recput'] = function(sessionid, tindex, buffers) {
+    var ret;
+    try {
+        ret = HTTP.put("http://localhost:9090/recording/" + sessionid + "/" + tindex, {
+            content: buffers
+        });
+    } catch (ex) {
+        throw ex;
+    }
+    return 0;
+}
+
+methods['recget'] = function(sessionid, tindex) {
+    var ret;
+    try {
+        ret = HTTP.get("http://localhost:9090/recording/" + sessionid + "/" + tindex);
+    } catch (ex) {
+        throw ex;
+    }
+    return ret.data;
+}
+
 
 Meteor.methods(methods);
 

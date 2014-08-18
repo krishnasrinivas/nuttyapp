@@ -3070,6 +3070,7 @@ lib.Storage.Local = function() {
  * Called by the storage implementation when the storage is modified.
  */
 lib.Storage.Local.prototype.onStorage_ = function(e) {
+  return;
   if (e.storageArea != this.storage_)
     return;
 
@@ -7114,7 +7115,9 @@ hterm.Screen.prototype.setCursorPosition = function(row, column) {
  * cursor position.
  */
 hterm.Screen.prototype.syncSelectionCaret = function(selection) {
-  selection.collapse(this.cursorNode_, this.cursorOffset_);
+  try {
+    selection.collapse(this.cursorNode_, this.cursorOffset_);
+  } catch (e) {}
 };
 
 /**
@@ -8175,6 +8178,7 @@ hterm.ScrollPort.prototype.getFontSize = function() {
  * @return {hterm.Size} A new hterm.Size object.
  */
 hterm.ScrollPort.prototype.measureCharacterSize = function(opt_weight) {
+
   if (!this.ruler_) {
     this.ruler_ = this.document_.createElement('div');
     this.ruler_.style.cssText = (
@@ -8200,6 +8204,7 @@ hterm.ScrollPort.prototype.measureCharacterSize = function(opt_weight) {
   this.ruler_.style.fontWeight = opt_weight || '';
 
   this.rowNodes_.appendChild(this.ruler_);
+
   var rulerSize = hterm.getClientSize(this.ruler_);
 
   // In some fonts, underscores actually show up below the reported height.
@@ -8207,12 +8212,13 @@ hterm.ScrollPort.prototype.measureCharacterSize = function(opt_weight) {
   // border to text with a background color over in text_attributes.js.
   var size = new hterm.Size(rulerSize.width / this.ruler_.textContent.length,
                             rulerSize.height + 1);
-
   this.ruler_.appendChild(this.rulerBaseline_);
   size.baseline = this.rulerBaseline_.offsetTop;
   this.ruler_.removeChild(this.rulerBaseline_);
 
-//  this.rowNodes_.removeChild(this.ruler_);
+  if (Compatibility.browser.browser !== "Firefox") {
+    this.rowNodes_.removeChild(this.ruler_);
+  }
 
   if ('width' in this.document_) {
     size.zoomFactor = this.document_.width / this.document_.body.clientWidth;
@@ -8223,7 +8229,6 @@ hterm.ScrollPort.prototype.measureCharacterSize = function(opt_weight) {
     // memory.
     size.zoomFactor = 1;
   }
-
 
   return size;
 };
@@ -8263,7 +8268,6 @@ hterm.ScrollPort.prototype.resize = function() {
 
   this.syncScrollHeight();
   this.syncRowNodesDimensions_();
-
   var self = this;
   this.publish(
       'resize', { scrollPort: this },
