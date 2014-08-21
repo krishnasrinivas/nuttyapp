@@ -30,7 +30,7 @@ Nutty server install
       (get a free account on mailgun)
 15. $ sudo node bundle/main.js
 16. optional (needed for webrtc): $ ./peerjs --port 9000
-
+17. go run recording.go -basedir ./recordings
 
 authinfo.json should be put in "nuttyapp/private" directory with the format:
 
