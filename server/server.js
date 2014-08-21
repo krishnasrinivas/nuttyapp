@@ -584,13 +584,18 @@ Meteor.publish('ownedsessions', function() {
     });
 });
 
-Meteor.publish('ownedrecordings', function() {
+Meteor.publish('ownedrecordings', function(limit) {
     if (!this.userId) {
         this.ready();
         return;
     }
     return NuttyRecordings.find({
         userId: this.userId
+    }, {
+        limit: limit,
+        sort : {
+            createdAt: -1
+        }
     });
 });
 

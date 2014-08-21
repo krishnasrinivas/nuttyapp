@@ -40,4 +40,13 @@ angular.module('nuttyapp')
                 Player.playback = $("#playbackrec")[0].files[0];
                 $location.path('/localplay');
             }
+            $scope.loadmore = function() {
+                Session.set('itemsLimit', Session.get('itemsLimit') + 20);
+            }
+            $scope.loadmorevisible = function() {
+                if (Session.get('itemsLimit') < 20)
+                    return true;
+                else
+                    return false;
+            }
         }]);

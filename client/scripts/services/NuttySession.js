@@ -291,7 +291,12 @@ angular.module('nuttyapp')
                     console.log(before);
                 }
             });
-            recordingssub = Meteor.subscribe('ownedrecordings');
+
+            Session.set('itemsLimit', 20);
+            Deps.autorun(function() {
+                recordingssub = Meteor.subscribe('ownedrecordings', Session.get('itemsLimit'));
+            });
+
             recordingscursor = NuttyRecordings.find({}, {
                 sort: {
                     createdAt: -1
