@@ -53,6 +53,9 @@ angular.module('nuttyapp')
                 elem.focus();
                 elem.select();
             }
+            $scope.$on('$locationChangeStart', function(event, next, current) {
+                window.location.assign(next);
+            });
             Deps.autorun(function() {
                 Meteor.userId();
                 setTimeout(function() {

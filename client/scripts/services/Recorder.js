@@ -55,6 +55,17 @@ angular.module('nuttyapp')
                     buffer.push(obj)
                 }
             }
+
+            window.onbeforeunload = function() {
+                var buffers = JSON.stringify(buffer);
+                buffer = [];
+                Meteor.call('recput',NuttySession.sessionid, tindex, buffers, function(err, data) {
+                    if (err) {
+                        console.log("error while recput");
+                    }
+                });
+                return;
+            }
             var retobj = {
                 start: start,
                 stop: stop,
