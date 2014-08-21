@@ -8,6 +8,8 @@ angular.module('nuttyapp')
     .controller('slaveCtrl', ['$scope', '$modal', '$routeParams', 'NuttySession', 'SlaveConnection', 'NuttyConnection', 'Compatibility', '$location', 'alertBox',
         function($scope, $modal, $routeParams, NuttySession, SlaveConnection, NuttyConnection, Compatibility, $location, alertBox) {
             var clientid = Session.get("clientid");
+            var port = $location.port();
+            var portstr = (port === 80 || port === 443) ? '' : ':' + port;
             $scope.descro = true;
             $scope.Compatibility = Compatibility;
             if (!clientid) {
@@ -50,6 +52,10 @@ angular.module('nuttyapp')
                 return NuttySession.sessionid
             }, function(newval) {
                 if (newval) {
+                    setTimeout(function() {
+                        alertBox.alert("success", "Recording : " + $location.protocol() + '://' + $location.host() + portstr + '/recording/' + NuttySession.sessionid);
+                        $scope.$apply();
+                    }, 35*1000);
                     if ($location.path().match(/^\/websocket\//)) {
                         SlaveConnection.type = 'websocket';
                     } else if ($location.path().match(/^\/webrtc\//)) {

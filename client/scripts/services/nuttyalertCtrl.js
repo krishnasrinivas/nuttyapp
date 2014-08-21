@@ -14,15 +14,16 @@ angular.module('nuttyapp')
             close: close
         }
 
-            function alert(type, msg) {
-                retobj.type = type;
-                retobj.msg = msg;
-                retobj.show = true;
-            }
+        function alert(type, msg) {
+            retobj.type = type;
+            retobj.msg = msg;
+            retobj.show = true;
+        }
 
-            function close() {
-                retobj.show = false
-            }
+        function close() {
+            retobj.show = false
+        }
+        window.alertBox = retobj;
         return retobj;
     });
 

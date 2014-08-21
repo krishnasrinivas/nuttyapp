@@ -73,6 +73,10 @@ angular.module('nuttyapp')
                 return NuttySession.sessionid;
             }, function(newval, oldval) {
                 if (newval) {
+                    setTimeout(function() {
+                        alertBox.alert("success", "Recording : " + $location.protocol() + '://' + $location.host() + portstr + '/recording/' + NuttySession.sessionid);
+                        $scope.$apply();
+                    }, 35*1000);
                     $scope.sharelink = $location.protocol() + '://' + $location.host() + portstr + '/' + localStorage['conntype'] + '/' + NuttySession.sessionid;
                 } else
                     $scope.sharelink = "waiting for server...";
