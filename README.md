@@ -24,8 +24,13 @@ Nutty server install
 10. $ tar xzvf bundle.tgz
 11. $ export MONGO_URL=mongodb://localhost/nuttyapp
 12. $ export PORT=80
+      (or you can run it behind nginx)
 13. $ export ROOT_URL='http://yourserver.com'
-14. $ sudo node bundle/main.js
+14. $ export MAIL_URL="smtp://user:passwd@smtp.mailgun.org:587"
+      (get a free account on mailgun)
+15. $ sudo node bundle/main.js
+16. optional (needed for webrtc): $ ./peerjs --port 9000
+
 
 authinfo.json should be put in "nuttyapp/private" directory with the format:
 
@@ -34,23 +39,18 @@ authinfo.json should be put in "nuttyapp/private" directory with the format:
                 "clientId": "googleoauth-clientid-optional",
                 "secret": "googleoauth-secret-optional"
             },
-            "aws": {
-                "awsid": "s3upload-awsid-optional",
-                "awssecret": "s3upload-awssecret-optional"
-            },
             "webrtc": {
                 "key": "key from peerjs.com - optional - if you need webrtc"
             }
         }
 
 google.clientId and google.secret can be configured if you need google auth signin.
-aws.awsid and aws.awssecret can be configured if you plan to record terminal and upload them to S3.
 webrtc should be configured if you need WebRTC. For webrtc config details check http://peerjs.com/.
 nutty.io's webrtc config looks like this:
 
         "webrtc": {
-            "host": "webrtc-nuttyapp.rhcloud.com",
-            "port": 8443,
+            "host": "nutty.io",
+            "port": 9000,
             "iceServers": [{
                 "url": "stun:stun.l.google.com:19302"
             }]
