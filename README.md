@@ -2,6 +2,7 @@ https://nutty.io
 
 LICENSE
 -------
+[![Gitter](https://badges.gitter.im/Join Chat.svg)](https://gitter.im/krishnasrinivas/nuttyapp?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 nutty is licensed under GPLv3
 
 Docker image
