@@ -1,37 +1,38 @@
+# Nutty [![Gitter](https://badges.gitter.im/Join Chat.svg)](https://gitter.im/krishnasrinivas/nuttyapp?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 https://nutty.io
 
-LICENSE
--------
-[![Gitter](https://badges.gitter.im/Join Chat.svg)](https://gitter.im/krishnasrinivas/nuttyapp?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
-nutty is licensed under GPLv3
+## Advanced use cases
 
-Docker image
-------------
+### Docker image
+
 Details here: https://registry.hub.docker.com/u/krishnasrinivas/nuttyapp/
 (docker specific code on docker branch)
 
-Nutty server install
---------------------
+### Server install
 
-1.  Install MongoDB
-2.  $ curl https://install.meteor.com/ | sh
-3.  $ sudo npm install -g meteorite
-4.  $ git clone https://github.com/krishnasrinivas/nuttyapp.git
-5.  $ cd nuttyapp
-6.  $ mrt install
-7.  Configure authinfo.json (optional, details given below)
-8.  $ meteor bundle ../bundle.tgz
-9.  $ cd ..
-10. $ tar xzvf bundle.tgz
-11. $ export MONGO_URL=mongodb://localhost/nuttyapp
-12. $ export PORT=80
+Nutty server depends on MongoDB please install before proceeding https://www.mongodb.org/downloads
+
+```
+$ curl https://install.meteor.com/ | sh
+$ sudo npm install -g meteorite
+$ git clone https://github.com/krishnasrinivas/nuttyapp.git
+$ cd nuttyapp
+$ mrt install
+Configure authinfo.json (optional, details given below)
+$ meteor bundle ../bundle.tgz
+$ cd ..
+$ tar xzvf bundle.tgz
+$ export MONGO_URL=mongodb://localhost/nuttyapp
+$ export PORT=80
       (or you can run it behind nginx)
-13. $ export ROOT_URL='http://yourserver.com'
-14. $ export MAIL_URL="smtp://user:passwd@smtp.mailgun.org:587"
+$ export ROOT_URL='http://yourserver.com'
+$ export MAIL_URL="smtp://user:passwd@smtp.mailgun.org:587"
       (get a free account on mailgun)
-15. $ sudo node bundle/main.js
-16. optional (needed for webrtc): $ ./peerjs --port 9000
-17. go run recording.go -basedir ./recordings
+$ sudo node bundle/main.js
+optional (needed for webrtc): $ ./peerjs --port 9000
+$ go run recording.go -basedir ./recordings
+```
 
 authinfo.json should be put in "nuttyapp/private" directory with the format:
 
@@ -56,3 +57,9 @@ nutty.io's webrtc config looks like this:
                 "url": "stun:stun.l.google.com:19302"
             }]
         }
+        
+       
+       
+LICENSE
+-------
+Nutty is released under [Apache License v2](./LICENSE)
