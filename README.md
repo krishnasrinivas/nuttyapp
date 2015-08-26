@@ -15,10 +15,9 @@ Nutty server depends on MongoDB please install before proceeding https://www.mon
 
 ```
 $ curl https://install.meteor.com/ | sh
-$ sudo npm install -g meteorite
 $ git clone https://github.com/krishnasrinivas/nuttyapp.git
 $ cd nuttyapp
-$ mrt install
+$ meteor install
 Configure authinfo.json (optional, details given below)
 $ meteor bundle ../bundle.tgz
 $ cd ..

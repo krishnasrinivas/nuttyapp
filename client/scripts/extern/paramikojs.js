@@ -1,3 +1,19 @@
+/*
+ * Copyright (c) 2014 krishna.srinivas@gmail.com All rights reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 // function paramikojs() { }
 paramikojs = {
   MSG_DISCONNECT : 1,
@@ -118,9 +134,9 @@ This software is covered under the following copyright:
  * The above copyright notice and this permission notice shall be
  * included in all copies or substantial portions of the Software.
  *
- * THE SOFTWARE IS PROVIDED "AS-IS" AND WITHOUT WARRANTY OF ANY KIND, 
- * EXPRESS, IMPLIED OR OTHERWISE, INCLUDING WITHOUT LIMITATION, ANY 
- * WARRANTY OF MERCHANTABILITY OR FITNESS FOR A PARTICULAR PURPOSE.  
+ * THE SOFTWARE IS PROVIDED "AS-IS" AND WITHOUT WARRANTY OF ANY KIND,
+ * EXPRESS, IMPLIED OR OTHERWISE, INCLUDING WITHOUT LIMITATION, ANY
+ * WARRANTY OF MERCHANTABILITY OR FITNESS FOR A PARTICULAR PURPOSE.
  *
  * IN NO EVENT SHALL TOM WU BE LIABLE FOR ANY SPECIAL, INCIDENTAL,
  * INDIRECT OR CONSEQUENTIAL DAMAGES OF ANY KIND, OR ANY DAMAGES WHATSOEVER
@@ -1369,7 +1385,7 @@ paramikojs.BER.prototype = {
   decode : function() {
     return this.decode_next();
   },
-    
+
   decode_next : function() {
     if (this.idx >= this.content.length) {
       return null;
@@ -1545,7 +1561,7 @@ paramikojs.AuthHandler.prototype = {
   },
 
   abort : function() {
-    
+
   },
 
 
@@ -1844,7 +1860,7 @@ paramikojs.AuthHandler.prototype = {
       prompt_list.push([m.get_string(), m.get_boolean()]);
     }
     var response_list = this.interactive_handler(title, instructions, prompt_list);
-    
+
     m = new paramikojs.Message();
     m.add_byte(String.fromCharCode(paramikojs.MSG_USERAUTH_INFO_RESPONSE));
     m.add_int(response_list.length);
@@ -1881,7 +1897,7 @@ paramikojs.AuthHandler.prototype = {
     53: function(self, m) { self._parse_userauth_banner(m) },
     60: function(self, m) { self._parse_userauth_info_request(m) },
     61: function(self, m) { self._parse_userauth_info_response(m) }
-  }  
+  }
 };
 /*
   Representation of an RSA key which can be used to sign and verify SSH2
@@ -2007,7 +2023,7 @@ paramikojs.RSAKey.prototype = {
   write_private_key_file : function(filename, password) {
     this._write_private_key_file('RSA', filename, this._encode_key(), password);
   },
-    
+
   write_private_key : function(file_obj, password) {
     this._write_private_key('RSA', file_obj, this._encode_key(), password);
   },
@@ -2096,7 +2112,7 @@ paramikojs.RSAKey.prototype = {
   An SSH2 I{Message} is a stream of bytes that encodes some combination of
   strings, integers, bools, and infinite-precision integers (known in python
   as I{long}s).  This class builds or breaks down such a byte stream.
-  
+
   Normally you don't need to deal with anything this low-level, but it's
   exposed for people implementing custom extensions, or features that
   paramiko doesn't support yet.
@@ -2203,7 +2219,7 @@ paramikojs.Message.prototype = {
   get_int : function() {
     return struct.unpack('>I', this.get_bytes(4))[0];
   },
-  
+
   /*
     Fetch a 64-bit int from the stream.
 
@@ -2249,7 +2265,7 @@ paramikojs.Message.prototype = {
 
   /*
     Write bytes to the stream, without any formatting.
-    
+
     @param b: bytes to add
     @type b: str
   */
@@ -2260,7 +2276,7 @@ paramikojs.Message.prototype = {
 
   /*
     Write a single byte to the stream, without any formatting.
-    
+
     @param b: byte to add
     @type b: str
   */
@@ -2271,7 +2287,7 @@ paramikojs.Message.prototype = {
 
   /*
     Add a boolean value to the stream.
-    
+
     @param b: boolean value to add
     @type b: bool
   */
@@ -2286,7 +2302,7 @@ paramikojs.Message.prototype = {
 
   /*
     Add an integer to the stream.
-    
+
     @param n: integer to add
     @type n: int
   */
@@ -2309,7 +2325,7 @@ paramikojs.Message.prototype = {
   /*
     Add a long int to the stream, encoded as an infinite-precision
     integer.  This method only works on positive numbers.
-    
+
     @param z: long int to add
     @type z: long
   */
@@ -2320,7 +2336,7 @@ paramikojs.Message.prototype = {
 
   /*
     Add a string to the stream.
-    
+
     @param s: string to add
     @type s: str
   */
@@ -2334,7 +2350,7 @@ paramikojs.Message.prototype = {
     Add a list of strings to the stream.  They are encoded identically to
     a single string of values separated by commas.  (Yes, really, that's
     how SSH2 does it.)
-    
+
     @param l: list of strings to add
     @type l: list(str)
   */
@@ -2342,7 +2358,7 @@ paramikojs.Message.prototype = {
     this.add_string(l.join(','));
     return this;
   },
-    
+
   _add : function(i) {
     if (typeof i == "string") {
       return this.add_string(i);
@@ -2362,10 +2378,10 @@ paramikojs.Message.prototype = {
   /*
     Add a sequence of items to the stream.  The values are encoded based
     on their type: str, int, bool, list, or long.
-    
+
     @param seq: the sequence of items
     @type seq: sequence
-    
+
     @bug: longs are encoded non-deterministically.  Don't use this method.
   */
   add : function() {
@@ -2999,7 +3015,7 @@ var binascii = {
     padding = padding || '';
     for (var x = 0; x < str.length; ++x) {
       var c = str.charCodeAt(x).toString(16);
-      result += (c.length == 1 ? '0' : '') + c + padding;      
+      result += (c.length == 1 ? '0' : '') + c + padding;
     }
     return result;
   },
@@ -3008,7 +3024,7 @@ var binascii = {
     var result = "";
     for (var x = 0; x < str.length; x += 2) {
       result += String.fromCharCode(parseInt(str.charAt(x) + str.charAt(x + 1), 16));
-    }  
+    }
     return result;
   }
 };
@@ -3181,7 +3197,7 @@ paramikojs.KexGroup1.prototype = {
 
   _generate_x : function() {
     // generate an "x" (1 < x < q), where q is (p-1)/2.
-    // p is a 128-byte (1024-bit) number, where the first 64 bits are 1. 
+    // p is a 128-byte (1024-bit) number, where the first 64 bits are 1.
     // therefore q can be approximated as a 2^1023.  we drop the subset of
     // potential x where the first 63 bits are 1, because some of those will be
     // larger than q (but this is a tiny tiny subset of potential x).
@@ -3303,7 +3319,7 @@ paramikojs.ssh_exception.NeedRekeyException = function(message) {
   Exception raised when authentication failed for some reason.  It may be
   possible to retry with different credentials.  (Other classes specify more
   specific reasons.)
-  
+
   @since: 1.6
 */
 paramikojs.ssh_exception.AuthenticationException = function(message) {
@@ -3327,12 +3343,12 @@ paramikojs.ssh_exception.PasswordRequiredException = function(message) {
   Exception raised when an authentication type (like password) is used, but
   the server isn't allowing that type.  (It may only allow public-key, for
   example.)
-  
+
   @ivar allowed_types: list of allowed authentication types provided by the
       server (possible values are: C{"none"}, C{"password"}, and
       C{"publickey"}).
   @type allowed_types: list
-  
+
   @since: 1.1
 */
 paramikojs.ssh_exception.BadAuthenticationType = function(message, types) {
@@ -3360,10 +3376,10 @@ paramikojs.ssh_exception.PartialAuthentication = function(types) {
 
 /*
   Exception raised when an attempt to open a new L{Channel} fails.
-  
+
   @ivar code: the error code returned by the server
   @type code: int
-  
+
   @since: 1.6
 */
 paramikojs.ssh_exception.ChannelException = function(code, text) {
@@ -3376,14 +3392,14 @@ paramikojs.ssh_exception.ChannelException = function(code, text) {
 
 /*
   The host key given by the SSH server did not match what we were expecting.
-  
+
   @ivar hostname: the hostname of the SSH server
   @type hostname: str
   @ivar key: the host key presented by the server
   @type key: L{PKey}
   @ivar expected_key: the host key expected
   @type expected_key: L{PKey}
-  
+
   @since: 1.6
 */
 paramikojs.ssh_exception.BadHostKeyException = function(hostname, got_key, expected_key) {
@@ -3463,7 +3479,7 @@ paramikojs.Channel.prototype = {
     @type width: int
     @param height: height (in characters) of the terminal screen
     @type height: int
-    
+
     @raise SSHException: if the request was rejected or the channel was
         closed
   */
@@ -3489,14 +3505,14 @@ paramikojs.Channel.prototype = {
     Request an interactive shell session on this channel.  If the server
     allows it, the channel will then be directly connected to the stdin,
     stdout, and stderr of the shell.
-    
+
     Normally you would call L{get_pty} before this, in which case the
     shell will operate through the pty, and the channel will be connected
     to the stdin and stdout of the pty.
-    
+
     When the shell exits, the channel will be closed and can't be reused.
     You must open a new channel if you wish to open another shell.
-    
+
     @raise SSHException: if the request was rejected or the channel was
         closed
   */
@@ -3516,7 +3532,7 @@ paramikojs.Channel.prototype = {
     Execute a command on the server.  If the server allows it, the channel
     will then be directly connected to the stdin, stdout, and stderr of
     the command being executed.
-    
+
     When the command finishes executing, the channel will be closed and
     can't be reused.  You must open a new channel if you wish to execute
     another command.
@@ -3544,7 +3560,7 @@ paramikojs.Channel.prototype = {
     Request a subsystem on the server (for example, C{sftp}).  If the
     server allows it, the channel will then be directly connected to the
     requested subsystem.
-    
+
     When the subsystem finishes, the channel will be closed and can't be
     reused.
 
@@ -3599,7 +3615,7 @@ paramikojs.Channel.prototype = {
     status. You may use this to poll the process status if you don't
     want to block in L{recv_exit_status}. Note that the server may not
     return an exit status in some cases (like bad servers).
-    
+
     @return: True if L{recv_exit_status} will return immediately
     @rtype: bool
     @since: 1.7.3
@@ -3614,10 +3630,10 @@ paramikojs.Channel.prototype = {
     If the command hasn't finished yet, this method will wait until
     it does, or until the channel is closed.  If no exit status is
     provided by the server, -1 is returned.
-    
+
     @return: the exit code of the process on the server.
     @rtype: int
-    
+
     @since: 1.2
   */
   recv_exit_status : function() {
@@ -3629,10 +3645,10 @@ paramikojs.Channel.prototype = {
     really only makes sense in server mode.)  Many clients expect to
     get some sort of status code back from an executed command after
     it completes.
-    
+
     @param status: the exit code of the process
     @type status: int
-    
+
     @since: 1.2
   */
   send_exit_status : function(status) {
@@ -3651,25 +3667,25 @@ paramikojs.Channel.prototype = {
     Request an x11 session on this channel.  If the server allows it,
     further x11 requests can be made from the server to the client,
     when an x11 application is run in a shell session.
-    
+
     From RFC4254::
 
         It is RECOMMENDED that the 'x11 authentication cookie' that is
         sent be a fake, random cookie, and that the cookie be checked and
         replaced by the real cookie when a connection request is received.
-    
+
     If you omit the auth_cookie, a new secure random 128-bit value will be
     generated, used, and returned.  You will need to use this value to
     verify incoming x11 requests and replace them with the actual local
     x11 cookie (which requires some knoweldge of the x11 protocol).
-    
+
     If a handler is passed in, the handler is called from another thread
     whenever a new x11 connection arrives.  The default handler queues up
     incoming x11 connections, which may be retrieved using
     L{Transport.accept}.  The handler's calling signature is::
-    
+
         handler(channel: Channel, (address: str, port: int))
-    
+
     @param screen_number: the x11 screen number (0, 10, etc)
     @type screen_number: int
     @param auth_protocol: the name of the X11 authentication method used;
@@ -3760,21 +3776,21 @@ paramikojs.Channel.prototype = {
     Set whether stderr should be combined into stdout on this channel.
     The default is C{False}, but in some cases it may be convenient to
     have both streams combined.
-    
+
     If this is C{False}, and L{exec_command} is called (or C{invoke_shell}
     with no pty), output to stderr will not show up through the L{recv}
     and L{recv_ready} calls.  You will have to use L{recv_stderr} and
     L{recv_stderr_ready} to get stderr output.
-    
+
     If this is C{True}, data will never show up via L{recv_stderr} or
     L{recv_stderr_ready}.
-    
+
     @param combine: C{True} if stderr output should be combined into
         stdout on this channel.
     @type combine: bool
     @return: previous setting.
     @rtype: bool
-    
+
     @since: 1.1
   */
   set_combine_stderr : function(combine) {
@@ -3898,7 +3914,7 @@ paramikojs.Channel.prototype = {
     Returns true if data is buffered and ready to be read from this
     channel.  A C{False} result does not mean that the channel has closed;
     it means you may need to wait before more data arrives.
-    
+
     @return: C{True} if a L{recv} call on this channel would immediately
         return at least one byte; C{False} otherwise.
     @rtype: boolean
@@ -3917,7 +3933,7 @@ paramikojs.Channel.prototype = {
     @type nbytes: int
     @return: data.
     @rtype: str
-    
+
     @raise socket.timeout: if no data is ready before the timeout set by
         L{settimeout}.
   */
@@ -3946,11 +3962,11 @@ paramikojs.Channel.prototype = {
     channel's stderr stream.  Only channels using L{exec_command} or
     L{invoke_shell} without a pty will ever have data on the stderr
     stream.
-    
+
     @return: C{True} if a L{recv_stderr} call on this channel would
         immediately return at least one byte; C{False} otherwise.
     @rtype: boolean
-    
+
     @since: 1.1
   */
   recv_stderr_ready : function() {
@@ -3969,10 +3985,10 @@ paramikojs.Channel.prototype = {
     @type nbytes: int
     @return: data.
     @rtype: str
-    
+
     @raise socket.timeout: if no data is ready before the timeout set by
         L{settimeout}.
-    
+
     @since: 1.1
   */
   recv_stderr : function(nbytes) {
@@ -3981,7 +3997,7 @@ paramikojs.Channel.prototype = {
     }
     var out = this.in_stderr_buffer.substring(0, nbytes);
     this.in_stderr_buffer = this.in_stderr_buffer.substring(nbytes);
-        
+
     var ack = this._check_add_window(out.length);
     // no need to hold the channel lock when sending this
     if (ack > 0) {
@@ -3998,11 +4014,11 @@ paramikojs.Channel.prototype = {
   /*
     Returns true if data can be written to this channel without blocking.
     This means the channel is either closed (so any write attempt would
-    return immediately) or there is at least one byte of space in the 
+    return immediately) or there is at least one byte of space in the
     outbound buffer. If there is at least one byte of space in the
     outbound buffer, a L{send} call will succeed immediately and return
     the number of bytes actually written.
-    
+
     @return: C{True} if a L{send} call on this channel would immediately
         succeed or fail
     @rtype: boolean
@@ -4051,15 +4067,15 @@ paramikojs.Channel.prototype = {
     stream is closed.  Applications are responsible for checking that all
     data has been sent: if only some of the data was transmitted, the
     application needs to attempt delivery of the remaining data.
-    
+
     @param s: data to send.
     @type s: str
     @return: number of bytes actually sent.
     @rtype: int
-    
+
     @raise socket.timeout: if no data could be sent before the timeout set
         by L{settimeout}.
-    
+
     @since: 1.1
   */
   send_stderr : function(s) {
@@ -4090,7 +4106,7 @@ paramikojs.Channel.prototype = {
         set by L{settimeout}.
     @raise socket.error: if an error occured before the entire string was
         sent.
-    
+
     @note: If the channel is closed while only part of the data hase been
         sent, there is no way to determine how much data (if any) was sent.
         This is irritating, but identically follows python's API.
@@ -4112,15 +4128,15 @@ paramikojs.Channel.prototype = {
     results.  Unlike L{send_stderr}, this method continues to send data
     from the given string until all data has been sent or an error occurs.
     Nothing is returned.
-    
+
     @param s: data to send to the client as "stderr" output.
     @type s: str
-    
+
     @raise socket.timeout: if sending stalled for longer than the timeout
         set by L{settimeout}.
     @raise socket.error: if an error occured before the entire string was
         sent.
-        
+
     @since: 1.1
   */
   sendall_stderr : function(s) {
@@ -4150,12 +4166,12 @@ paramikojs.Channel.prototype = {
     Return a file-like object associated with this channel's stderr
     stream.   Only channels using L{exec_command} or L{invoke_shell}
     without a pty will ever have data on the stderr stream.
-    
+
     The optional C{mode} and C{bufsize} arguments are interpreted the
     same way as by the built-in C{file()} function in python.  For a
     client, it only makes sense to open this file for reading.  For a
     server, it only makes sense to open this file for writing.
-    
+
     @return: object which can be used for python file I/O.
     @rtype: L{ChannelFile}
 
@@ -4194,7 +4210,7 @@ paramikojs.Channel.prototype = {
     channel will fail instantly.  This is a convenience method, equivalent
     to C{shutdown(0)}, for people who don't make it a habit to
     memorize unix constants from the 1970s.
-    
+
     @since: 1.2
   */
   shutdown_read : function() {
@@ -4207,7 +4223,7 @@ paramikojs.Channel.prototype = {
     channel will fail instantly.  This is a convenience method, equivalent
     to C{shutdown(1)}, for people who don't make it a habit to
     memorize unix constants from the 1970s.
-    
+
     @since: 1.2
   */
   shutdown_write : function() {
@@ -4230,7 +4246,7 @@ paramikojs.Channel.prototype = {
     this.in_window_sofar = 0;
     this._log(DEBUG, 'Max packet in: ' + max_packet_size + ' bytes');
   },
-    
+
   _set_remote_channel : function(chanid, window_size, max_packet_size) {
     this.remote_chanid = chanid;
     this.out_window_size = window_size;
@@ -4238,7 +4254,7 @@ paramikojs.Channel.prototype = {
     this.active = 1;
     this._log(DEBUG, 'Max packet out: ' + max_packet_size + ' bytes');
   },
-    
+
   _request_success : function(m) {
     this._log(DEBUG, 'Sesch channel ' + this.chanid + ' request ok');
   },
@@ -4279,7 +4295,7 @@ paramikojs.Channel.prototype = {
     }
     input();
   },
-    
+
   _window_adjust : function(m) {
     var nbytes = m.get_int();
     if (this.ultra_debug) {
@@ -4835,7 +4851,7 @@ if (navigator.userAgent.toLowerCase().indexOf('chrome') == -1) { // Mozilla
   crypto = function() {};
 
   crypto.prototype = {
-    
+
   };
 }
 
@@ -4872,7 +4888,7 @@ crypto.wordsToBytes = function(words) {
   return bytes;
 };
 crypto.random.OSRNG.BrowserRNG = function() {
-  
+
 }
 
 crypto.random.OSRNG.BrowserRNG.prototype = {
@@ -5207,7 +5223,7 @@ crypto.random._EntropyCollector.prototype = {
   }
 };
 crypto.publicKey.DSA = function() {
-  
+
 }
 
 crypto.publicKey.DSA.prototype = {
@@ -5253,7 +5269,7 @@ crypto.publicKey.DSA.prototype = {
   }
 };
 crypto.publicKey.RSA = function() {
-  
+
 }
 
 crypto.publicKey.RSA.prototype = {
@@ -5354,16 +5370,16 @@ function des (key, message, encrypt, mode, iv, padding, keys) {
     temp = ((right >>> 8) ^ left) & 0x00ff00ff; left ^= temp; right ^= (temp << 8);
     temp = ((left >>> 1) ^ right) & 0x55555555; right ^= temp; left ^= (temp << 1);
 
-    left = ((left << 1) | (left >>> 31)); 
-    right = ((right << 1) | (right >>> 31)); 
+    left = ((left << 1) | (left >>> 31));
+    right = ((right << 1) | (right >>> 31));
 
     //do this either 1 or 3 times for each chunk of the message
     for (j=0; j<iterations; j+=3) {
       endloop = looping[j+1];
       loopinc = looping[j+2];
-      //now go through and perform the encryption or decryption  
+      //now go through and perform the encryption or decryption
       for (i=looping[j]; i!=endloop; i+=loopinc) { //for efficiency
-        right1 = right ^ keys[i]; 
+        right1 = right ^ keys[i];
         right2 = ((right >>> 4) | (right << 28)) ^ keys[i+1];
         //the result is attained by passing these bytes through the S selection functions
         temp = left;
@@ -5377,8 +5393,8 @@ function des (key, message, encrypt, mode, iv, padding, keys) {
     } //for either 1 or 3 iterations
 
     //move then each one bit to the right
-    left = ((left >>> 1) | (left << 31)); 
-    right = ((right >>> 1) | (right << 31)); 
+    left = ((left >>> 1) | (left << 31));
+    right = ((right >>> 1) | (right << 31));
 
     //now perform IP-1, which is IP in the opposite direction
     temp = ((left >>> 1) ^ right) & 0x55555555; right ^= temp; left ^= (temp << 1);
@@ -5457,7 +5473,7 @@ function des_createKeys (key) {
 
       //now apply PC-2, in such a way that E is easier when encrypting or decrypting
       //this conversion will look like PC-2 except only the last 6 bits of each byte are used
-      //rather than 48 consecutive bits and the order of lines will be according to 
+      //rather than 48 consecutive bits and the order of lines will be according to
       //how the S selection functions will be applied: S2, S4, S6, S8, S1, S3, S5, S7
       lefttemp = pc2bytes0[left >>> 28] | pc2bytes1[(left >>> 24) & 0xf]
               | pc2bytes2[(left >>> 20) & 0xf] | pc2bytes3[(left >>> 16) & 0xf]
@@ -5467,7 +5483,7 @@ function des_createKeys (key) {
                 | pc2bytes9[(right >>> 20) & 0xf] | pc2bytes10[(right >>> 16) & 0xf]
                 | pc2bytes11[(right >>> 12) & 0xf] | pc2bytes12[(right >>> 8) & 0xf]
                 | pc2bytes13[(right >>> 4) & 0xf];
-      temp = ((righttemp >>> 16) ^ lefttemp) & 0x0000ffff; 
+      temp = ((righttemp >>> 16) ^ lefttemp) & 0x0000ffff;
       keys[n++] = lefttemp ^ temp; keys[n++] = righttemp ^ (temp << 16);
     }
   } //for each iterations
@@ -5699,27 +5715,27 @@ sjcl.cipher.aes = function (key, mode) {
   if (keyLen !== 4 && keyLen !== 6 && keyLen !== 8) {
     throw "invalid aes key size";
   }
-  
+
   this._key = [encKey = key.slice(0), decKey = []];
-  
+
   // schedule encryption keys
   for (i = keyLen; i < 4 * keyLen + 28; i++) {
     tmp = encKey[i-1];
-    
+
     // apply sbox
     if (i%keyLen === 0 || (keyLen === 8 && i%keyLen === 4)) {
       tmp = sbox[tmp>>>24]<<24 ^ sbox[tmp>>16&255]<<16 ^ sbox[tmp>>8&255]<<8 ^ sbox[tmp&255];
-      
+
       // shift rows and add rcon
       if (i%keyLen === 0) {
         tmp = tmp<<8 ^ tmp>>>24 ^ rcon<<24;
         rcon = rcon<<1 ^ (rcon>>7)*283;
       }
     }
-    
+
     encKey[i] = encKey[i-keyLen] ^ tmp;
   }
-  
+
   // schedule decryption keys
   for (j = 0; i; j++, i--) {
     tmp = encKey[j&3 ? i : i - 4];
@@ -5773,7 +5789,7 @@ sjcl.cipher.aes.prototype = {
 
     return ret;
   },
-  
+
   /**
    * Decrypt an array of 4 big-endian words.
    * @param {Array} data The ciphertext.
@@ -5795,7 +5811,7 @@ sjcl.cipher.aes.prototype = {
     }
     return ret;
   },
-  
+
   /**
    * The expanded S-box and inverse S-box tables.  These will be computed
    * on the client so that we don't have to send them down the wire.
@@ -5824,32 +5840,32 @@ sjcl.cipher.aes.prototype = {
    for (i = 0; i < 256; i++) {
      th[( d[i] = i<<1 ^ (i>>7)*283 )^i]=i;
    }
-   
+
    for (x = xInv = 0; !sbox[x]; x ^= x2 || 1, xInv = th[xInv] || 1) {
      // Compute sbox
      s = xInv ^ xInv<<1 ^ xInv<<2 ^ xInv<<3 ^ xInv<<4;
      s = s>>8 ^ s&255 ^ 99;
      sbox[x] = s;
      sboxInv[s] = x;
-     
+
      // Compute MixColumns
      x8 = d[x4 = d[x2 = d[x]]];
      tDec = x8*0x1010101 ^ x4*0x10001 ^ x2*0x101 ^ x*0x1010100;
      tEnc = d[s]*0x101 ^ s*0x1010100;
-     
+
      for (i = 0; i < 4; i++) {
        encTable[i][x] = tEnc = tEnc<<24 ^ tEnc>>>8;
        decTable[i][s] = tDec = tDec<<24 ^ tDec>>>8;
      }
    }
-   
+
    // Compactify.  Considerable speedup on Firefox.
    for (i = 0; i < 5; i++) {
      encTable[i] = encTable[i].slice(0);
      decTable[i] = decTable[i].slice(0);
    }
   },
-  
+
   /**
    * Encryption and decryption core.
    * @param {Array} input Four words to be encrypted or decrypted.
@@ -5861,7 +5877,7 @@ sjcl.cipher.aes.prototype = {
     if (input.length !== 4) {
       throw "invalid aes block size";
     }
-    
+
     var key = this._key[dir],
         // state variables a,b,c,d are loaded with pre-whitened data
         a = input[0]           ^ key[0],
@@ -5869,20 +5885,20 @@ sjcl.cipher.aes.prototype = {
         c = input[2]           ^ key[2],
         d = input[dir ? 1 : 3] ^ key[3],
         a2, b2, c2,
-        
+
         nInnerRounds = key.length/4 - 2,
         i,
         kIndex = 4,
         out = [0,0,0,0],
         table = this._tables[dir],
-        
+
         // load up the tables
         t0    = table[0],
         t1    = table[1],
         t2    = table[2],
         t3    = table[3],
         sbox  = table[4];
- 
+
     // Inner rounds.  Cribbed from OpenSSL.
     for (i = 0; i < nInnerRounds; i++) {
       a2 = t0[a>>>24] ^ t1[b>>16 & 255] ^ t2[c>>8 & 255] ^ t3[d & 255] ^ key[kIndex];
@@ -5892,18 +5908,18 @@ sjcl.cipher.aes.prototype = {
       kIndex += 4;
       a=a2; b=b2; c=c2;
     }
-        
+
     // Last round.
     for (i = 0; i < 4; i++) {
       out[dir ? 3&-i : i] =
-        sbox[a>>>24      ]<<24 ^ 
+        sbox[a>>>24      ]<<24 ^
         sbox[b>>16  & 255]<<16 ^
         sbox[c>>8   & 255]<<8  ^
         sbox[d      & 255]     ^
         key[kIndex++];
       a2=a; a=b; b=c; c=d; d=a2;
     }
-    
+
     return out;
   }
 };
@@ -6522,7 +6538,7 @@ if (Components) { // Mozilla
     var keyObject = Components.classes["@mozilla.org/security/keyobjectfactory;1"]
                       .getService(Components.interfaces.nsIKeyObjectFactory)
                       .keyFromString(Components.interfaces.nsIKeyObject.HMAC, key);
-    
+
     hasher.init(digestmod, keyObject);
     var data = crypto.toByteArray(msg);
     hasher.update(data, data.length);
@@ -6979,7 +6995,7 @@ paramikojs.PKey.prototype = {
     object.  If the private key is encrypted and C{password} is not C{None},
     the given password will be used to decrypt the key (otherwise
     L{PasswordRequiredException} is thrown).
-    
+
     @param file_obj: the file to read from
     @type file_obj: file
     @param password: an optional password to use to decrypt the key, if it's
@@ -6987,7 +7003,7 @@ paramikojs.PKey.prototype = {
     @type password: str
     @return: a new key object based on the given private key
     @rtype: L{PKey}
-    
+
     @raise IOError: if there was an error reading the key
     @raise PasswordRequiredException: if the private key file is encrypted,
         and C{password} is C{None}
@@ -7017,12 +7033,12 @@ paramikojs.PKey.prototype = {
   /*
     Write private key contents into a file (or file-like) object.  If the
     password is not C{None}, the key is encrypted before writing.
-    
+
     @param file_obj: the file object to write into
     @type file_obj: file
     @param password: an optional password to use to encrypt the key
     @type password: str
-    
+
     @raise IOError: if there was an error writing to the file
     @raise SSHException: if the key is invalid
   */
@@ -7320,9 +7336,9 @@ paramikojs.PKey.prototype = {
   },
 
   _write_private_key : function(tag, f, data, password) {
-    var foStream = Components.classes["@mozilla.org/network/file-output-stream;1"].createInstance(Components.interfaces.nsIFileOutputStream);  
-    foStream.init(f, 0x02 | 0x08 | 0x20, 0600, 0);  
-    var converter = Components.classes["@mozilla.org/intl/converter-output-stream;1"].createInstance(Components.interfaces.nsIConverterOutputStream);  
+    var foStream = Components.classes["@mozilla.org/network/file-output-stream;1"].createInstance(Components.interfaces.nsIFileOutputStream);
+    foStream.init(f, 0x02 | 0x08 | 0x20, 0600, 0);
+    var converter = Components.classes["@mozilla.org/intl/converter-output-stream;1"].createInstance(Components.interfaces.nsIConverterOutputStream);
     converter.init(foStream, "UTF-8", 0, 0);
 
     converter.writeString('-----BEGIN ' + tag + ' PRIVATE KEY-----\n');
@@ -7469,7 +7485,7 @@ paramikojs.KexGex.prototype = {
     this.transport._send_message(m);
     this.transport._expect_packet(paramikojs.KexGex._MSG_KEXDH_GEX_REPLY);
   },
-    
+
   _parse_kexdh_gex_reply : function(m) {
     var host_key = m.get_string();
     this.f = m.get_mpint();
@@ -7558,7 +7574,7 @@ paramikojs.transport.prototype = {
                        : { convertStringToUTF8: function(str) { return str; } }),
   fromUTF8 : (Components ? Components.classes["@mozilla.org/intl/scriptableunicodeconverter"].getService   (Components.interfaces.nsIScriptableUnicodeConverter)
                          : { ConvertFromUnicode: function(str) { return str; }, Finish: function() { /* do nothing */ } }),
- 
+
   _PROTO_ID : '2.0',
   _CLIENT_ID : 'FireFTP_',
 
@@ -8585,15 +8601,15 @@ paramikojs.transport.prototype = {
     var unused = m.get_int();
 
     this._log(DEBUG, 'kex algos: ' + kex_algo_list +
-              '\nserver key: ' + server_key_algo_list + 
-              '\nclient encrypt: ' + client_encrypt_algo_list + 
-              '\nserver encrypt: ' + server_encrypt_algo_list + 
-              '\nclient mac: ' + client_mac_algo_list + 
-              '\nserver mac: ' + server_mac_algo_list + 
-              '\nclient compress: ' + client_compress_algo_list + 
-              '\nserver compress: ' + server_compress_algo_list + 
-              '\nclient lang: ' + client_lang_list + 
-              '\nserver lang: ' + server_lang_list + 
+              '\nserver key: ' + server_key_algo_list +
+              '\nclient encrypt: ' + client_encrypt_algo_list +
+              '\nserver encrypt: ' + server_encrypt_algo_list +
+              '\nclient mac: ' + client_mac_algo_list +
+              '\nserver mac: ' + server_mac_algo_list +
+              '\nclient compress: ' + client_compress_algo_list +
+              '\nserver compress: ' + server_compress_algo_list +
+              '\nclient lang: ' + client_lang_list +
+              '\nserver lang: ' + server_lang_list +
               '\nkex follows? ' + kex_follows);
 
     function filter(server, client) {
