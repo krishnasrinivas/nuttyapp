@@ -8,15 +8,10 @@ meteor-pipe
 meteor-broadcast
 accounts-google
 accounts-ui
-winston
-crypto-base
-crypto-base64
-crypto-sha1
-crypto-md5
-crypto-hmac
-knox
 service-configuration
 accounts-base
 accounts-password
 email
 http
+jparker:crypto-sha1
+jparker:crypto-hmac
