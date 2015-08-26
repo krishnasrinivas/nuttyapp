@@ -1,117 +1,117 @@
 <div class="row fullheight">
-<div class="col-xs-9 content">
+  <div class="col-xs-9 content">
     <div class="container">
-        <div class="faq">
-            <p>
-            <h2>What is nutty?</h2>
-            Nutty is a browser tool using which you can connect to a machine using SSH and share the terminal session with a remote user. It does not matter if you or the remote user is behind firewall.
-            </p>
-            <p>
-                <h2>What is nutty's License?</h2>
-                Nutty is licened under GPLv3
-            </p>
-            <p>
-                <h2>How do I share terminal using nutty?</h2>
-                Login onto an ssh server using username/password (or a private ssh key). It will open a terminal window inside your Chrome browser and also give you a unique URL which you can share with anyone. That person can access your terminal using the URL even if you and him/her are behind firewall.
-            </p>
-            <p>
-                <h2>Where can I report issues with Nutty?</h2>
-                <a href="https://github.com/krishnasrinivas/nuttyapp/issues/new">https://github.com/krishnasrinivas/nuttyapp/issues/new</a>
-            </p>
-            <p>
-                <h2>How do I enable SSH server on Mac OSX?</h2>
-                Go to ‘System Preferences’. Under ‘Internet & Networking’ there is a ‘Sharing’ icon. Run that. In the list that appears, check the ‘Remote Login’ option.
-                Or on the command line do: 'systemsetup -setremotelogin on'
-            </p>
-            <p>
-                <h2>Will my SSH password or Private Key be accessed by nutty server?</h2>
-                No. SSH connection is made directly from your Chrome browser to the SSH server (using nutty's Chrome app) Hence nutty.io server will never access your password or Private Key.
-            </p>
-            <p>
-                <h2>Is my SSH credentials stored on nutty server when I save it?</h2>
-                No. If you save by clicking "Save" the SSH credentials it will be stored on your localdisk in the HTML5 filesystem.
-            </p>
-            <p>
-                <h2>If I share terminal and close my browser tab will a remote user still be able to access the terminal?</h2>
-                No.
-            </p>
-            <p>
-                <h2>How do I copy/paste in the terminal?</h2>
-                Copy: Ctrl-C <br>
-                Paste: Ctrl-Shift-V
-            </p>
-            <p>
-                <h2>After sharing terminal, does nutty.io server proxy the data between peers?</h2>
-                You can share terminal with peers using either Websocket or WebRTC. If you choose the Websocket option nutty.io server proxies the data between peers. If you choose the WebRTC option the terminal sharing between peers happen with out any proxy, i.e it is entirely peer-to-peer.
-            </p>
-            <p>
-                <h2>What is WebRTC?</h2>
-                WebRTC enables peer-to-peer real-time communication in the browser. More info <a href="http://www.webrtc.org/">here</a>. Nutty makes use of <a href="http://peerjs.com" target="_blank">peerjs.com</a> WebRTC library.
-            </p>
-            <p>
-                <h2>Is the terminal sharing encrypted?</h2>
-                Yes. Websocket data transfer uses https-TLS encryption. WebRTC data traffic is encrypted by the browser by default.
-            </p>
-            <p>
-                <h2>How can I access recording of a session?</h2>
-                Visit https://nutty.io/recording/&ltSESSIONID&gt
-            </p>
-            <p>
-                <h2>Are passwords also stored when terminal session is recorded?</h2>
-                No. Because passwords are not echoed back to the terminal.
-            </p>
-            <p>
-                <h2>What browsers are supported?</h2>
-                Right now for sharing has to be done using Chrome. In future Firefox will be supported for sharing.
-                For viewing, nutty has been tested on Chrome, it is known to work on FF and Safari.
-            </p>
-            <p>
-                <h2>Does nutty work on mobile devices?</h2>
-                Yes. A "sharee" can view the shared terminal on mobile devices using mobile browsers. Ability to type in commands from mobile devices does not work right now.
-            </p>
-            <p>
-                <h2>I would like to run nutty server on a machine inside my private network(or on EC2), is that possible?</h2>
-                Yes. Since Nutty is GPLv3 you can download the server code and host a private nutty server. Here are the instructions: <a href="https://github.com/krishnasrinivas/nuttyapp/blob/master/README.md">https://github.com/krishnasrinivas/nuttyapp/blob/master/README.md</a>
-            </p>
-        </div>
+      <div class="faq">
+        <p>
+          <h2>What is nutty?</h2>
+          Nutty is a browser tool using which you can connect to a machine using SSH and share the terminal session with a remote user. It does not matter if you or the remote user is behind firewall.
+        </p>
+        <p>
+          <h2>What is nutty's License?</h2>
+          Nutty is licened under Apache License Version 2.0
+        </p>
+        <p>
+          <h2>How do I share terminal using nutty?</h2>
+          Login onto an ssh server using username/password (or a private ssh key). It will open a terminal window inside your Chrome browser and also give you a unique URL which you can share with anyone. That person can access your terminal using the URL even if you and him/her are behind firewall.
+        </p>
+        <p>
+          <h2>Where can I report issues with Nutty?</h2>
+          <a href="https://github.com/krishnasrinivas/nuttyapp/issues/new">https://github.com/krishnasrinivas/nuttyapp/issues/new</a>
+        </p>
+        <p>
+          <h2>How do I enable SSH server on Mac OSX?</h2>
+          Go to ‘System Preferences’. Under ‘Internet & Networking’ there is a ‘Sharing’ icon. Run that. In the list that appears, check the ‘Remote Login’ option.
+          Or on the command line do: 'systemsetup -setremotelogin on'
+        </p>
+        <p>
+          <h2>Will my SSH password or Private Key be accessed by nutty server?</h2>
+          No. SSH connection is made directly from your Chrome browser to the SSH server (using nutty's Chrome app) Hence nutty.io server will never access your password or Private Key.
+        </p>
+        <p>
+          <h2>Is my SSH credentials stored on nutty server when I save it?</h2>
+          No. If you save by clicking "Save" the SSH credentials it will be stored on your localdisk in the HTML5 filesystem.
+        </p>
+        <p>
+          <h2>If I share terminal and close my browser tab will a remote user still be able to access the terminal?</h2>
+          No.
+        </p>
+        <p>
+          <h2>How do I copy/paste in the terminal?</h2>
+          Copy: Ctrl-C <br>
+          Paste: Ctrl-Shift-V
+        </p>
+        <p>
+          <h2>After sharing terminal, does nutty.io server proxy the data between peers?</h2>
+          You can share terminal with peers using either Websocket or WebRTC. If you choose the Websocket option http://nutty.io server proxies the data between peers. If you choose the WebRTC option the terminal sharing between peers happen with out any proxy, i.e it is entirely peer-to-peer.
+        </p>
+        <p>
+          <h2>What is WebRTC?</h2>
+          WebRTC enables peer-to-peer real-time communication in the browser. More info <a href="http://www.webrtc.org/">here</a>. Nutty makes use of <a href="http://peerjs.com" target="_blank">peerjs.com</a> WebRTC library.
+        </p>
+        <p>
+          <h2>Is the terminal sharing encrypted?</h2>
+          Yes. Websocket data transfer uses https-TLS encryption. WebRTC data traffic is encrypted by default by the browser.
+        </p>
+        <p>
+          <h2>How can I access recording of a session?</h2>
+          Visit https://nutty.io/recording/&ltSESSIONID&gt
+        </p>
+        <p>
+          <h2>Are passwords also stored when terminal session is recorded?</h2>
+          No. Because passwords are not echoed back to the terminal.
+        </p>
+        <p>
+          <h2>What browsers are supported?</h2>
+          For now sharing has to be done using Chrome Web Browser. In future Firefox will be supported.
+          For viewing only, nutty has been tested on Chrome, it is known to work on FF and Safari.
+        </p>
+        <p>
+          <h2>Does nutty work on mobile devices?</h2>
+          Yes. A "sharee" can view the shared terminal on mobile devices using mobile browsers. Ability to type commands from mobile devices do not work yet.
+        </p>
+        <p>
+          <h2>I would like to run nutty server on a machine inside my private network(or on EC2), is that possible?</h2>
+          Yes. You can download the server code and host your own private nutty server. Please follow these instructions: <a href="https://github.com/krishnasrinivas/nuttyapp/blob/master/README.md">https://github.com/krishnasrinivas/nuttyapp/blob/master/README.md</a>
+        </p>
+      </div>
     </div>
-</div>
-<div class="col-xs-3 fullheight pad0">
-  <div class="vertical-container fullheight">
-    <div class="sidebar-nav fullwidth vertically-centered">
-      <nutty-signin></nutty-signin>
-      <div class="socialbtns row">
-        <div class="pull-left">
-              <iframe allowtransparency="true" frameborder="0" scrolling="no"
-              src="https://platform.twitter.com/widgets/tweet_button.html?url=https://nutty.io&text=SSH-Terminal sharing using Browser!&size=large&via=nuttydotio"
-              style="width:90px; height:20px;"></iframe>
+  </div>
+  <div class="col-xs-3 fullheight pad0">
+    <div class="vertical-container fullheight">
+      <div class="sidebar-nav fullwidth vertically-centered">
+        <nutty-signin></nutty-signin>
+        <div class="socialbtns row">
+          <div class="pull-left">
+            <iframe allowtransparency="true" frameborder="0" scrolling="no"
+                    src="https://platform.twitter.com/widgets/tweet_button.html?url=https://nutty.io&text=SSH-Terminal sharing using Browser!&size=large&via=nuttydotio"
+                    style="width:90px; height:20px;"></iframe>
+          </div>
+          <div class="pull-right">
+            <iframe src="/github-btn.html?user=krishnasrinivas&repo=nuttyapp&type=watch&count=true" allowtransparency="true" frameborder="0" scrolling="0" width="90" height="20"></iframe>
+          </div>
         </div>
-        <div class="pull-right">
-              <iframe src="/github-btn.html?user=krishnasrinivas&repo=nuttyapp&type=watch&count=true" allowtransparency="true" frameborder="0" scrolling="0" width="90" height="20"></iframe>
+        <div class="socialbtns row">
+          <div class="pull-left">
+            <a target="_blank" href="https://twitter.com/nuttydotio" class="btn btn-default btn-xs" style="height:22px;border-radius:4px;background-color:rgb(242,242,242)"><img src="/images/twitter.png" height="16" alt=""> <strong>@nuttydotio</strong></a>
+          </div>
+          <div class="">
+            <a target="_blank" href="https://groups.google.com/group/nuttydotio" class="btn btn-default btn-xs" style="height:22px;border-radius:4px;margin-left:10px;background-color:rgb(242,242,242)"><strong>Email</strong></a>
+          </div>
         </div>
-      </div>
-      <div class="socialbtns row">
-      <div class="pull-left">
-        <a target="_blank" href="https://twitter.com/nuttydotio" class="btn btn-default btn-xs" style="height:22px;border-radius:4px;background-color:rgb(242,242,242)"><img src="/images/twitter.png" height="16" alt=""> <strong>@nuttydotio</strong></a>
-      </div>
-      <div class="">
-        <a target="_blank" href="https://groups.google.com/group/nuttydotio" class="btn btn-default btn-xs" style="height:22px;border-radius:4px;margin-left:10px;background-color:rgb(242,242,242)"><strong>Email</strong></a>
-      </div>
-      </div>
 
-      <div class="navbar navbar-default" role="navigation">
-        <div>
-          <ul class="nav navbar-nav">
-            <li><a href="/">Home</a></li>
-            <li><a href="/login">Login</a></li>
-            <li><a href="/sharedsessions">Shared Sessions</a></li>
-            <li><a href="/playback">Playback recorded sessions</a></li>
-            <li><a href="/scripts">Canned support scipts</a></li>
-            <li class="active"><a href="/faq">FAQ</a></li>
-          </ul>
+        <div class="navbar navbar-default" role="navigation">
+          <div>
+            <ul class="nav navbar-nav">
+              <li><a href="/">Home</a></li>
+              <li><a href="/login">Login</a></li>
+              <li><a href="/sharedsessions">Shared Sessions</a></li>
+              <li><a href="/playback">Playback recorded sessions</a></li>
+              <li><a href="/scripts">Canned support scipts</a></li>
+              <li class="active"><a href="/faq">FAQ</a></li>
+            </ul>
+          </div>
         </div>
       </div>
     </div>
   </div>
-</div>
 </div>
