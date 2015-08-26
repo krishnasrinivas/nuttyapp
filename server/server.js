@@ -101,12 +101,6 @@ var awssecret = authinfo.aws.awssecret;
 
 pipeserver = new Meteor.PipeServer();
 chatserver = new Meteor.Broadcast();
-var winston = Winston;
-var client = Knox.createClient({
-    key: awsid,
-    secret: awssecret,
-    bucket: 'nutty'
-});
 
 // db.users.ensureIndex({username:1}, {unique: true})
 Meteor.users._ensureIndex({
